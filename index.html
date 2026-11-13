@@ -3445,19 +3445,33 @@ detailed_description:
               oninput="updateCharacterDesc('${ch.id}', this.value)"
               class="w-full text-xs text-slate-700 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-[#FC0C97]"
             />
-            <div class="flex items-center justify-between gap-1.5">
+            <div class="flex flex-wrap items-center justify-between gap-1.5">
               ${ch.audioDataUri ? `
                 <div class="flex items-center gap-2 px-2.5 py-1 rounded-md bg-emerald-50 border border-emerald-200 text-xs font-semibold text-emerald-700 min-w-0">
-                  <span>已上传声音</span>
+                  <span>🔊 ${ch.audioName || '已绑定大马语音'}</span>
                   <button onclick="previewCharacterAudio('${ch.id}')" class="underline hover:text-emerald-900 cursor-pointer shrink-0">试听</button>
                   <button onclick="clearCharacterAudio('${ch.id}')" class="text-rose-500 hover:text-rose-700 font-bold pl-0.5 cursor-pointer shrink-0">×</button>
                 </div>
               ` : `
-                <label class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-100 hover:bg-[#FDF2F8] border border-slate-200 hover:border-[#FC0C97]/40 text-xs font-semibold text-slate-600 hover:text-[#FC0C97] cursor-pointer">
+                <label class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-slate-100 hover:bg-[#FDF2F8] border border-slate-200 hover:border-[#FC0C97]/40 text-xs font-semibold text-slate-600 hover:text-[#FC0C97] cursor-pointer">
                   <input type="file" accept="audio/*,.mp3,.wav,.m4a" class="hidden" onchange="handleCharacterAudioUpload(event, '${ch.id}')" />
-                  <span>上传声音</span>
+                  <span>🎤 上传声音</span>
                 </label>
               `}
+              <div class="flex items-center gap-1">
+                <select id="my-voice-sel-${ch.id}" class="rounded-md border border-slate-200 px-2 py-1 text-[11px] font-semibold text-slate-700 bg-white">
+                  <option value="ms-MY-OsmanNeural">🇲🇾 马来文男声 (Osman)</option>
+                  <option value="ms-MY-YasminNeural">🇲🇾 马来文女声 (Yasmin)</option>
+                  <option value="zh-SG-WayneNeural">🇲🇾 新马华语男声 (Wayne)</option>
+                  <option value="zh-SG-LunaNeural">🇲🇾 新马华语女声 (Luna)</option>
+                  <option value="en-MY-WillemNeural">🇲🇾 Manglish 英文 (Willem)</option>
+                  <option value="mesolitica-husein">🇲🇾 Mesolitica Husein (F5-TTS)</option>
+                  <option value="mesolitica-idayu">🇲🇾 Mesolitica Idayu (F5-TTS)</option>
+                </select>
+                <button id="my-voice-btn-${ch.id}" onclick="generateMalaysianVoiceForChar('${ch.id}')" class="px-2.5 py-1 rounded-md bg-[#FC0C97] hover:bg-[#e00985] text-white text-[11px] font-semibold cursor-pointer whitespace-nowrap">
+                  生成大马音
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -3533,6 +3547,76 @@ detailed_description:
         if (_previewAudioObj) { _previewAudioObj.pause(); }
         _previewAudioObj = new Audio(ch.audioDataUri);
         _previewAudioObj.play();
+      } catch (e) {}
+    }
+
+    const MODAL_TTS_API_URL = 'https://eekeong--comfy-credit-api.us-east.modal.run/tts';
+
+    async function generateMalaysianVoiceForChar(id) {
+      const ch = characterVault.find(c => c.id === id);
+      if (!ch) return;
+      const selEl = document.getElementById(`my-voice-sel-${id}`);
+      const btnEl = document.getElementById(`my-voice-btn-${id}`);
+      const voice = selEl ? selEl.value : 'ms-MY-OsmanNeural';
+
+      // Extract any dialogue from the current prompt control if present
+      const promptCtrl = state.controls.find(c => c.type === 'prompt' && !c.isNegative);
+      const promptText = promptCtrl ? String(promptCtrl.value || '') : '';
+      const dlgMatch = promptText.match(/<d>(?:\[[^\]]*\])?\s*([^<]+)<\/d>/i) || promptText.match(/[“"「]([^”"」]+)[”"」]/);
+      const textToSpeak = dlgMatch ? dlgMatch[1].trim() : '';
+
+      if (btnEl) {
+        btnEl.textContent = '生成中...';
+        btnEl.disabled = true;
+      }
+      try {
+        const resp = await fetch(MODAL_TTS_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ voice, text: textToSpeak })
+        });
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        const data = await resp.json();
+        if (data && data.audio_base64) {
+          ch.audioDataUri = data.audio_base64;
+          ch.audioName = selEl?.options[selEl.selectedIndex]?.text || voice;
+          ch.locked = true;
+          saveCharactersToStorage();
+          renderCharacterVault();
+          try {
+            if (_previewAudioObj) _previewAudioObj.pause();
+            _previewAudioObj = new Audio(data.audio_base64);
+            _previewAudioObj.play();
+          } catch (e) {}
+        }
+      } catch (err) {
+        alert('生成大马语音失败：' + (err.message || err));
+      } finally {
+        if (btnEl) {
+          btnEl.textContent = '生成大马音';
+          btnEl.disabled = false;
+        }
+      }
+    }
+
+    async function previewPipelineShotMalaysianVoice(shotIdx) {
+      const sh = pipelineState.shots[shotIdx];
+      if (!sh) return;
+      const text = (sh.dialogue || '').trim() || 'Janganlah macam ni, jom kita pergi pasar malam Kuala Lumpur!';
+      const isMalay = /[a-zA-Z]{3,}/.test(text) && !/[\u4e00-\u9fa5]/.test(text);
+      const voice = isMalay ? 'ms-MY-OsmanNeural' : 'zh-SG-WayneNeural';
+      try {
+        const resp = await fetch(MODAL_TTS_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ voice, text })
+        });
+        const data = await resp.json();
+        if (data && data.audio_base64) {
+          if (_previewAudioObj) _previewAudioObj.pause();
+          _previewAudioObj = new Audio(data.audio_base64);
+          _previewAudioObj.play();
+        }
       } catch (e) {}
     }
 
@@ -4564,10 +4648,13 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
             <textarea rows="2" oninput="updatePipelineItemField('shots', ${idx}, 'prompt', this.value)" class="saas-input w-full rounded-lg border border-slate-200 p-2 text-[11px] text-slate-700 bg-white leading-snug">${sh.prompt}</textarea>
           </div>
 
-          <!-- Spoken Mandarin Dialogue -->
+          <!-- Spoken Dialogue (Mandarin / Bahasa Melayu / Manglish) -->
           <div>
-            <label class="text-xs text-slate-500 block mb-1">台词 (选填)</label>
-            <input type="text" value="${sh.dialogue || ''}" oninput="updatePipelineItemField('shots', ${idx}, 'dialogue', this.value)" placeholder="例如：真相只有一个！" class="saas-input w-full rounded-lg border border-pink-200 bg-pink-50/40 px-2.5 py-1.5 text-[11px] font-semibold text-slate-900" />
+            <div class="flex items-center justify-between mb-1">
+              <label class="text-xs text-slate-500">台词 (大马华语 / Bahasa Melayu)</label>
+              <button onclick="previewPipelineShotMalaysianVoice(${idx})" class="text-[11px] font-semibold text-[#FC0C97] hover:underline cursor-pointer">🇲🇾 试听大马配音</button>
+            </div>
+            <input type="text" value="${sh.dialogue || ''}" oninput="updatePipelineItemField('shots', ${idx}, 'dialogue', this.value)" placeholder="例如：Janganlah macam ni! / 整条街时间停住了！" class="saas-input w-full rounded-lg border border-pink-200 bg-pink-50/40 px-2.5 py-1.5 text-[11px] font-semibold text-slate-900" />
           </div>
 
           <div class="flex items-center gap-1.5 pt-0.5">

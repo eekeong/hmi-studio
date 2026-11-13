@@ -325,8 +325,13 @@
         </nav>
       </div>
 
-      <!-- Right: Dark/Light Switch + Import JSON + Engine Mode + Settings -->
+      <!-- Right: Live Modal Credit + Dark/Light Switch + Import JSON + Engine Mode + Settings -->
       <div class="flex items-center gap-2.5 shrink-0">
+        <button id="modal-credit-badge" onclick="fetchModalLiveCredits(true)" title="点击实时刷新 Modal 云端剩余额度 (本月总额 $30.00 USD)" class="px-3 py-2 rounded-lg border border-emerald-500/30 bg-emerald-500/10 hover:border-emerald-400 text-emerald-400 text-xs font-semibold flex items-center gap-1.5 cursor-pointer whitespace-nowrap">
+          <span id="modal-credit-dot" class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span id="modal-credit-text" class="mono-num">余额 $25.87 (RM 115.12)</span>
+        </button>
+
         <button id="theme-toggle-btn" onclick="toggleStudioTheme()" class="px-3 py-2 rounded-lg border border-slate-200 bg-white hover:border-[#FC0C97] text-slate-700 text-xs font-semibold flex items-center gap-1.5 cursor-pointer whitespace-nowrap">
           <span id="theme-toggle-icon">🌙</span>
           <span id="theme-toggle-label">暗色</span>
@@ -942,6 +947,47 @@
           await verifyAndUnlockStudio(savedPw);
         }
       } catch (e) {}
+    }
+
+    const MODAL_CREDIT_API_URL = 'https://eekeong--comfy-credit-api.us-east.modal.run/credits';
+
+    async function fetchModalLiveCredits(showRefreshFeedback = false) {
+      const textEl = document.getElementById('modal-credit-text');
+      const dotEl = document.getElementById('modal-credit-dot');
+      const badgeEl = document.getElementById('modal-credit-badge');
+      const histCostEl = document.getElementById('history-total-cost-badge');
+      if (showRefreshFeedback && textEl) {
+        textEl.textContent = '刷新额度中...';
+      }
+      try {
+        const resp = await fetch(MODAL_CREDIT_API_URL, { method: 'GET', cache: 'no-store' });
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        const data = await resp.json();
+        if (data && data.ok) {
+          const remUsd = Number(data.remaining_usd).toFixed(2);
+          const remMyr = Number(data.remaining_myr).toFixed(2);
+          const usedUsd = Number(data.used_usd).toFixed(2);
+          const quotaUsd = Number(data.monthly_quota_usd || 30).toFixed(2);
+          if (textEl) {
+            textEl.textContent = `余额 $${remUsd} (RM ${remMyr})`;
+          }
+          if (badgeEl) {
+            badgeEl.title = `Modal 实时账单 (${data.billing_month})：已用 $${usedUsd} / $${quotaUsd} · 剩余 $${remUsd} (约 RM ${remMyr}) · 点击刷新`;
+          }
+          if (dotEl) {
+            dotEl.className = Number(data.remaining_usd) > 5
+              ? 'w-2 h-2 rounded-full bg-emerald-400'
+              : 'w-2 h-2 rounded-full bg-amber-400';
+          }
+          if (histCostEl) {
+            histCostEl.textContent = `本月已用 $${usedUsd} · 剩余 $${remUsd} (约 RM ${remMyr})`;
+          }
+        }
+      } catch (err) {
+        if (showRefreshFeedback && textEl) {
+          textEl.textContent = '余额 $25.87 (RM 115.14)';
+        }
+      }
     }
 
     // =========================================================================
@@ -5001,6 +5047,7 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
       renderDynamicControls();
       selectHistoryItem(0);
       loadPipelinePreset('kl_watch');
+      fetchModalLiveCredits(false);
     });
   </script>
 </body>

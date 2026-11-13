@@ -1,0 +1,8 @@
+.DS_Store
+.agents/
+ViewComfy/
+design-system/
+demo_skill_*.html
+skill_compare.html
+modal_comfy.py
+*.json

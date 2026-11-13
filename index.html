@@ -294,11 +294,11 @@
 
   <!-- Top Navigation Bar -->
   <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200/80">
-    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
+    <div class="max-w-7xl mx-auto px-5 h-16 flex items-center justify-between gap-3">
 
       <!-- Left: Brand + Main Navigation Tabs -->
-      <div class="flex items-center gap-6">
-        <div class="flex items-center gap-2.5 shrink-0">
+      <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2 shrink-0">
           <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-[#FC0C97] to-purple-700 flex items-center justify-center text-white shadow-sm">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/>
@@ -308,17 +308,17 @@
         </div>
 
         <nav class="bg-slate-100 p-1 rounded-xl flex items-center text-xs font-semibold gap-1">
-          <button id="tab-playground" onclick="switchMainTab('playground')" class="px-4 py-2 rounded-lg cursor-pointer bg-[#FC0C97] text-white shadow-xs whitespace-nowrap">
+          <button id="tab-playground" onclick="switchMainTab('playground')" class="px-3.5 py-1.5 rounded-lg cursor-pointer bg-[#FC0C97] text-white shadow-xs whitespace-nowrap">
             工作台
           </button>
-          <button id="tab-pipeline" onclick="switchMainTab('pipeline')" class="px-4 py-2 rounded-lg cursor-pointer text-slate-500 hover:text-slate-900 whitespace-nowrap">
+          <button id="tab-pipeline" onclick="switchMainTab('pipeline')" class="px-3.5 py-1.5 rounded-lg cursor-pointer text-slate-500 hover:text-slate-900 whitespace-nowrap">
             剧本流水线
           </button>
-          <button id="tab-history" onclick="switchMainTab('history')" class="px-4 py-2 rounded-lg cursor-pointer text-slate-500 hover:text-slate-900 flex items-center gap-1.5 whitespace-nowrap">
+          <button id="tab-history" onclick="switchMainTab('history')" class="px-3.5 py-1.5 rounded-lg cursor-pointer text-slate-500 hover:text-slate-900 flex items-center gap-1.5 whitespace-nowrap">
             <span>作品历史</span>
             <span id="history-tab-badge" class="mono-num px-1.5 py-0.2 rounded bg-[#FC0C97] text-white text-[10px] font-bold">4</span>
           </button>
-          <button id="tab-editor" onclick="switchMainTab('editor')" class="px-4 py-2 rounded-lg cursor-pointer text-slate-500 hover:text-slate-900 flex items-center gap-1.5 whitespace-nowrap">
+          <button id="tab-editor" onclick="switchMainTab('editor')" class="px-3.5 py-1.5 rounded-lg cursor-pointer text-slate-500 hover:text-slate-900 flex items-center gap-1.5 whitespace-nowrap">
             <span>模版设置</span>
             <span id="active-node-badge" class="mono-num px-1.5 py-0.2 rounded bg-[#FDF2F8] text-[#FC0C97] text-[10px] font-bold">5</span>
           </button>
@@ -326,18 +326,18 @@
       </div>
 
       <!-- Right: Live Modal Credit + Dark/Light Switch + Import JSON + Engine Mode + Settings -->
-      <div class="flex items-center gap-2.5 shrink-0">
-        <button id="modal-credit-badge" onclick="fetchModalLiveCredits(true)" title="点击实时刷新 Modal 云端剩余额度 (本月总额 $30.00 USD)" class="px-3 py-2 rounded-lg border border-emerald-500/30 bg-emerald-500/10 hover:border-emerald-400 text-emerald-400 text-xs font-semibold flex items-center gap-1.5 cursor-pointer whitespace-nowrap">
+      <div class="flex items-center gap-2 shrink-0">
+        <button id="modal-credit-badge" onclick="fetchModalLiveCredits(true)" title="点击实时刷新 Modal 云端剩余额度 (本月总额 $30.00 USD)" class="px-2.5 py-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 hover:border-emerald-400 text-emerald-400 text-xs font-semibold flex items-center gap-1.5 cursor-pointer whitespace-nowrap">
           <span id="modal-credit-dot" class="w-2 h-2 rounded-full bg-emerald-400"></span>
-          <span id="modal-credit-text" class="mono-num">余额 $25.87 (RM 115.12)</span>
+          <span id="modal-credit-text" class="mono-num">余额 $25.87 (RM 115.14)</span>
         </button>
 
-        <button id="theme-toggle-btn" onclick="toggleStudioTheme()" class="px-3 py-2 rounded-lg border border-slate-200 bg-white hover:border-[#FC0C97] text-slate-700 text-xs font-semibold flex items-center gap-1.5 cursor-pointer whitespace-nowrap">
+        <button id="theme-toggle-btn" onclick="toggleStudioTheme()" class="px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white hover:border-[#FC0C97] text-slate-700 text-xs font-semibold flex items-center gap-1.5 cursor-pointer whitespace-nowrap">
           <span id="theme-toggle-icon">🌙</span>
           <span id="theme-toggle-label">暗色</span>
         </button>
 
-        <label for="json-upload-input" class="px-3 py-2 rounded-lg border border-slate-200 bg-white hover:border-[#FC0C97] text-slate-700 hover:text-[#FC0C97] text-xs font-semibold flex items-center gap-1.5 cursor-pointer whitespace-nowrap">
+        <label for="json-upload-input" class="px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white hover:border-[#FC0C97] text-slate-700 hover:text-[#FC0C97] text-xs font-semibold flex items-center gap-1 cursor-pointer whitespace-nowrap">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
           </svg>
@@ -346,22 +346,22 @@
         </label>
 
         <div class="bg-slate-100 p-1 rounded-lg flex items-center text-xs font-semibold">
-          <button id="mode-demo" onclick="setEngineMode('demo')" class="px-3 py-1.5 rounded-md cursor-pointer text-slate-500 hover:text-slate-900 whitespace-nowrap">
+          <button id="mode-demo" onclick="setEngineMode('demo')" class="px-2.5 py-1 rounded-md cursor-pointer text-slate-500 hover:text-slate-900 whitespace-nowrap">
             预览
           </button>
-          <button id="mode-cloud" onclick="setEngineMode('cloud')" class="px-3 py-1.5 rounded-md cursor-pointer bg-[#FC0C97] text-white shadow-xs whitespace-nowrap">
+          <button id="mode-cloud" onclick="setEngineMode('cloud')" class="px-2.5 py-1 rounded-md cursor-pointer bg-[#FC0C97] text-white shadow-xs whitespace-nowrap">
             云端渲染
           </button>
         </div>
 
-        <button onclick="toggleConfigModal()" class="w-9 h-9 rounded-lg border border-slate-200 bg-white hover:border-slate-300 text-slate-600 flex items-center justify-center cursor-pointer shrink-0" title="云端接口设置">
+        <button onclick="toggleConfigModal()" class="w-8 h-8 rounded-lg border border-slate-200 bg-white hover:border-slate-300 text-slate-600 flex items-center justify-center cursor-pointer shrink-0" title="云端接口设置">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
           </svg>
         </button>
 
-        <button onclick="lockStudioSession()" class="px-3 py-2 rounded-lg border border-slate-200 bg-white hover:border-rose-500 text-slate-600 hover:text-rose-500 text-xs font-semibold flex items-center gap-1 cursor-pointer shrink-0 whitespace-nowrap" title="锁定屏幕 / 退出登录">
+        <button onclick="lockStudioSession()" class="px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white hover:border-rose-500 text-slate-600 hover:text-rose-500 text-xs font-semibold flex items-center gap-1 cursor-pointer shrink-0 whitespace-nowrap" title="锁定屏幕 / 退出登录">
           <span>🔒 锁定</span>
         </button>
       </div>

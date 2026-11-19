@@ -2175,7 +2175,7 @@
       return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
     }
 
-    const GEN_HISTORY_STORAGE_KEY = 'hmi_studio_gen_history_v3';
+    const GEN_HISTORY_STORAGE_KEY = 'hmi_studio_gen_history_v5';
     const REAL_DETECTIVE_PROMPT = `subject_definitions:
 <Picture 1> is the first frame of [Shot 1], showing an interior-to-exterior medium shot inside a warm oil-lit Malay wooden study looking toward an open carved window with a glowing cyan-gold time portal outside.
 <Picture 2> is the keyframe anchor for [Shot 2], showing a side-angle medium shot inside the wooden room where the boys climb over the windowsill on the left while the scholar exits through the back right doorway.
@@ -2211,8 +2211,73 @@ detailed_description:
       controls: parseWorkflowToControls(SUB_TEMPLATES.minimax_h3.workflow),
       history: [
         {
+          id: 'gen_h3_008',
+          filename: 'MiniMax_H3_00008_.mp4',
+          title: 'Video - MiniMax H3 文武双全导演版 (#8 今日最新)',
+          templateId: 'minimax_h3',
+          ratio: '16:9',
+          time: '25m 40s',
+          createdAt: '19 Nov 2026 14:09:18',
+          costText: '$0.95 USD (约 RM 4.20)',
+          src: './recovered_outputs/MiniMax_H3_00008_.mp4',
+          cloudUrl: 'https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=output/video/MiniMax_H3_00008_.mp4',
+          isVideo: true,
+          prompt: REAL_DETECTIVE_PROMPT,
+          params: ['MiniMax H3', '768P 超清', '15秒 (361帧)', '8步 DMAD 防糊', '16:9', 'L40S 48GB'],
+          assets: DEFAULT_USER_ASSETS
+        },
+        {
+          id: 'gen_h3_007',
+          filename: 'MiniMax_H3_00007_.mp4',
+          title: 'Video - MiniMax H3 文武双全导演版 (#7 今日)',
+          templateId: 'minimax_h3',
+          ratio: '16:9',
+          time: '9m 50s',
+          createdAt: '19 Nov 2026 13:22:54',
+          costText: '$0.37 USD (约 RM 1.65)',
+          src: './recovered_outputs/MiniMax_H3_00007_.mp4',
+          cloudUrl: 'https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=output/video/MiniMax_H3_00007_.mp4',
+          isVideo: true,
+          prompt: REAL_DETECTIVE_PROMPT,
+          params: ['MiniMax H3', '768P 超清', '10秒 (241帧)', '8步 DMAD 防糊', '16:9', 'L40S 48GB'],
+          assets: DEFAULT_USER_ASSETS
+        },
+        {
+          id: 'gen_h3_006',
+          filename: 'MiniMax_H3_00006_.mp4',
+          title: 'Video - MiniMax H3 文武双全导演版 (#6 今日)',
+          templateId: 'minimax_h3',
+          ratio: '16:9',
+          time: '8m 12s',
+          createdAt: '19 Nov 2026 12:18:34',
+          costText: '$0.31 USD (约 RM 1.38)',
+          src: './recovered_outputs/MiniMax_H3_00006_.mp4',
+          cloudUrl: 'https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=output/video/MiniMax_H3_00006_.mp4',
+          isVideo: true,
+          prompt: REAL_DETECTIVE_PROMPT,
+          params: ['MiniMax H3', '768P 超清', '10秒 (241帧)', '8步 DMAD 防糊', '16:9', 'L40S 48GB'],
+          assets: DEFAULT_USER_ASSETS
+        },
+        {
+          id: 'gen_h3_005',
+          filename: 'MiniMax_H3_00005_.mp4',
+          title: 'Video - MiniMax H3 文武双全导演版 (#5 今日)',
+          templateId: 'minimax_h3',
+          ratio: '16:9',
+          time: '7m 45s',
+          createdAt: '19 Nov 2026 11:48:10',
+          costText: '$0.29 USD (约 RM 1.29)',
+          src: './recovered_outputs/MiniMax_H3_00005_.mp4',
+          cloudUrl: 'https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=output/video/MiniMax_H3_00005_.mp4',
+          isVideo: true,
+          prompt: REAL_DETECTIVE_PROMPT,
+          params: ['MiniMax H3', '768P 超清', '10秒 (241帧)', '8步 DMAD 防糊', '16:9', 'L40S 48GB'],
+          assets: DEFAULT_USER_ASSETS
+        },
+        {
           id: 'gen_h3_004',
-          title: 'Video - MiniMax H3 文武双全导演版 (#4 最新出炉)',
+          filename: 'MiniMax_H3_00004_.mp4',
+          title: 'Video - MiniMax H3 文武双全导演版 (#4)',
           templateId: 'minimax_h3',
           ratio: '16:9',
           time: '17m 47s',
@@ -3115,15 +3180,20 @@ detailed_description:
       return wf;
     }
 
+    const MODAL_CLOUD_HISTORY_URL = 'https://eekeong--comfy-credit-api.us-east.modal.run/cloud_history';
+    const MODAL_CLOUD_MEDIA_BASE = 'https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=';
+
     function saveGenHistoryToStorage() {
       try {
-        // 保存精简版历史记录到 localStorage（若 src 为超长 base64 则保留云端/本地 URL 防止 5MB 溢出）
-        const compact = state.history.slice(0, 20).map(h => ({
+        // 严格过滤超长 Base64，彻底防止 localStorage 5MB QuotaExceededError 导致作品记录丢失！
+        const compact = state.history.slice(0, 30).map(h => ({
           ...h,
-          src: (h.src && h.src.length > 300000 && h.cloudUrl) ? h.cloudUrl : h.src,
-          assets: (h.assets || []).map(a => ({
+          src: (h.src && h.src.startsWith('data:') && h.src.length > 180000 && h.cloudUrl) ? h.cloudUrl : h.src,
+          assets: (h.assets || []).map((a, idx) => ({
             label: a.label,
-            src: (a.src && a.src.length > 150000) ? a.src : a.src
+            src: (a.src && a.src.startsWith('data:') && a.src.length > 80000)
+              ? (DEFAULT_USER_ASSETS[idx % DEFAULT_USER_ASSETS.length]?.src || './recovered_outputs/inputs/shot_1.jpg')
+              : a.src
           }))
         }));
         localStorage.setItem(GEN_HISTORY_STORAGE_KEY, JSON.stringify(compact));
@@ -3142,6 +3212,58 @@ detailed_description:
             });
             state.history = parsed;
           }
+        }
+      } catch (e) {}
+    }
+
+    async function syncCloudHistoryFromModal() {
+      try {
+        const resp = await fetch(MODAL_CLOUD_HISTORY_URL, { method: 'GET', cache: 'no-store' });
+        if (!resp.ok) return;
+        const data = await resp.json();
+        if (!data || !Array.isArray(data.items)) return;
+
+        let addedAny = false;
+        const knownFiles = new Set();
+        state.history.forEach(h => {
+          if (h.filename) knownFiles.add(h.filename);
+          const m = String(h.src || h.cloudUrl || '').match(/(MiniMax_H3_\d+_?\.mp4|HMI_Video_[a-z0-9]+\.mp4|ComfyUI_[^\s&?]+)/i);
+          if (m) knownFiles.add(m[1]);
+        });
+
+        data.items.reverse().forEach(item => {
+          if (!item.filename || knownFiles.has(item.filename)) return;
+          knownFiles.add(item.filename);
+          const streamUrl = MODAL_CLOUD_MEDIA_BASE + encodeURIComponent(item.rel_path);
+          const inputAssets = (item.input_rels && item.input_rels.length > 0)
+            ? item.input_rels.map((rel, idx) => ({
+                label: `素材 ${idx + 1}`,
+                src: MODAL_CLOUD_MEDIA_BASE + encodeURIComponent(rel)
+              }))
+            : DEFAULT_USER_ASSETS;
+
+          state.history.unshift({
+            id: item.id || ('cloud_' + item.filename),
+            filename: item.filename,
+            title: item.title || `Video - MiniMax H3 (${item.filename})`,
+            templateId: item.templateId || 'minimax_h3',
+            ratio: item.ratio || '16:9',
+            time: item.time || '云端作品',
+            createdAt: item.createdAt || '',
+            costText: item.costText || '$0.66 USD (约 RM 2.90)',
+            src: streamUrl,
+            cloudUrl: streamUrl,
+            isVideo: item.isVideo !== false,
+            prompt: item.prompt || REAL_DETECTIVE_PROMPT,
+            params: ['MiniMax H3', '768P 超清', '云端持久化'],
+            assets: inputAssets
+          });
+          addedAny = true;
+        });
+
+        if (addedAny) {
+          saveGenHistoryToStorage();
+          renderGallery();
         }
       } catch (e) {}
     }
@@ -5834,6 +5956,7 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
         }
       } catch (e) {}
       fetchModalLiveCredits(false);
+      syncCloudHistoryFromModal();
     });
   </script>
 </body>

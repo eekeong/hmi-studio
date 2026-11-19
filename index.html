@@ -428,20 +428,7 @@
           <div id="dynamic-advanced-controls" class="hidden flex-col gap-4 pt-3"></div>
         </div>
 
-        <!-- Multi-GPU Auto-Clone Count Selector (自动分身·多开显卡) -->
-        <div class="rounded-xl border border-slate-200/90 bg-slate-50/70 p-3 flex flex-col gap-2">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-slate-800">⚡ 自动分身（多开显卡同跑）</span>
-            <span id="active-gpu-clones-badge" class="mono-num text-[11px] font-semibold text-[#FC0C97]">当前运行 0 张显卡</span>
-          </div>
-          <div class="grid grid-cols-3 gap-2">
-            <button id="gpu-clone-btn-1" onclick="setGpuCloneCount(1)" class="pill-btn active py-1.5 rounded-lg text-xs font-semibold cursor-pointer">1 支 (单卡)</button>
-            <button id="gpu-clone-btn-2" onclick="setGpuCloneCount(2)" class="pill-btn py-1.5 rounded-lg text-xs font-semibold cursor-pointer">2 支同跑 (2卡)</button>
-            <button id="gpu-clone-btn-3" onclick="setGpuCloneCount(3)" class="pill-btn py-1.5 rounded-lg text-xs font-semibold cursor-pointer">3 支同跑 (3卡)</button>
-          </div>
-        </div>
-
-        <!-- Generate CTA (Supports firing new GPU clones even while others are running!) -->
+        <!-- Generate CTA (Click once = 1 GPU; click again while running = auto-spawns GPU #2, #3...) -->
         <button id="generate-btn" onclick="handleGenerateOrStop()" class="btn-primary w-full py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 cursor-pointer mt-1">
           <svg id="generate-btn-icon" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
@@ -3900,20 +3887,15 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
     function syncMultiGpuQueueUI() {
       const count = activeGpuCloneTasks.size;
       state.isGenerating = count > 0;
-      const badge = document.getElementById('active-gpu-clones-badge');
       const bar = document.getElementById('multi-gpu-tasks-bar');
       const list = document.getElementById('multi-gpu-tasks-list');
       const headerTxt = document.getElementById('multi-gpu-header-text');
       const btnText = document.getElementById('generate-btn-text');
 
-      if (badge) {
-        badge.textContent = count > 0 ? `⚡ 正在并行跑 ${count} 张显卡` : '当前运行 0 张显卡';
-      }
       if (btnText) {
-        const n = state.gpuCloneCount || 1;
         btnText.textContent = count > 0
-          ? (n > 1 ? `⚡ 再开 ${n} 张分身显卡同跑` : '⚡ 再开 1 张分身显卡同时生成')
-          : (n > 1 ? `开始生成 (${n} 张显卡同跑)` : '开始生成');
+          ? `开始生成 (自动开第 ${count + 1} 张显卡跑下一支)`
+          : '开始生成';
       }
 
       if (!bar || !list) return;
@@ -3927,7 +3909,7 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
       bar.classList.remove('hidden');
       bar.classList.add('flex');
       if (headerTxt) {
-        headerTxt.textContent = `⚡ 云端自动分身：${count} 张 48GB 显卡并行渲染中（互不排队）`;
+        headerTxt.textContent = `正在运行 ${count} 张云端显卡（你可以继续改内容按“开始生成”自动开下一张显卡）`;
       }
 
       const itemsHtml = [];
@@ -3936,7 +3918,7 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
           <div class="rounded-lg bg-white/5 border border-white/10 p-2.5 flex flex-col gap-1.5">
             <div class="flex items-center justify-between gap-2 text-xs">
               <div class="flex items-center gap-2 min-w-0">
-                <span class="px-2 py-0.5 rounded bg-[#FC0C97] text-white text-[10px] font-bold shrink-0">显卡分身 #${t.seq}</span>
+                <span class="px-2 py-0.5 rounded bg-[#FC0C97] text-white text-[10px] font-bold shrink-0">显卡 #${t.seq}</span>
                 <span class="font-semibold text-white truncate">${t.title}</span>
               </div>
               <div class="flex items-center gap-2 shrink-0">
@@ -3994,12 +3976,8 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
     }
 
     async function triggerGenerate() {
-      const cloneCount = state.gpuCloneCount || 1;
-      const tasks = [];
-      for (let i = 0; i < cloneCount; i++) {
-        tasks.push(spawnSingleGpuCloneTask(i + 1, cloneCount));
-      }
-      await Promise.allSettled(tasks);
+      // 按 1 次「开始生成」永远只跑 1 个视频（1 张显卡）；若第 1 张还在跑时用户又按第 2 次，自动开第 2 张显卡跑第 2 个视频！
+      await spawnSingleGpuCloneTask(1, 1);
     }
 
     async function spawnSingleGpuCloneTask(takeIdx, totalTakes) {
@@ -4134,7 +4112,7 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
 
           const resp = await fetch(streamUrl, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
             signal: abortController.signal,
             body: JSON.stringify({
               prompt: promptText,
@@ -5588,7 +5566,7 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
 
         const resp = await fetch(streamUrl, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
           body: JSON.stringify({
             prompt: fullPrompt,
             workflow_type: 'flux_pro',
@@ -5813,7 +5791,7 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
         const t0 = performance.now();
         const resp = await fetch(streamUrl, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
           body: JSON.stringify({
             prompt: masterPrompt,
             image_url: b64Frames[0] || null,

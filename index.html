@@ -2168,7 +2168,7 @@
       return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
     }
 
-    const GEN_HISTORY_STORAGE_KEY = 'hmi_studio_gen_history_v5';
+    const GEN_HISTORY_STORAGE_KEY = 'hmi_studio_gen_history_v6';
     const REAL_DETECTIVE_PROMPT = `subject_definitions:
 <Picture 1> is the first frame of [Shot 1], showing an interior-to-exterior medium shot inside a warm oil-lit Malay wooden study looking toward an open carved window with a glowing cyan-gold time portal outside.
 <Picture 2> is the keyframe anchor for [Shot 2], showing a side-angle medium shot inside the wooden room where the boys climb over the windowsill on the left while the scholar exits through the back right doorway.
@@ -2204,127 +2204,398 @@ detailed_description:
       controls: parseWorkflowToControls(SUB_TEMPLATES.minimax_h3.workflow),
       history: [
         {
-          id: 'gen_h3_008',
-          filename: 'MiniMax_H3_00008_.mp4',
-          title: 'Video - MiniMax H3 文武双全导演版 (#8 今日最新)',
-          templateId: 'minimax_h3',
-          ratio: '16:9',
-          time: '25m 40s',
-          createdAt: '19 Nov 2026 14:09:18',
-          costText: '$0.95 USD (约 RM 4.20)',
-          src: './recovered_outputs/MiniMax_H3_00008_.mp4',
-          cloudUrl: 'https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=output/video/MiniMax_H3_00008_.mp4',
-          isVideo: true,
-          prompt: REAL_DETECTIVE_PROMPT,
-          params: ['MiniMax H3', '768P 超清', '15秒 (361帧)', '8步 DMAD 防糊', '16:9', 'L40S 48GB'],
-          assets: DEFAULT_USER_ASSETS
+                "id": "gen_h3_009",
+                "filename": "MiniMax_H3_00009_.mp4",
+                "title": "Video - MiniMax H3 文武双全导演版 (#9 最新出炉)",
+                "templateId": "minimax_h3",
+                "ratio": "16:9",
+                "time": "21m 10s",
+                "createdAt": "19 Nov 2026 15:30:12",
+                "costText": "$0.78 USD (约 RM 3.45)",
+                "src": "./recovered_outputs/MiniMax_H3_00009_.mp4",
+                "cloudUrl": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=output/video/MiniMax_H3_00009_.mp4",
+                "isVideo": true,
+                "prompt": "REFERENCE IMAGES (4 ANCHORS — ONE UNBROKEN STRAIGHT-FORWARD TAKE, ZERO CUTS)\n- @Image1: Thrower identity ONLY (short tapered undercut black hair, tucked white short-sleeved SMK shirt, thin sky-blue tie band under back collar, dark charcoal trousers, chunky matte black watch on RIGHT wrist, NO jacket, NO backpack). Ignore its white background and two-panel layout.\n- @Image2: Exact 0.0s starting frame. The Malaysian SMK louvred-window corridor leads DEAD-STRAIGHT into the open-air \"MINUMAN / MEE & NASI\" canteen directly at the far end of the corridor, with sunlit campus trees visible straight through the far canteen exit. The book-carrying boy is ALREADY standing/walking ahead on the right-center of the corridor.\n- @Image3: Exact real-life male teacher identity for Scene 2 (4.5–8.5s). Strictly preserve 100% of his exact real facial features, face shape, eyes, smile/expression style, black rectangular glasses, beige straw fedora hat with hot-pink brim, loose white rolled-sleeve cotton t-shirt with the colorful cartoon character and \"EDUHERO 英雄教育\" graphic, khaki drawstring cargo pants, and black watch on his LEFT wrist—DO NOT alter his face or clothing in any way. Ignore ONLY @Image3's solid magenta studio background.\n- @Image4: Exact 20.0s final hero frame after the rolled crimson red silk curtain drops smoothly down between the two cream assembly hall pillars, displaying exact gleaming gold calligraphy \"庇佑SPM考生\" (Line 1) / \"逢考必过！\" (Line 2) with cheering Malaysian SMK students.\n\nMOTION, REACTION & LOGIC RULES\n1. ONE STRAIGHT LINE, ZERO TURNS: From 0.8s to 15.5s, the white lined-notebook paper airplane (blue lines, thin red margin) and the chase camera move strictly along ONE dead-straight horizontal line straight forward into the vanishing point of @Image2 at a constant 1.50 m height. The camera stays locked straight ahead with zero turning, zero panning, and zero curving. The airplane holds a completely straight path with zero banking and zero swerving.\n2. ZERO TELEPORTING: Every person who dodges MUST ALREADY be visibly walking 12–15 meters ahead in the straight corridor/aisle at least 2 seconds before the airplane reaches them, smoothly growing larger as the camera glides straight forward toward them. Nobody ever pops in suddenly.\n3. COMPLETELY UNAWARE UNTIL THE FINAL SPLIT-SECOND: While the paper airplane approaches from afar, each person is casually absorbed in looking DOWN at the books or notes they are carrying—never looking early at the camera and never watching the airplane approach. As the airplane rapidly closes in with a tense 1-second straight forward push-in/zoom-in feeling right toward them, ONLY at the final split-second when the wingtip is inches from their face do they suddenly hear the whoosh, catch sight of it out of the corner of their eye in surprise, and instinctively lean their head and shoulders sideways to clear the fixed straight path by 6–8 cm untouched.\n4. IN-CAMERA SPEED RAMPING (NO POST-EDITING): Fast straight glides (30–38 km/h at 1.0x) with a tense 1-second rapid push-in right before each unaware person, ramping smoothly into crisp 0.35x–0.4x slow-motion at the exact last-millisecond startled dodge, then smoothly returning to fast speed.\n\nCAMERA & OPTICS\n16:9, 24 fps, strictly 20.0 seconds, rectilinear cinema lens (47° at 0.0–0.8s; 63° at 0.8–20.0s with kinetic straight push-in tension during the final 1 second before each person). Start on @Image2. At 0.8s, sweep smoothly past the boy's watch-clad right hand and lock 45 cm behind the tail and 10 cm above the lined paper airplane (~20% frame width in lower-center), tracking dead-straight forward with zero cuts and zero turns.\n\nEXACT 20.0-SECOND CONTINUOUS TIMELINE\n\n0.0–0.8s (1.0x normal | 0 → 40 km/h | Start @Image2): Exact framing of @Image2. The boy matching @Image1 flicks his right wrist forward cleanly; the lined paper airplane leaves his hand at 0.8s and the camera locks 45 cm behind its tail, flying straight toward the book-carrying boy ALREADY ahead in the corridor and the glowing canteen straight behind him.\n\n0.8–2.2s (1.0x FAST PUSH-IN | 36 km/h): The paper airplane glides fast and dead-straight down the louvred-window corridor (tingkap nako on left, cream pillars on right), closing in rapidly with a tense 1-second straight push-in directly toward the book-carrying boy from @Image2 who is walking casually while looking DOWN at his stack of exercise books, completely unaware.\n\n2.2–3.8s (0.4x SLOW-MOTION — LATE-NOTICE DODGE #1): Only at the final split-second when the dead-straight paper airplane is inches from his face does he suddenly hear the whoosh and glance up in surprise—time slows smoothly into silky 0.4x slow-motion as his eyes widen, mouth gasping, and he instinctively tilts his head and leans his shoulders sideways to the right just in time. The airplane holds its dead-straight line, passing 8 cm past his cheek untouched while loose lined white test papers flutter upward off his stack in golden sunlight.\n\n3.8–6.8s (1.0x FAST PUSH-IN | 32 km/h — STRAIGHT INTO KANTIN, ZERO TURN): Speed smoothly returns to fast flight. Holding the exact same straight axis with zero turning, the airplane flies straight out the open corridor end directly into the glowing \"MINUMAN / MEE & NASI\" open-air Malaysian school canteen ALREADY straight ahead, passing lively seated SMK students drinking iced Milo and pink Sirap Bandung air bungkus beneath spinning ceiling fans. Upon entering at 4.5s, the EXACT male teacher from @Image3 (100% unaltered real face, black rectangular glasses, beige straw fedora hat with hot-pink brim, white \"EDUHERO 英雄教育\" cartoon graphic t-shirt, khaki cargo pants, black watch on left wrist) is ALREADY clearly visible walking across the straight central canteen aisle 15 meters ahead, carrying a tall stack of books in both arms with his head tilted DOWN looking at his books—completely unaware as the camera pushes straight toward him for 1 tense second.\n\n6.8–8.5s (0.4x SLOW-MOTION — LATE-NOTICE DODGE #2 WITH EXACT TEACHER @Image3): Only when the straight-flying paper airplane is inches from his face does the teacher from @Image3 suddenly hear the airy whoosh and look up out of the corner of his eye—time slows smoothly into crisp 0.4x slow-motion, keeping 100% of his authentic facial features, glasses, and beige-and-pink hat from @Image3 completely unchanged as his eyes widen in lively surprise, mouth opening in a gasp, and he instinctively tilts his head and leans his shoulders sideways just in time while holding onto his stack of books! The paper airplane passes dead-straight 8 cm beside his cheek untouched, lifting loose lined pages fluttering upward off the top of his books in warm sunlit slow motion.\n\n8.5–11.2s (1.0x FAST PUSH-IN | 32 km/h — STRAIGHT OUT KANTIN TO HALL WALKWAY): Speed smoothly returns to fast flight as the airplane glides straight out the bright sunlit far exit of the canteen directly onto a dead-straight covered campus walkway lined with cream pillars and vibrant magenta bougainvillea. From 9.2s onward, a Malaysian Chinese schoolgirl in a turquoise SMK pinafore hugging thick SPM exam workbooks is ALREADY visibly walking 16 meters ahead beside the center line, her head tilted DOWN reading her SPM notes, completely unaware—while a rolled-up crimson red silk curtain and golden ribbon bow are ALREADY visible further down the exact same straight walkway behind her. From 10.2–11.2s, the camera glides rapidly straight toward her in a tense 1-second push-in.\n\n11.2–13.2s (0.35x SLOW-MOTION — LATE-NOTICE DODGE #3): Only at the final split-second when the dead-straight paper airplane passes 6–8 cm beside her cheek does she suddenly notice it—time slows smoothly into crisp 0.35x slow-motion as airflow lifts her dark hair strands sideways, her eyes widen staring inches from the wingtip, mouth gasping as she instinctively twists her shoulders and tilts her head sideways untouched amid floating magenta petals.\n\n13.2–15.5s (1.0x CLIMAX FAST GLIDE | 32 → 38 km/h): Speed smoothly returns to brisk flight as the airplane glides dead-straight down the final archway stretch directly toward the loose golden slip-knot ribbon bow holding the rolled-up crimson red silk curtain between the two cream assembly hall pillars, while Malaysian SMK students already stand along both sides looking up.\n\n15.5–16.5s (0.35x SLOW-MOTION BOW TRIGGER | 38 → 4 km/h): The pointed nose of the white lined paper airplane cleanly brushes the loose golden slip-knot bow dead-center; the golden bow unties effortlessly in golden slow motion while the featherlight paper airplane slows down and glides gently downward toward the lower-right foreground.\n\n16.5–18.8s (0.5x SLOW-MOTION CURTAIN DROP | braking to 0 km/h): Freed by the untied bow, the heavy crimson red silk curtain unrolls and cascades smoothly straight down under gravity between the two cream pillars, rippling in golden late-afternoon light to reveal the exact gleaming metallic gold calligraphy from @Image4: \"庇佑SPM考生\" (Line 1) / \"逢考必过！\" (Line 2).\n\n18.8–20.0s (1.0x SETTLED FINALE | 0 km/h | End @Image4): Camera comes to a steady stop on @Image4—the unfurled crimson silk curtain billows gently in golden 3800K \"Petang Emas\" late-afternoon sunlight displaying razor-sharp gold calligraphy (\"庇佑SPM考生\" / \"逢考必过！\"), the white lined paper airplane glides softly across the lower-right foreground with drifting magenta bougainvillea petals, and joyful Malaysian SMK students on both sides clap and cheer.\n\nSTYLE & AUDIO\nPhotoreal 16:9, 24 fps, \"Petang Emas\" 3800K warm late-afternoon golden sun with cool cyan-teal corridor/canteen shade, 35% natural film saturation, fine organic film grain, no HDR. Natural live audio only (no music): crisp wrist flick, fast airy rush building during each 1-second push-in and dipping into smooth slow-motion breath swells at each sudden last-second dodge (fluttering papers, surprised \"Whoa!\" from the teacher, hair whoosh gasp), delicate golden ribbon snap, lush cascading silk curtain swoosh, erupting into warm joyful Malaysian student cheers and applause.\n\nNEGATIVE PROMPT (STRICTLY AVOID)\ncuts, scene transition, jump cut, dissolve, fade, camera turning, turning right, turning left, 90-degree turn, camera pan, curving path, airplane swerving, banking wings, sideways drift, teleporting people, popping-in characters, sudden appearance, duplicate characters, altering the teacher's face from @Image3, changing the teacher's glasses or hat or EDUHERO t-shirt, magenta background from @Image3 appearing in scene, people staring early at the camera, watching the airplane from far away, early dodging, airplane dodging around people, paper airplane morphing, extra wings, touching people, deformed faces, extra fingers, garbled Chinese text, misspelled calligraphy, jacket on thrower, backpack on thrower, street, cars, bus, cartoon, anime, CGI, oversaturated HDR, watermark",
+                "params": [
+                        "MiniMax H3",
+                        "768P (1376×768)",
+                        "15秒 (362帧)",
+                        "8步 DMAD 防糊",
+                        "16:9",
+                        "L40S 48GB"
+                ],
+                "assets": [
+                        {
+                                "label": "Pic 1",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node1_24cb330638.jpg"
+                        },
+                        {
+                                "label": "Pic 2",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node2_693206cb30.png"
+                        },
+                        {
+                                "label": "Pic 3",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node103_fc4286290b.jpg"
+                        },
+                        {
+                                "label": "Char 4",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/nodechar_ref_1_6eb7b0f47d.jpg"
+                        }
+                ]
         },
         {
-          id: 'gen_h3_007',
-          filename: 'MiniMax_H3_00007_.mp4',
-          title: 'Video - MiniMax H3 文武双全导演版 (#7 今日)',
-          templateId: 'minimax_h3',
-          ratio: '16:9',
-          time: '9m 50s',
-          createdAt: '19 Nov 2026 13:22:54',
-          costText: '$0.37 USD (约 RM 1.65)',
-          src: './recovered_outputs/MiniMax_H3_00007_.mp4',
-          cloudUrl: 'https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=output/video/MiniMax_H3_00007_.mp4',
-          isVideo: true,
-          prompt: REAL_DETECTIVE_PROMPT,
-          params: ['MiniMax H3', '768P 超清', '10秒 (241帧)', '8步 DMAD 防糊', '16:9', 'L40S 48GB'],
-          assets: DEFAULT_USER_ASSETS
+                "id": "gen_h3_008",
+                "filename": "MiniMax_H3_00008_.mp4",
+                "title": "Video - MiniMax H3 文武双全导演版 (#8 今日)",
+                "templateId": "minimax_h3",
+                "ratio": "16:9",
+                "time": "25m 40s",
+                "createdAt": "19 Nov 2026 14:09:18",
+                "costText": "$0.95 USD (约 RM 4.20)",
+                "src": "./recovered_outputs/MiniMax_H3_00008_.mp4",
+                "cloudUrl": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=output/video/MiniMax_H3_00008_.mp4",
+                "isVideo": true,
+                "prompt": "REFERENCE IMAGES (ONLY 3 ANCHORS — ONE UNBROKEN STRAIGHT-FORWARD TAKE, ZERO CUTS)\n- @Image1: Thrower identity ONLY (short tapered undercut black hair, tucked white short-sleeved SMK shirt, thin sky-blue tie band under back collar, dark charcoal trousers, chunky matte black watch on RIGHT wrist, NO jacket, NO backpack). Ignore its white background and two-panel layout.\n- @Image2: Exact 0.0s starting frame. The Malaysian SMK louvred-window corridor leads DEAD-STRAIGHT into the open-air \"MINUMAN / MEE & NASI\" canteen directly at the far end of the corridor, with sunlit campus trees visible straight through the far canteen exit. The book-carrying boy is ALREADY standing/walking ahead on the right-center of the corridor.\n- @Image3: Exact 20.0s final hero frame after the rolled crimson red silk curtain drops smoothly down between the two cream assembly hall pillars, displaying exact gleaming gold calligraphy \"庇佑SPM考生\" (Line 1) / \"逢考必过！\" (Line 2) with cheering Malaysian SMK students.\n\nNON-NEGOTIABLE MOTION, REACTION & LOGIC RULES\n1. ONE STRAIGHT LINE, ZERO TURNS: From 0.8s to 15.5s, the white lined-notebook paper airplane (blue lines, thin red margin) and the chase camera move strictly along ONE dead-straight horizontal line straight forward into the vanishing point of @Image2 at a constant 1.45 m height. The camera NEVER pans, NEVER turns left or right, NEVER curves. The airplane NEVER banks, NEVER swerves, NEVER dodges around anyone.\n2. ZERO TELEPORTING: Every student MUST ALREADY be visibly walking/standing 12–15 meters ahead in the straight corridor/aisle at least 2 seconds before the airplane reaches them, smoothly growing larger as the camera pushes straight forward toward them. Nobody ever pops in or teleports.\n3. COMPLETELY UNAWARE UNTIL THE FINAL SPLIT-SECOND (NO EARLY STARING): While the paper airplane approaches from afar, every student is casually absorbed in their own activity—looking DOWN at their books, food tray, or notes, NEVER staring at the camera and NEVER watching the airplane fly toward them. As the airplane rapidly closes in with an intense 1-second straight forward push-in/zoom-in feeling right toward them, ONLY at the final split-second when the wingtip is inches from their face do they suddenly hear the whoosh, catch sight of it out of the corner of their eye in pure shock, and instinctively snap their head and shoulders sideways to dodge barely 6–8 cm clear of the fixed straight path!\n4. IN-CAMERA SPEED RAMPING (NO POST-EDITING): Fast straight glides (30–38 km/h at 1.0x) with a tense 1-second rapid push-in right before each unaware student, ramping sharply into crisp 0.35x–0.4x slow-motion at the exact last-millisecond startled dodge, then snapping immediately back to fast speed.\n\nCAMERA & OPTICS\n16:9, 24 fps, strictly 20.0 seconds, rectilinear cinema lens (47° at 0.0–0.8s; 63° at 0.8–20.0s with subtle kinetic push-in tension during the final 1 second before each student). Start on @Image2. At 0.8s, sweep smoothly past the boy's watch-clad right hand and lock 45 cm behind the tail and 10 cm above the lined paper airplane (~20% frame width in lower-center), tracking dead-straight forward with zero cuts and zero turns.\n\nEXACT 20.0-SECOND CONTINUOUS TIMELINE\n\n0.0–0.8s (1.0x normal | 0 → 40 km/h | Start @Image2): Exact framing of @Image2. The boy matching @Image1 snaps his right wrist forward cleanly; the lined paper airplane leaves his hand at 0.8s and the camera locks 45 cm behind its tail, flying straight toward the book-carrying boy ALREADY ahead in the corridor and the glowing canteen straight behind him.\n\n0.8–2.2s (1.0x FAST PUSH-IN | 36 km/h): The paper airplane rockets dead-straight down the louvred-window corridor (tingkap nako on left, cream pillars on right), closing in rapidly with a tense 1-second straight zoom-in rush directly toward the book-carrying boy who is walking casually while looking DOWN at his heavy stack of exercise books—completely unaware of the oncoming airplane.\n\n2.2–3.8s (0.4x SLOW-MOTION — LATE-NOTICE DODGE #1): Only at the final split-second when the dead-straight paper airplane is inches from his face does he suddenly hear the whoosh and glance up in shock—time snaps into silky 0.4x slow-motion as his eyes shoot wide open, mouth gasping, and he instinctively jerks his head and leans his shoulders sharply sideways to the right just in time! The paper airplane NEVER swerves, slicing barely 8 cm past his cheek untouched while dozens of loose lined white test papers burst upward off his stack in golden sunlight.\n\n3.8–6.8s (1.0x FAST PUSH-IN | 32 km/h — STRAIGHT INTO KANTIN, ZERO TURN): Speed snaps cleanly back to fast flight. Keeping the exact same straight axis with ZERO turning, the airplane flies straight out the open corridor end directly into the glowing \"MINUMAN / MEE & NASI\" open-air Malaysian school canteen ALREADY straight ahead. Upon entering at 4.5s, a Malaysian SMK boy in white shirt and olive-green trousers holding a food tray is ALREADY clearly visible walking 15 meters ahead along the center aisle beneath spinning ceiling fans—looking DOWN carefully at his food tray, completely oblivious as the camera rapidly pushes straight in toward him for 1 intense second past seated SMK students drinking iced Milo and pink Sirap Bandung air bungkus.\n\n6.8–8.5s (0.4x SLOW-MOTION — LATE-NOTICE DODGE #2): Only when the laser-straight paper airplane is inches from his ear and cheek does he suddenly catch sight of it out of the corner of his eye—time ramps sharply into 0.4x slow-motion as his eyes widen in pure panic and he instinctively snaps his head back and pulls a tight last-second sideways lean away untouched (8 cm clearance), while white paper napkins lift and tumble off his tray in backlit slow motion.\n\n8.5–11.2s (1.0x FAST PUSH-IN | 32 km/h — STRAIGHT OUT KANTIN TO HALL WALKWAY): Speed snaps cleanly back to fast flight as the airplane shoots straight out the bright sunlit far exit of the canteen directly onto a dead-straight covered campus walkway lined with cream pillars and vibrant magenta bougainvillea. From 9.2s onward, a Malaysian Chinese schoolgirl in a turquoise SMK pinafore hugging thick SPM exam workbooks is ALREADY visibly walking 16 meters ahead beside the center line, her head tilted DOWN reading her SPM notes, completely unaware—while a rolled-up crimson red silk curtain and golden bow are ALREADY visible further down the exact same straight walkway behind her. From 10.2–11.2s, the camera blasts straight toward her in a breathless 1-second rapid push-in.\n\n11.2–13.2s (0.35x ULTRA-TENSE SLOW-MOTION — LATE-NOTICE DODGE #3): Only at the final millisecond when the dead-straight paper airplane flashes 6–8 cm beside her cheek does she suddenly notice it—time drops into heart-stopping 0.35x slow-motion as airflow whips her dark hair strands sideways, her eyes snap wide staring inches from the wingtip, mouth gasping as she instinctively twists her shoulders and jerks her head sharply sideways untouched amid floating magenta petals!\n\n13.2–15.5s (1.0x CLIMAX FAST ACCELERATION | 32 → 38 km/h): Speed snaps cleanly back to exhilarating high speed as the airplane accelerates laser-straight down the final archway stretch directly at the loose golden slip-knot ribbon bow holding the rolled-up crimson red silk curtain between the two cream assembly hall pillars, while Malaysian SMK students already stand along both sides watching up.\n\n15.5–16.5s (0.35x ULTRA SLOW-MOTION BOW TRIGGER | 38 → 4 km/h): The sharp nose of the white lined paper airplane cleanly brushes and strikes the loose golden slip-knot bow dead-center; the bow snaps untied effortlessly in golden slow motion while the featherlight paper airplane loses momentum and glides gently downward toward the lower-right foreground.\n\n16.5–18.8s (0.5x MAJESTIC SLOW-MOTION CURTAIN DROP | braking to 0 km/h): Released by the untied bow, the heavy crimson red silk curtain unrolls and cascades smoothly straight down under gravity between the two cream pillars, rippling in golden late-afternoon light to reveal the exact gleaming metallic gold calligraphy from @Image3: \"庇佑SPM考生\" (Line 1) / \"逢考必过！\" (Line 2).\n\n18.8–20.0s (1.0x SETTLED FINALE | 0 km/h | End @Image3): Camera comes to a steady stop on @Image3—the unfurled crimson silk curtain billows gently in golden 3800K \"Petang Emas\" late-afternoon sunlight displaying razor-sharp gold text (\"庇佑SPM考生\" / \"逢考必过！\"), the white lined paper airplane glides softly across the lower-right foreground with drifting magenta bougainvillea petals, and joyful Malaysian SMK students on both sides clap and cheer.\n\nSTYLE & AUDIO\nPhotoreal 16:9, 24 fps, \"Petang Emas\" 3800K warm late-afternoon golden sun with cool cyan-teal corridor/canteen shade, 35% natural film saturation, fine organic film grain, no HDR. Natural live audio only (no music): crisp wrist flick, fast airy rush building during each 1-second push-in and dipping into cinematic low-pass slow-motion breath swells at each sudden last-second dodge (bursting papers, fluttering napkins + \"Weh!\", hair whoosh gasp), delicate golden ribbon snap, lush cascading silk curtain swoosh, erupting into warm joyful Malaysian student cheers and applause.\n\nNEGATIVE PROMPT (STRICTLY AVOID)\ncuts, scene transition, jump cut, dissolve, fade, camera turning, turning right, turning left, 90-degree turn, camera pan, curving path, airplane swerving, banking wings, sideways drift, teleporting people, popping-in characters, sudden appearance, duplicate characters, students staring early at the camera, students watching the airplane from far away, early dodging, airplane dodging around people, paper airplane morphing, extra wings, hitting people, deformed faces, extra fingers, garbled Chinese text, misspelled calligraphy, jacket on thrower, backpack on thrower, street, cars, bus, cartoon, anime, CGI, oversaturated HDR, watermark\n[Shot 3] Smooth camera transition to Shot 3, keeping @角色1 consistent.\n[Shot 4] Smooth camera transition to Shot 4, keeping @角色1 consistent.\n[Shot 5] Smooth camera transition to Shot 5, keeping @角色1 consistent.\n[Shot 6] Smooth camera transition to Shot 6, keeping @角色1 consistent.",
+                "params": [
+                        "MiniMax H3",
+                        "928P (1664×928)",
+                        "15秒 (362帧)",
+                        "8步 DMAD 防糊",
+                        "16:9",
+                        "L40S 48GB"
+                ],
+                "assets": [
+                        {
+                                "label": "Pic 1",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node1_f4cd5bd29d.jpg"
+                        },
+                        {
+                                "label": "Pic 2",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node104_efa078a1ef.jpg"
+                        },
+                        {
+                                "label": "Pic 3",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node106_1208330a03.jpg"
+                        },
+                        {
+                                "label": "Char 4",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/nodechar_ref_1_72face690f.jpg"
+                        },
+                        {
+                                "label": "Char 5",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/nodechar_ref_2_05d5b77765.jpg"
+                        }
+                ]
         },
         {
-          id: 'gen_h3_006',
-          filename: 'MiniMax_H3_00006_.mp4',
-          title: 'Video - MiniMax H3 文武双全导演版 (#6 今日)',
-          templateId: 'minimax_h3',
-          ratio: '16:9',
-          time: '8m 12s',
-          createdAt: '19 Nov 2026 12:18:34',
-          costText: '$0.31 USD (约 RM 1.38)',
-          src: './recovered_outputs/MiniMax_H3_00006_.mp4',
-          cloudUrl: 'https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=output/video/MiniMax_H3_00006_.mp4',
-          isVideo: true,
-          prompt: REAL_DETECTIVE_PROMPT,
-          params: ['MiniMax H3', '768P 超清', '10秒 (241帧)', '8步 DMAD 防糊', '16:9', 'L40S 48GB'],
-          assets: DEFAULT_USER_ASSETS
+                "id": "gen_h3_007",
+                "filename": "MiniMax_H3_00007_.mp4",
+                "title": "Video - MiniMax H3 文武双全导演版 (#7 今日)",
+                "templateId": "minimax_h3",
+                "ratio": "16:9",
+                "time": "9m 50s",
+                "createdAt": "19 Nov 2026 13:22:54",
+                "costText": "$0.37 USD (约 RM 1.65)",
+                "src": "./recovered_outputs/MiniMax_H3_00007_.mp4",
+                "cloudUrl": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=output/video/MiniMax_H3_00007_.mp4",
+                "isVideo": true,
+                "prompt": "Use <Audio 1> as vocal timbre and voice identity references. [10-SECOND 4-SHOT MULTI-SHOT VIDEO DIRECTIVE: Generate the complete 10.0-second video in one continuous multi-shot sequence progressing across 4 distinct camera shots (Shot 1 Full-Body Left-to-Right Walk-In -> Push-In/Cut to Shot 2 Medium Waist-Up Cute Envious Pout -> CUT to Shot 3 Medium Close-Up Torso-Twisting Shy Hug -> CUT to Shot 4 Dynamic Foreground-Reach Super Happy Wave) on the clean, solid Deep Navy Blue (#0D1F45) studio background. Entire performance and dialogue run at a lively 1.4x FAST COMEDY PACE.]\n\n[REFERENCE IMAGE & CHARACTER/VOICE CONSISTENCY ANCHOR: Strictly lock onto the exact 145cm 3D mascot character and exact open full-colour study booklet from the uploaded reference keyframes (@Image1, @Image2, @Image3, @Image4) — Xiao Ke (@小课), a 145cm 3D tactile realistic-stylized Malaysian Chinese secondary school mascot with an ultra-round, wide, short stocky 2.5-head-tall build, full round lower cheeks with warm natural 3D skin texture and a prominent thick double chin roll, expressive dark-brown Asian eyes behind oversized bright red circular glasses, and a large voluminous loose airy dark-chestnut spiral-ringlet afro with fine frizzy hair strands and curly wisps resting on his forehead between his arched eyebrows. He wears a bright red short-sleeve polo shirt tucked into wide baggy blue jeans with thick rolled-up denim cuffs, a brown belt, and chunky pure-white sneakers, and has short thick arms with deep wrist creases. Against the solid Deep Navy Blue studio backdrop, he holds the exact open full-colour EduHero Form 1 Sejarah booklet spread (\"MENGENALI SEJARAH 认识历史\" on the left page and \"KOSA KATA\" rainbow vocabulary table 1–30 on the right page), keeping the printed page layout 100% sharp and unaltered. Voice Lock: Xiao Ke speaks at 1.4x fast comedic speed in an expressive, haughty-then-envious-pouty, then shy-affectionate, then super happy raspy comedic voice (240–350 Hz) in natural Malaysian Mandarin.]\n\n[SHOT 1 — 0.0s to 2.2s (Based on @Image1): Full-Body Walk-In from Left to Right — Haughty Entrance]\n- Camera: Full-body wide shot (16:9 widescreen) on the solid Deep Navy Blue studio stage tracking slightly rightward as Xiao Ke struts into frame from left to right.\n- Action (1.4x fast pace): Matching @Image1, Xiao Ke walks confidently into the frame from the left side toward the right side in his wide cuffed blue jeans and pure-white sneakers, planting his right hand firmly on his wide hip (叉腰) and holding up the open full-colour \"MENGENALI SEJARAH / KOSA KATA\" booklet in his left hand. He tilts his chin up proudly with one eyebrow cocked high in a haughty, arrogant side-eye smirk (\"你就好咯！\").\n- Dialogue & Audio (0.0s–2.2s, 1.4x fast delivery):\n  - Ambient SFX: Crisp sneaker footsteps walking in from left to right and a sassy cartoon hip-stance pop (\"Bloop!\") at 0.4s.\n  - Xiao Ke (0.3s–2.1s, 1.4x fast speed, speaking in a haughty, proud Malaysian Mandarin tone): \"你就好咯！\"\n\n[SHOT 2 — 2.2s to 5.0s (Based on @Image2): Snappy Camera Push-In to Medium Waist-Up Shot — Cute Envious Side-Eye Pout]\n- Camera: Snappy 1.4x camera push-in (or clean cut) to the Medium Waist-Up Shot matching @Image2 on the solid Deep Navy Blue studio background.\n- Action (1.4x fast pace): Matching @Image2, keeping his right hand planted on his hip (叉腰) and holding the open full-colour \"MENGENALI SEJARAH / KOSA KATA\" booklet cleanly in his left hand, Xiao Ke glances sideways at the vibrant colourful booklet and puckers his lips into an irresistibly cute, envious, sulky little O-pout behind his bright red round glasses! He shakes his big curly afro head slightly in adorable envious disbelief (\"以前我都只是读黑白的，年代真的不同了！\").\n- Dialogue & Audio (2.2s–5.0s, 1.4x fast delivery):\n  - Ambient SFX: A cute cartoon pout boing sound (\"Boing-womp~\") at 2.3s and a crisp paper wave sound at 3.6s.\n  - Xiao Ke (2.2s–4.9s, 1.4x fast speed, speaking in an adorable, pouty, envious Malaysian Mandarin tone): \"以前我都只是读黑白的，年代真的不同了！\"\n\n[SHOT 3 — 5.0s to 7.6s (Based on @Image3): HARD CUT to Medium Close-Up — Hugging Booklet & Twisting Upper Body Playfully]\n- Camera: HARD CUT to a Medium Close-Up Shot matching @Image3 on the solid Deep Navy Blue studio background, with the camera gently rocking in sync with his playful shoulder movement.\n- Action (1.4x fast pace): Matching @Image3, Xiao Ke grips the outer left and right edges of the open full-colour \"MENGENALI SEJARAH / KOSA KATA\" booklet cleanly with both hands and hugs it fondly against his chest while keeping the colourful 2-page spread clearly visible in front. With a soft rosy blush on his round cheeks and a shy, bashful smile behind his bright red round glasses, he gazes affectionately at the booklet and visibly twists and sways his shoulders and upper torso left and right in an adorable, playful motion (抱着资料害羞撒娇、身体左右扭动摇晃) while speaking softly to the booklet (\"哎哟~ 嗯~ 我很喜欢叻……\").\n- Dialogue & Audio (5.0s–7.6s, 1.4x fast delivery):\n  - Ambient SFX: A cute bashful cartoon sparkle chime (\"Bling-bling~\") and soft hug rustle at 5.1s.\n  - Xiao Ke (5.1s–7.5s, 1.4x fast speed, speaking in a shy, bashful, affectionate Malaysian Mandarin tone talking to the booklet): \"哎哟，嗯~ 我很喜欢叻……\"\n\n[SHOT 4 — 7.6s to 10.0s (Based on @Image4): HARD CUT to Dynamic Foreground-Reach Shot — Super Happy Beaming Smile & Beckoning Wave]\n- Camera: HARD CUT to a Dynamic Medium Shot with strong 3D foreground depth matching @Image4 on the solid Deep Navy Blue studio background, followed by an energetic punch-in.\n- Action (1.4x fast pace): Matching @Image4, Xiao Ke looks straight into the camera lens beaming with his signature super happy, joyful, wide open-mouth smile and bright round eyes behind his bright red round glasses. Holding up the open full-colour \"MENGENALI SEJARAH / KOSA KATA\" booklet cleanly by its bottom edge in his right hand, he reaches his thick left arm and hand straight out toward the foreground camera lens (creating dynamic 3D foreshortening) and waves/beckons enthusiastically to invite students over (\"你快点来英雄教育找我拿啦！\"), his loose curly afro bouncing joyfully.\n- Dialogue & Audio (7.6s–10.0s, 1.4x fast delivery):\n  - Ambient SFX: A punchy comedic whoosh as his hand reaches toward the lens and a cheerful upbeat chime (\"Ding!\") at 7.7s.\n  - Xiao Ke (7.6s–9.9s, 1.4x fast speed, speaking in a super happy, joyful, enthusiastic Malaysian Mandarin tone): \"你快点来英雄教育找我拿啦！\"\n\n[NEGATIVE PROMPT: NO slim or tall body proportions, NO brown leather shoes, NO static single camera angle, NO subtitles, NO floating text captions, NO blurring, morphing, or scrambling of the MENGENALI SEJARAH / KOSA KATA booklet pages, NO deformed hands, NO extra fingers, NO background clutter, NO slow motion.]",
+                "params": [
+                        "MiniMax H3",
+                        "768P (1376×768)",
+                        "15秒 (362帧)",
+                        "8步 DMAD 防糊",
+                        "16:9",
+                        "L40S 48GB"
+                ],
+                "assets": [
+                        {
+                                "label": "Pic 1",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node1_2b40c0635b.png"
+                        },
+                        {
+                                "label": "Pic 2",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node2_d491cd5a19.jpg"
+                        },
+                        {
+                                "label": "Pic 3",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node103_741ed814df.jpg"
+                        },
+                        {
+                                "label": "Pic 4",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node104_fb04f00165.jpg"
+                        },
+                        {
+                                "label": "Char 5",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/nodechar_ref_1_67d39c3f89.png"
+                        }
+                ]
         },
         {
-          id: 'gen_h3_005',
-          filename: 'MiniMax_H3_00005_.mp4',
-          title: 'Video - MiniMax H3 文武双全导演版 (#5 今日)',
-          templateId: 'minimax_h3',
-          ratio: '16:9',
-          time: '7m 45s',
-          createdAt: '19 Nov 2026 11:48:10',
-          costText: '$0.29 USD (约 RM 1.29)',
-          src: './recovered_outputs/MiniMax_H3_00005_.mp4',
-          cloudUrl: 'https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=output/video/MiniMax_H3_00005_.mp4',
-          isVideo: true,
-          prompt: REAL_DETECTIVE_PROMPT,
-          params: ['MiniMax H3', '768P 超清', '10秒 (241帧)', '8步 DMAD 防糊', '16:9', 'L40S 48GB'],
-          assets: DEFAULT_USER_ASSETS
+                "id": "gen_h3_006",
+                "filename": "MiniMax_H3_00006_.mp4",
+                "title": "Video - MiniMax H3 文武双全导演版 (#6 今日)",
+                "templateId": "minimax_h3",
+                "ratio": "16:9",
+                "time": "8m 12s",
+                "createdAt": "19 Nov 2026 12:18:34",
+                "costText": "$0.31 USD (约 RM 1.38)",
+                "src": "./recovered_outputs/MiniMax_H3_00006_.mp4",
+                "cloudUrl": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=output/video/MiniMax_H3_00006_.mp4",
+                "isVideo": true,
+                "prompt": "REFERENCE IMAGES (ONLY 3 ANCHORS — ONE UNBROKEN STRAIGHT-FORWARD TAKE, ZERO CUTS)\n- @Image1: Thrower identity ONLY (short tapered undercut black hair, tucked white short-sleeved SMK shirt, thin sky-blue tie band under back collar, dark charcoal trousers, chunky matte black watch on RIGHT wrist, NO jacket, NO backpack). Ignore its white background and two-panel layout.\n- @Image2: Exact 0.0s starting frame. The Malaysian SMK louvred-window corridor leads DEAD-STRAIGHT into the open-air \"MINUMAN / MEE & NASI\" canteen directly at the far end of the corridor, with sunlit campus trees visible straight through the far canteen exit. The book-carrying boy is ALREADY standing/walking ahead on the right-center of the corridor.\n- @Image3: Exact 20.0s final hero frame after the rolled crimson red silk curtain drops smoothly down between the two cream assembly hall pillars, displaying exact gleaming gold calligraphy \"庇佑SPM考生\" (Line 1) / \"逢考必过！\" (Line 2) with cheering Malaysian SMK students.\n\nNON-NEGOTIABLE MOTION, REACTION & LOGIC RULES\n1. ONE STRAIGHT LINE, ZERO TURNS: From 0.8s to 15.5s, the white lined-notebook paper airplane (blue lines, thin red margin) and the chase camera move strictly along ONE dead-straight horizontal line straight forward into the vanishing point of @Image2 at a constant 1.45 m height. The camera NEVER pans, NEVER turns left or right, NEVER curves. The airplane NEVER banks, NEVER swerves, NEVER dodges around anyone.\n2. ZERO TELEPORTING: Every student MUST ALREADY be visibly walking/standing 12–15 meters ahead in the straight corridor/aisle at least 2 seconds before the airplane reaches them, smoothly growing larger as the camera pushes straight forward toward them. Nobody ever pops in or teleports.\n3. COMPLETELY UNAWARE UNTIL THE FINAL SPLIT-SECOND (NO EARLY STARING): While the paper airplane approaches from afar, every student is casually absorbed in their own activity—looking DOWN at their books, food tray, or notes, NEVER staring at the camera and NEVER watching the airplane fly toward them. As the airplane rapidly closes in with an intense 1-second straight forward push-in/zoom-in feeling right toward them, ONLY at the final split-second when the wingtip is inches from their face do they suddenly hear the whoosh, catch sight of it out of the corner of their eye in pure shock, and instinctively snap their head and shoulders sideways to dodge barely 6–8 cm clear of the fixed straight path!\n4. IN-CAMERA SPEED RAMPING (NO POST-EDITING): Fast straight glides (30–38 km/h at 1.0x) with a tense 1-second rapid push-in right before each unaware student, ramping sharply into crisp 0.35x–0.4x slow-motion at the exact last-millisecond startled dodge, then snapping immediately back to fast speed.\n\nCAMERA & OPTICS\n16:9, 24 fps, strictly 20.0 seconds, rectilinear cinema lens (47° at 0.0–0.8s; 63° at 0.8–20.0s with subtle kinetic push-in tension during the final 1 second before each student). Start on @Image2. At 0.8s, sweep smoothly past the boy's watch-clad right hand and lock 45 cm behind the tail and 10 cm above the lined paper airplane (~20% frame width in lower-center), tracking dead-straight forward with zero cuts and zero turns.\n\nEXACT 20.0-SECOND CONTINUOUS TIMELINE\n\n0.0–0.8s (1.0x normal | 0 → 40 km/h | Start @Image2): Exact framing of @Image2. The boy matching @Image1 snaps his right wrist forward cleanly; the lined paper airplane leaves his hand at 0.8s and the camera locks 45 cm behind its tail, flying straight toward the book-carrying boy ALREADY ahead in the corridor and the glowing canteen straight behind him.\n\n0.8–2.2s (1.0x FAST PUSH-IN | 36 km/h): The paper airplane rockets dead-straight down the louvred-window corridor (tingkap nako on left, cream pillars on right), closing in rapidly with a tense 1-second straight zoom-in rush directly toward the book-carrying boy who is walking casually while looking DOWN at his heavy stack of exercise books—completely unaware of the oncoming airplane.\n\n2.2–3.8s (0.4x SLOW-MOTION — LATE-NOTICE DODGE #1): Only at the final split-second when the dead-straight paper airplane is inches from his face does he suddenly hear the whoosh and glance up in shock—time snaps into silky 0.4x slow-motion as his eyes shoot wide open, mouth gasping, and he instinctively jerks his head and leans his shoulders sharply sideways to the right just in time! The paper airplane NEVER swerves, slicing barely 8 cm past his cheek untouched while dozens of loose lined white test papers burst upward off his stack in golden sunlight.\n\n3.8–6.8s (1.0x FAST PUSH-IN | 32 km/h — STRAIGHT INTO KANTIN, ZERO TURN): Speed snaps cleanly back to fast flight. Keeping the exact same straight axis with ZERO turning, the airplane flies straight out the open corridor end directly into the glowing \"MINUMAN / MEE & NASI\" open-air Malaysian school canteen ALREADY straight ahead. Upon entering at 4.5s, a Malaysian SMK boy in white shirt and olive-green trousers holding a food tray is ALREADY clearly visible walking 15 meters ahead along the center aisle beneath spinning ceiling fans—looking DOWN carefully at his food tray, completely oblivious as the camera rapidly pushes straight in toward him for 1 intense second past seated SMK students drinking iced Milo and pink Sirap Bandung air bungkus.\n\n6.8–8.5s (0.4x SLOW-MOTION — LATE-NOTICE DODGE #2): Only when the laser-straight paper airplane is inches from his ear and cheek does he suddenly catch sight of it out of the corner of his eye—time ramps sharply into 0.4x slow-motion as his eyes widen in pure panic and he instinctively snaps his head back and pulls a tight last-second sideways lean away untouched (8 cm clearance), while white paper napkins lift and tumble off his tray in backlit slow motion.\n\n8.5–11.2s (1.0x FAST PUSH-IN | 32 km/h — STRAIGHT OUT KANTIN TO HALL WALKWAY): Speed snaps cleanly back to fast flight as the airplane shoots straight out the bright sunlit far exit of the canteen directly onto a dead-straight covered campus walkway lined with cream pillars and vibrant magenta bougainvillea. From 9.2s onward, a Malaysian Chinese schoolgirl in a turquoise SMK pinafore hugging thick SPM exam workbooks is ALREADY visibly walking 16 meters ahead beside the center line, her head tilted DOWN reading her SPM notes, completely unaware—while a rolled-up crimson red silk curtain and golden bow are ALREADY visible further down the exact same straight walkway behind her. From 10.2–11.2s, the camera blasts straight toward her in a breathless 1-second rapid push-in.\n\n11.2–13.2s (0.35x ULTRA-TENSE SLOW-MOTION — LATE-NOTICE DODGE #3): Only at the final millisecond when the dead-straight paper airplane flashes 6–8 cm beside her cheek does she suddenly notice it—time drops into heart-stopping 0.35x slow-motion as airflow whips her dark hair strands sideways, her eyes snap wide staring inches from the wingtip, mouth gasping as she instinctively twists her shoulders and jerks her head sharply sideways untouched amid floating magenta petals!\n\n13.2–15.5s (1.0x CLIMAX FAST ACCELERATION | 32 → 38 km/h): Speed snaps cleanly back to exhilarating high speed as the airplane accelerates laser-straight down the final archway stretch directly at the loose golden slip-knot ribbon bow holding the rolled-up crimson red silk curtain between the two cream assembly hall pillars, while Malaysian SMK students already stand along both sides watching up.\n\n15.5–16.5s (0.35x ULTRA SLOW-MOTION BOW TRIGGER | 38 → 4 km/h): The sharp nose of the white lined paper airplane cleanly brushes and strikes the loose golden slip-knot bow dead-center; the bow snaps untied effortlessly in golden slow motion while the featherlight paper airplane loses momentum and glides gently downward toward the lower-right foreground.\n\n16.5–18.8s (0.5x MAJESTIC SLOW-MOTION CURTAIN DROP | braking to 0 km/h): Released by the untied bow, the heavy crimson red silk curtain unrolls and cascades smoothly straight down under gravity between the two cream pillars, rippling in golden late-afternoon light to reveal the exact gleaming metallic gold calligraphy from @Image3: \"庇佑SPM考生\" (Line 1) / \"逢考必过！\" (Line 2).\n\n18.8–20.0s (1.0x SETTLED FINALE | 0 km/h | End @Image3): Camera comes to a steady stop on @Image3—the unfurled crimson silk curtain billows gently in golden 3800K \"Petang Emas\" late-afternoon sunlight displaying razor-sharp gold text (\"庇佑SPM考生\" / \"逢考必过！\"), the white lined paper airplane glides softly across the lower-right foreground with drifting magenta bougainvillea petals, and joyful Malaysian SMK students on both sides clap and cheer.\n\nSTYLE & AUDIO\nPhotoreal 16:9, 24 fps, \"Petang Emas\" 3800K warm late-afternoon golden sun with cool cyan-teal corridor/canteen shade, 35% natural film saturation, fine organic film grain, no HDR. Natural live audio only (no music): crisp wrist flick, fast airy rush building during each 1-second push-in and dipping into cinematic low-pass slow-motion breath swells at each sudden last-second dodge (bursting papers, fluttering napkins + \"Weh!\", hair whoosh gasp), delicate golden ribbon snap, lush cascading silk curtain swoosh, erupting into warm joyful Malaysian student cheers and applause.\n\nNEGATIVE PROMPT (STRICTLY AVOID)\ncuts, scene transition, jump cut, dissolve, fade, camera turning, turning right, turning left, 90-degree turn, camera pan, curving path, airplane swerving, banking wings, sideways drift, teleporting people, popping-in characters, sudden appearance, duplicate characters, students staring early at the camera, students watching the airplane from far away, early dodging, airplane dodging around people, paper airplane morphing, extra wings, hitting people, deformed faces, extra fingers, garbled Chinese text, misspelled calligraphy, jacket on thrower, backpack on thrower, street, cars, bus, cartoon, anime, CGI, oversaturated HDR, watermark\n[Shot 3] Smooth camera transition to Shot 3, keeping @角色1 consistent.\n[Shot 4] Smooth camera transition to Shot 4, keeping @角色1 consistent.\n[Shot 5] Smooth camera transition to Shot 5, keeping @角色1 consistent.\n[Shot 6] Smooth camera transition to Shot 6, keeping @角色1 consistent.",
+                "params": [
+                        "MiniMax H3",
+                        "480P (864×480)",
+                        "15秒 (362帧)",
+                        "8步 DMAD 防糊",
+                        "16:9",
+                        "L40S 48GB"
+                ],
+                "assets": [
+                        {
+                                "label": "Pic 1",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node1_8339c70b01.jpg"
+                        },
+                        {
+                                "label": "Pic 2",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node2_e2ed85774a.jpg"
+                        },
+                        {
+                                "label": "Pic 3",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node103_bce897a82f.jpg"
+                        },
+                        {
+                                "label": "Pic 4",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node104_2a04b87c60.jpg"
+                        },
+                        {
+                                "label": "Pic 5",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node105_a587d53e2f.jpg"
+                        },
+                        {
+                                "label": "Pic 6",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node106_7b1deb654e.jpg"
+                        },
+                        {
+                                "label": "Char 7",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/nodechar_ref_1_11c1139eb8.jpg"
+                        }
+                ]
         },
         {
-          id: 'gen_h3_004',
-          filename: 'MiniMax_H3_00004_.mp4',
-          title: 'Video - MiniMax H3 文武双全导演版 (#4)',
-          templateId: 'minimax_h3',
-          ratio: '16:9',
-          time: '17m 47s',
-          createdAt: '10 Nov 2026 21:29:58',
-          costText: '$0.66 USD (约 RM 2.90)',
-          src: './recovered_outputs/MiniMax_H3_00004_.mp4',
-          isVideo: true,
-          prompt: REAL_DETECTIVE_PROMPT,
-          params: ['MiniMax H3', '768P 超清', '15秒 (361帧)', '🥋 8步 DMAD 防糊', '16:9', 'L40S 48GB'],
-          assets: DEFAULT_USER_ASSETS
+                "id": "gen_h3_005",
+                "filename": "MiniMax_H3_00005_.mp4",
+                "title": "Video - MiniMax H3 文武双全导演版 (#5 今日)",
+                "templateId": "minimax_h3",
+                "ratio": "16:9",
+                "time": "7m 45s",
+                "createdAt": "19 Nov 2026 11:48:10",
+                "costText": "$0.29 USD (约 RM 1.29)",
+                "src": "./recovered_outputs/MiniMax_H3_00005_.mp4",
+                "cloudUrl": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=output/video/MiniMax_H3_00005_.mp4",
+                "isVideo": true,
+                "prompt": "REFERENCE IMAGES (ONLY 3 ANCHORS — ONE UNBROKEN STRAIGHT-FORWARD TAKE, ZERO CUTS)\n- @Image1: Thrower identity ONLY (short tapered undercut black hair, tucked white short-sleeved SMK shirt, thin sky-blue tie band under back collar, dark charcoal trousers, chunky matte black watch on RIGHT wrist, NO jacket, NO backpack). Ignore its white background and two-panel layout.\n- @Image2: Exact 0.0s starting frame. The Malaysian SMK louvred-window corridor leads DEAD-STRAIGHT into the open-air \"MINUMAN / MEE & NASI\" canteen directly at the far end of the corridor, with sunlit campus trees visible straight through the far canteen exit. The book-carrying boy is ALREADY standing/walking ahead on the right-center of the corridor.\n- @Image3: Exact 20.0s final hero frame after the rolled crimson red silk curtain drops smoothly down between the two cream assembly hall pillars, displaying exact gleaming gold calligraphy \"庇佑SPM考生\" (Line 1) / \"逢考必过！\" (Line 2) with cheering Malaysian SMK students.\n\nNON-NEGOTIABLE MOTION, REACTION & LOGIC RULES\n1. ONE STRAIGHT LINE, ZERO TURNS: From 0.8s to 15.5s, the white lined-notebook paper airplane (blue lines, thin red margin) and the chase camera move strictly along ONE dead-straight horizontal line straight forward into the vanishing point of @Image2 at a constant 1.45 m height. The camera NEVER pans, NEVER turns left or right, NEVER curves. The airplane NEVER banks, NEVER swerves, NEVER dodges around anyone.\n2. ZERO TELEPORTING: Every student MUST ALREADY be visibly walking/standing 12–15 meters ahead in the straight corridor/aisle at least 2 seconds before the airplane reaches them, smoothly growing larger as the camera pushes straight forward toward them. Nobody ever pops in or teleports.\n3. COMPLETELY UNAWARE UNTIL THE FINAL SPLIT-SECOND (NO EARLY STARING): While the paper airplane approaches from afar, every student is casually absorbed in their own activity—looking DOWN at their books, food tray, or notes, NEVER staring at the camera and NEVER watching the airplane fly toward them. As the airplane rapidly closes in with an intense 1-second straight forward push-in/zoom-in feeling right toward them, ONLY at the final split-second when the wingtip is inches from their face do they suddenly hear the whoosh, catch sight of it out of the corner of their eye in pure shock, and instinctively snap their head and shoulders sideways to dodge barely 6–8 cm clear of the fixed straight path!\n4. IN-CAMERA SPEED RAMPING (NO POST-EDITING): Fast straight glides (30–38 km/h at 1.0x) with a tense 1-second rapid push-in right before each unaware student, ramping sharply into crisp 0.35x–0.4x slow-motion at the exact last-millisecond startled dodge, then snapping immediately back to fast speed.\n\nCAMERA & OPTICS\n16:9, 24 fps, strictly 20.0 seconds, rectilinear cinema lens (47° at 0.0–0.8s; 63° at 0.8–20.0s with subtle kinetic push-in tension during the final 1 second before each student). Start on @Image2. At 0.8s, sweep smoothly past the boy's watch-clad right hand and lock 45 cm behind the tail and 10 cm above the lined paper airplane (~20% frame width in lower-center), tracking dead-straight forward with zero cuts and zero turns.\n\nEXACT 20.0-SECOND CONTINUOUS TIMELINE\n\n0.0–0.8s (1.0x normal | 0 → 40 km/h | Start @Image2): Exact framing of @Image2. The boy matching @Image1 snaps his right wrist forward cleanly; the lined paper airplane leaves his hand at 0.8s and the camera locks 45 cm behind its tail, flying straight toward the book-carrying boy ALREADY ahead in the corridor and the glowing canteen straight behind him.\n\n0.8–2.2s (1.0x FAST PUSH-IN | 36 km/h): The paper airplane rockets dead-straight down the louvred-window corridor (tingkap nako on left, cream pillars on right), closing in rapidly with a tense 1-second straight zoom-in rush directly toward the book-carrying boy who is walking casually while looking DOWN at his heavy stack of exercise books—completely unaware of the oncoming airplane.\n\n2.2–3.8s (0.4x SLOW-MOTION — LATE-NOTICE DODGE #1): Only at the final split-second when the dead-straight paper airplane is inches from his face does he suddenly hear the whoosh and glance up in shock—time snaps into silky 0.4x slow-motion as his eyes shoot wide open, mouth gasping, and he instinctively jerks his head and leans his shoulders sharply sideways to the right just in time! The paper airplane NEVER swerves, slicing barely 8 cm past his cheek untouched while dozens of loose lined white test papers burst upward off his stack in golden sunlight.\n\n3.8–6.8s (1.0x FAST PUSH-IN | 32 km/h — STRAIGHT INTO KANTIN, ZERO TURN): Speed snaps cleanly back to fast flight. Keeping the exact same straight axis with ZERO turning, the airplane flies straight out the open corridor end directly into the glowing \"MINUMAN / MEE & NASI\" open-air Malaysian school canteen ALREADY straight ahead. Upon entering at 4.5s, a Malaysian SMK boy in white shirt and olive-green trousers holding a food tray is ALREADY clearly visible walking 15 meters ahead along the center aisle beneath spinning ceiling fans—looking DOWN carefully at his food tray, completely oblivious as the camera rapidly pushes straight in toward him for 1 intense second past seated SMK students drinking iced Milo and pink Sirap Bandung air bungkus.\n\n6.8–8.5s (0.4x SLOW-MOTION — LATE-NOTICE DODGE #2): Only when the laser-straight paper airplane is inches from his ear and cheek does he suddenly catch sight of it out of the corner of his eye—time ramps sharply into 0.4x slow-motion as his eyes widen in pure panic and he instinctively snaps his head back and pulls a tight last-second sideways lean away untouched (8 cm clearance), while white paper napkins lift and tumble off his tray in backlit slow motion.\n\n8.5–11.2s (1.0x FAST PUSH-IN | 32 km/h — STRAIGHT OUT KANTIN TO HALL WALKWAY): Speed snaps cleanly back to fast flight as the airplane shoots straight out the bright sunlit far exit of the canteen directly onto a dead-straight covered campus walkway lined with cream pillars and vibrant magenta bougainvillea. From 9.2s onward, a Malaysian Chinese schoolgirl in a turquoise SMK pinafore hugging thick SPM exam workbooks is ALREADY visibly walking 16 meters ahead beside the center line, her head tilted DOWN reading her SPM notes, completely unaware—while a rolled-up crimson red silk curtain and golden bow are ALREADY visible further down the exact same straight walkway behind her. From 10.2–11.2s, the camera blasts straight toward her in a breathless 1-second rapid push-in.\n\n11.2–13.2s (0.35x ULTRA-TENSE SLOW-MOTION — LATE-NOTICE DODGE #3): Only at the final millisecond when the dead-straight paper airplane flashes 6–8 cm beside her cheek does she suddenly notice it—time drops into heart-stopping 0.35x slow-motion as airflow whips her dark hair strands sideways, her eyes snap wide staring inches from the wingtip, mouth gasping as she instinctively twists her shoulders and jerks her head sharply sideways untouched amid floating magenta petals!\n\n13.2–15.5s (1.0x CLIMAX FAST ACCELERATION | 32 → 38 km/h): Speed snaps cleanly back to exhilarating high speed as the airplane accelerates laser-straight down the final archway stretch directly at the loose golden slip-knot ribbon bow holding the rolled-up crimson red silk curtain between the two cream assembly hall pillars, while Malaysian SMK students already stand along both sides watching up.\n\n15.5–16.5s (0.35x ULTRA SLOW-MOTION BOW TRIGGER | 38 → 4 km/h): The sharp nose of the white lined paper airplane cleanly brushes and strikes the loose golden slip-knot bow dead-center; the bow snaps untied effortlessly in golden slow motion while the featherlight paper airplane loses momentum and glides gently downward toward the lower-right foreground.\n\n16.5–18.8s (0.5x MAJESTIC SLOW-MOTION CURTAIN DROP | braking to 0 km/h): Released by the untied bow, the heavy crimson red silk curtain unrolls and cascades smoothly straight down under gravity between the two cream pillars, rippling in golden late-afternoon light to reveal the exact gleaming metallic gold calligraphy from @Image3: \"庇佑SPM考生\" (Line 1) / \"逢考必过！\" (Line 2).\n\n18.8–20.0s (1.0x SETTLED FINALE | 0 km/h | End @Image3): Camera comes to a steady stop on @Image3—the unfurled crimson silk curtain billows gently in golden 3800K \"Petang Emas\" late-afternoon sunlight displaying razor-sharp gold text (\"庇佑SPM考生\" / \"逢考必过！\"), the white lined paper airplane glides softly across the lower-right foreground with drifting magenta bougainvillea petals, and joyful Malaysian SMK students on both sides clap and cheer.\n\nSTYLE & AUDIO\nPhotoreal 16:9, 24 fps, \"Petang Emas\" 3800K warm late-afternoon golden sun with cool cyan-teal corridor/canteen shade, 35% natural film saturation, fine organic film grain, no HDR. Natural live audio only (no music): crisp wrist flick, fast airy rush building during each 1-second push-in and dipping into cinematic low-pass slow-motion breath swells at each sudden last-second dodge (bursting papers, fluttering napkins + \"Weh!\", hair whoosh gasp), delicate golden ribbon snap, lush cascading silk curtain swoosh, erupting into warm joyful Malaysian student cheers and applause.\n\nNEGATIVE PROMPT (STRICTLY AVOID)\ncuts, scene transition, jump cut, dissolve, fade, camera turning, turning right, turning left, 90-degree turn, camera pan, curving path, airplane swerving, banking wings, sideways drift, teleporting people, popping-in characters, sudden appearance, duplicate characters, students staring early at the camera, students watching the airplane from far away, early dodging, airplane dodging around people, paper airplane morphing, extra wings, hitting people, deformed faces, extra fingers, garbled Chinese text, misspelled calligraphy, jacket on thrower, backpack on thrower, street, cars, bus, cartoon, anime, CGI, oversaturated HDR, watermark",
+                "params": [
+                        "MiniMax H3",
+                        "480P (864×480)",
+                        "15秒 (362帧)",
+                        "8步 DMAD 防糊",
+                        "16:9",
+                        "L40S 48GB"
+                ],
+                "assets": [
+                        {
+                                "label": "Pic 1",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node1_e7d048629a.jpg"
+                        },
+                        {
+                                "label": "Pic 2",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node2_f70fac0fdc.jpg"
+                        },
+                        {
+                                "label": "Char 3",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/nodechar_ref_1_bc1abc91bc.jpg"
+                        }
+                ]
         },
         {
-          id: 'gen_h3_003',
-          title: 'Video - MiniMax H3 文武双全导演版 (#3)',
-          templateId: 'minimax_h3',
-          ratio: '16:9',
-          time: '4m 31s',
-          createdAt: '10 Nov 2026 19:31:12',
-          costText: '$0.16 USD (约 RM 0.70)',
-          src: './recovered_outputs/MiniMax_H3_00003_.mp4',
-          isVideo: true,
-          prompt: REAL_DETECTIVE_PROMPT,
-          params: ['MiniMax H3', '480P 极速', '15秒 (361帧)', '🥋 8步 DMAD 防糊', '16:9'],
-          assets: DEFAULT_USER_ASSETS
+                "id": "gen_h3_004",
+                "filename": "MiniMax_H3_00004_.mp4",
+                "title": "Video - MiniMax H3 文武双全导演版 (#4)",
+                "templateId": "minimax_h3",
+                "ratio": "16:9",
+                "time": "17m 47s",
+                "createdAt": "10 Nov 2026 21:29:58",
+                "costText": "$0.66 USD (约 RM 2.90)",
+                "src": "./recovered_outputs/MiniMax_H3_00004_.mp4",
+                "cloudUrl": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=output/video/MiniMax_H3_00004_.mp4",
+                "isVideo": true,
+                "prompt": "subject_definitions:\n<Picture 1> is the first frame of [Shot 1], showing an interior-to-exterior medium shot inside a warm oil-lit Malay wooden study looking toward an open carved window with a glowing cyan-gold time portal outside.\n<Picture 2> is the keyframe anchor for [Shot 2], showing a side-angle medium shot inside the wooden room where the boys climb over the windowsill on the left while the scholar exits through the back right doorway.\n<Picture 3> is the keyframe anchor for [Shot 3], showing a 3/4 medium-close two-shot at the antique wooden writing desk with historical documents spread across the tabletop.\n<Subject 1> is the ultra-chubby, very short cherubic boy (\"小课\") defined by <Picture 4> and appearing in <Picture 1>, <Picture 2>, and <Picture 3>, reaching only <Subject 2>'s shoulder level, with round double-chin cheeks, a large fluffy dark-brown curly afro, oversized bright red round glasses, a bright red polo shirt tucked into wide cuffed blue denim shorts with a brown belt, and white sneakers.\n<Subject 2> is the photorealistic live-action boy detective (\"少年侦探\") defined by <Picture 5> and appearing in <Picture 1>, <Picture 2>, and <Picture 3>, standing one full head taller than <Subject 1>, with straight dark hair with a small top-right cowlick spike, oversized round thin black glasses, a royal-navy single-button blazer with gold buttons, a white collared shirt, a bright red bow tie, a silver wristwatch on his left wrist, grey pleated knee-length shorts, white ribbed crew socks, and red-and-white high-top sneakers.\n<Subject 3> is the plump middle-aged traditional Malay scholar in <Picture 1> and <Picture 2>, wearing an earth-toned tunic vest, a patterned sarong, and a traditional cloth headband (tengkolok).\n\nsummary:\n[keyframe completion + reference generation] The 15-second 16:9 live-action video follows <Subject 2> and <Subject 1> across three distinct camera angles anchored by <Picture 1>, <Picture 2>, and <Picture 3> as they sneak through an open wooden window into an ancient Malay study while <Subject 3> hurries to the toilet with a stomachache, ending at the antique desk where <Subject 2> points out historical primary sources.\n\nretention_analysis:\n<Picture 1> ([Shot 1] first frame): fully_preserved - serves as the exact opening frame and composition of [Shot 1].\n<Picture 2> ([Shot 2] keyframe): fully_preserved - anchors the side-angle room layout, window climb, and doorway exit in [Shot 2].\n<Picture 3> ([Shot 3] keyframe): fully_preserved - anchors the 3/4 over-the-desk composition and tabletop documents in [Shot 3].\n<Subject 1> (appears in [Shot 1], [Shot 2], [Shot 3]): fully_preserved - his ultra-chubby short proportions, curly afro hair, red round glasses, red polo shirt, and denim shorts from <Picture 4> are fully retained.\n<Subject 2> (appears in [Shot 1], [Shot 2], [Shot 3]): fully_preserved - his photorealistic face, navy blazer, red bow tie, glasses, and strict height advantage of one full head taller than <Subject 1> from <Picture 5> are fully retained.\n<Subject 3> (appears in [Shot 1], [Shot 2]): fully_preserved - his plump build, earth-toned vest, sarong, and tengkolok headband are retained.\n\ndetailed_description:\nThe target video is in a cinematic, photorealistic live-action comedy-adventure style with warm golden tungsten oil-lamp lighting inside a traditional Malaysian wooden study contrasted against cool blue twilight outside.\n[Shot 1] The shot begins from <Picture 1> in a medium interior-to-exterior reverse shot looking toward the open carved wooden window. Outside the window against a swirling cyan-gold time portal, <Subject 2> (S1), the photorealistic boy detective standing on the left one full head taller, holds his right index finger to his lips in a sneaky \"shh\" gesture, while <Subject 1>, the ultra-chubby short boy with curly afro hair and red glasses on the right reaching only <Subject 2>'s shoulder, peeks eagerly over the wooden windowsill with his mouth closed. Inside on the right foreground, <Subject 3> grimaces and clutches his stomach with both hands, keeping his mouth closed. The camera pushes in with small amplitude at slow speed toward the window as <Subject 2> (S1) whispers briskly in a crisp, energetic Malaysian Chinese boy voice at 1.5x pace: <d>[Mandarin] 嘘！我们穿越回古代他家，找第一手资料 Sumber Primer，全部 belum diolah 的！</d> He finishes speaking and closes his lips as <Subject 1> nods silently.\n[Shot 2] At 00:05.000, the camera cuts to the side-angle medium shot inside the wooden room anchored by <Picture 2>. The camera holds a static shot. In the right background doorway, <Subject 3> (S2) clutches his belly in urgent stomach pain and hurries out toward the toilet, exclaiming in a deep, theatrical middle-aged Malay male voice: <d>[Malay] Aduh, sakit perut!</d> A comedic stomach growl sounds as he exits through the doorway. Simultaneously on the left foreground, while keeping their mouths completely closed, <Subject 2> (standing one full head taller) steps over the carved wooden windowsill and holds <Subject 1>'s hand, helping the short chubby boy hop one leg over the sill into the room.\n[Shot 3] At 00:10.000, the camera cuts to the 3/4 medium-close two-shot at the antique wooden writing desk anchored by <Picture 3>, lit by a brass oil lamp on the left. Standing behind the desk on the left one full head taller, <Subject 2> (S1) smiles and points with his right index finger sequentially at the tied official folder (\"Fail Rasmi Jabatan\"), the wax-sealed letter (\"Surat Peribadi\"), and the rolled parchment scrolls (\"Manuskrip\") on the tabletop, while <Subject 1> stands on the right with his hands on the desk, watching in wide-eyed amazement with his mouth closed in a happy smile. <Subject 2> (S1) speaks briskly in the same crisp boy-detective voice at 1.5x pace: <d>[Mandarin] 趁他去厕所！桌上有官方档案 Fail Rasmi Jabatan、信件 Surat Peribadi、还有手稿 Manuskrip！</d> Three bright chime cues sound as his finger taps near each document.\n\noverall_soundscape:\nA magical swirling time-portal hum buzzes softly outside the window in the opening shot, followed by a comedic stomach gurgle, hurried footsteps on wooden floorboards, and light shoe scuffs against the wooden windowsill in the second shot. In the final shot, crisp parchment paper rustles alongside three bright chime cues.\n\nnon_diegetic_music:\nPlayful, sneaky detective pizzicato strings at a brisk tempo continue lightly throughout the video.",
+                "params": [
+                        "MiniMax H3",
+                        "768P (1344×768)",
+                        "15秒 (362帧)",
+                        "8步 DMAD 防糊",
+                        "16:9",
+                        "L40S 48GB"
+                ],
+                "assets": [
+                        {
+                                "label": "Pic 1",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node1_a6b0f1bb82.jpg"
+                        },
+                        {
+                                "label": "Pic 2",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node2_724ae905bc.jpg"
+                        },
+                        {
+                                "label": "Pic 3",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node103_68e4a1708a.jpg"
+                        },
+                        {
+                                "label": "Char 4",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/nodechar_ref_1_cfe6c6fa9f.png"
+                        },
+                        {
+                                "label": "Char 5",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/nodechar_ref_2_8398b73b66.png"
+                        }
+                ]
         },
         {
-          id: 'gen_h3_002',
-          title: 'Video - MiniMax H3 文武双全导演版 (#2)',
-          templateId: 'minimax_h3',
-          ratio: '16:9',
-          time: '4m 48s',
-          createdAt: '10 Nov 2026 16:43:05',
-          costText: '$0.17 USD (约 RM 0.75)',
-          src: './recovered_outputs/MiniMax_H3_00002_.mp4',
-          isVideo: true,
-          prompt: REAL_DETECTIVE_PROMPT,
-          params: ['MiniMax H3', '480P 极速', '15秒 (361帧)', '🥋 8步 DMAD 防糊', '16:9'],
-          assets: DEFAULT_USER_ASSETS
+                "id": "gen_h3_003",
+                "filename": "MiniMax_H3_00003_.mp4",
+                "title": "Video - MiniMax H3 文武双全导演版 (#3)",
+                "templateId": "minimax_h3",
+                "ratio": "16:9",
+                "time": "4m 31s",
+                "createdAt": "10 Nov 2026 19:31:12",
+                "costText": "$0.16 USD (约 RM 0.70)",
+                "src": "./recovered_outputs/MiniMax_H3_00003_.mp4",
+                "cloudUrl": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=output/video/MiniMax_H3_00003_.mp4",
+                "isVideo": true,
+                "prompt": "subject_definitions:\n<Picture 1> is the first frame of [Shot 1], showing an interior-to-exterior medium shot inside a warm oil-lit Malay wooden study looking toward an open carved window with a glowing cyan-gold time portal outside.\n<Picture 2> is the keyframe anchor for [Shot 2], showing a side-angle medium shot inside the wooden room where the boys climb over the windowsill on the left while the scholar exits through the back right doorway.\n<Picture 3> is the keyframe anchor for [Shot 3], showing a 3/4 medium-close two-shot at the antique wooden writing desk with historical documents spread across the tabletop.\n<Subject 1> is the photorealistic live-action boy detective (\"少年侦探\") defined by <Picture 5> and appearing in <Picture 1>, <Picture 2>, and <Picture 3>, standing one full head taller than <Subject 2>, with straight dark hair with a small top-right cowlick spike, oversized round thin black glasses, a royal-navy single-button blazer with gold buttons, a white collared shirt, a bright red bow tie, a silver wristwatch on his left wrist, grey pleated knee-length shorts, white ribbed crew socks, and red-and-white high-top sneakers.\n<Subject 2> is the ultra-chubby, very short cherubic boy (\"小课\") defined by <Picture 4> and appearing in <Picture 1>, <Picture 2>, and <Picture 3>, reaching only <Subject 1>'s shoulder level, with round double-chin cheeks, a large fluffy dark-brown curly afro, oversized bright red round glasses, a bright red polo shirt tucked into wide cuffed blue denim shorts with a brown belt, and white sneakers.\n<Subject 3> is the plump middle-aged traditional Malay scholar in <Picture 1> and <Picture 2>, wearing an earth-toned tunic vest, a patterned sarong, and a traditional cloth headband (tengkolok).\n\nsummary:\n[keyframe completion + reference generation] The 15-second 16:9 live-action video follows <Subject 1> and <Subject 2> across three distinct camera angles anchored by <Picture 1>, <Picture 2>, and <Picture 3> as they sneak through an open wooden window into an ancient Malay study while <Subject 3> hurries to the toilet with a stomachache, ending at the antique desk where <Subject 1> points out historical primary sources.\n\nretention_analysis:\n<Picture 1> ([Shot 1] first frame): fully_preserved - serves as the exact opening frame and composition of [Shot 1].\n<Picture 2> ([Shot 2] keyframe): fully_preserved - anchors the side-angle room layout, window climb, and doorway exit in [Shot 2].\n<Picture 3> ([Shot 3] keyframe): fully_preserved - anchors the 3/4 over-the-desk composition and tabletop documents in [Shot 3].\n<Subject 1> (appears in [Shot 1], [Shot 2], [Shot 3]): fully_preserved - his photorealistic face, navy blazer, red bow tie, glasses, and strict height advantage of one full head taller than <Subject 2> are fully retained.\n<Subject 2> (appears in [Shot 1], [Shot 2], [Shot 3]): fully_preserved - his ultra-chubby short proportions, curly afro hair, red round glasses, red polo shirt, and denim shorts are fully retained.\n<Subject 3> (appears in [Shot 1], [Shot 2]): fully_preserved - his plump build, earth-toned vest, sarong, and tengkolok headband are retained.\n\ndetailed_description:\nThe target video is in a cinematic, photorealistic live-action comedy-adventure style with warm golden tungsten oil-lamp lighting inside a traditional Malaysian wooden study contrasted against cool blue twilight outside.\n[Shot 1] The shot begins from <Picture 1> in a medium interior-to-exterior reverse shot looking toward the open carved wooden window. Outside the window against a swirling cyan-gold time portal, <Subject 1> (S1), the photorealistic boy detective standing on the left one full head taller, holds his right index finger to his lips in a sneaky \"shh\" gesture, while <Subject 2>, the ultra-chubby short boy with curly afro hair and red glasses on the right reaching only <Subject 1>'s shoulder, peeks eagerly over the wooden windowsill with his mouth closed. Inside on the right foreground, <Subject 3> grimaces and clutches his stomach with both hands, keeping his mouth closed. The camera pushes in with small amplitude at slow speed toward the window as <Subject 1> (S1) whispers briskly in a crisp, energetic Malaysian Chinese boy voice at 1.5x pace: <d>[Mandarin] 嘘！我们穿越回古代他家，找第一手资料 Sumber Primer，全部 belum diolah 的！</d> He finishes speaking and closes his lips as <Subject 2> nods silently.\n[Shot 2] At 00:05.000, the camera cuts to the side-angle medium shot inside the wooden room anchored by <Picture 2>. The camera holds a static shot. In the right background doorway, <Subject 3> (S2) clutches his belly in urgent stomach pain and hurries out toward the toilet, exclaiming in a deep, theatrical middle-aged Malay male voice: <d>[Malay] Aduh, sakit perut!</d> A comedic stomach growl sounds as he exits through the doorway. Simultaneously on the left foreground, while keeping their mouths completely closed, <Subject 1> (standing one full head taller) steps over the carved wooden windowsill and holds <Subject 2>'s hand, helping the short chubby boy hop one leg over the sill into the room.\n[Shot 3] At 00:10.000, the camera cuts to the 3/4 medium-close two-shot at the antique wooden writing desk anchored by <Picture 3>, lit by a brass oil lamp on the left. Standing behind the desk on the left one full head taller, <Subject 1> (S1) smiles and points with his right index finger sequentially at the tied official folder (\"Fail Rasmi Jabatan\"), the wax-sealed letter (\"Surat Peribadi\"), and the rolled parchment scrolls (\"Manuskrip\") on the tabletop, while <Subject 2> stands on the right with his hands on the desk, watching in wide-eyed amazement with his mouth closed in a happy smile. <Subject 1> (S1) speaks briskly in the same crisp boy-detective voice at 1.5x pace: <d>[Mandarin] 趁他去厕所！桌上有官方档案 Fail Rasmi Jabatan、信件 Surat Peribadi、还有手稿 Manuskrip！</d> Three bright chime cues sound as his finger taps near each document.\n\noverall_soundscape:\nA magical swirling time-portal hum buzzes softly outside the window in the opening shot, followed by a comedic stomach gurgle, hurried footsteps on wooden floorboards, and light shoe scuffs against the wooden windowsill in the second shot. In the final shot, crisp parchment paper rustles alongside three bright chime cues.\n\nnon_diegetic_music:\nPlayful, sneaky detective pizzicato strings at a brisk tempo continue lightly throughout the video.",
+                "params": [
+                        "MiniMax H3",
+                        "480P (864×480)",
+                        "15秒 (362帧)",
+                        "8步 DMAD 防糊",
+                        "16:9",
+                        "L40S 48GB"
+                ],
+                "assets": [
+                        {
+                                "label": "Pic 1",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node1_420ec86f07.jpg"
+                        },
+                        {
+                                "label": "Pic 2",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node2_1bf3412d64.jpg"
+                        },
+                        {
+                                "label": "Pic 3",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node103_7add0fb3c0.jpg"
+                        },
+                        {
+                                "label": "Pic 4",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node104_45a6107321.png"
+                        },
+                        {
+                                "label": "Pic 5",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node105_d3ee41effa.png"
+                        }
+                ]
         },
         {
-          id: 'gen_h3_001',
-          title: 'Video - MiniMax H3 极速有声短片 (#1)',
-          templateId: 'minimax_h3',
-          ratio: '1:1',
-          time: '1m 52s',
-          createdAt: '10 Nov 2026 08:24:19',
-          costText: '$0.07 USD (约 RM 0.30)',
-          src: './recovered_outputs/MiniMax_H3_00001_.mp4',
-          isVideo: true,
-          prompt: 'Cinematic character shot with synchronized ambient soundscape and smooth camera push-in.',
-          params: ['MiniMax H3', '480P 极速', '5秒 (121帧)', '4步 极速', '1:1'],
-          assets: DEFAULT_USER_ASSETS.slice(0, 3)
+                "id": "gen_h3_002",
+                "filename": "MiniMax_H3_00002_.mp4",
+                "title": "Video - MiniMax H3 文武双全导演版 (#2)",
+                "templateId": "minimax_h3",
+                "ratio": "16:9",
+                "time": "4m 48s",
+                "createdAt": "10 Nov 2026 16:43:05",
+                "costText": "$0.17 USD (约 RM 0.75)",
+                "src": "./recovered_outputs/MiniMax_H3_00002_.mp4",
+                "cloudUrl": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=output/video/MiniMax_H3_00002_.mp4",
+                "isVideo": true,
+                "prompt": "@角色1: (young Asian female model, short sleek black hair, wearing minimalist white suit, consistent facial features). subject_definitions:\n<Picture 1> is the first frame of [Shot 1], showing an interior-to-exterior medium shot inside a warm oil-lit Malay wooden study looking toward an open carved window with a glowing cyan-gold time portal outside.\n<Picture 2> is the keyframe anchor for [Shot 2], showing a side-angle medium shot inside the wooden room where the boys climb over the windowsill on the left while the scholar exits through the back right doorway.\n<Picture 3> is the keyframe anchor for [Shot 3], showing a 3/4 medium-close two-shot at the antique wooden writing desk with historical documents spread across the tabletop.\n<Subject 1> is the photorealistic live-action boy detective (\"少年侦探\") defined by <Picture 5> and appearing in <Picture 1>, <Picture 2>, and <Picture 3>, standing one full head taller than <Subject 2>, with straight dark hair with a small top-right cowlick spike, oversized round thin black glasses, a royal-navy single-button blazer with gold buttons, a white collared shirt, a bright red bow tie, a silver wristwatch on his left wrist, grey pleated knee-length shorts, white ribbed crew socks, and red-and-white high-top sneakers.\n<Subject 2> is the ultra-chubby, very short cherubic boy (\"小课\") defined by <Picture 4> and appearing in <Picture 1>, <Picture 2>, and <Picture 3>, reaching only <Subject 1>'s shoulder level, with round double-chin cheeks, a large fluffy dark-brown curly afro, oversized bright red round glasses, a bright red polo shirt tucked into wide cuffed blue denim shorts with a brown belt, and white sneakers.\n<Subject 3> is the plump middle-aged traditional Malay scholar in <Picture 1> and <Picture 2>, wearing an earth-toned tunic vest, a patterned sarong, and a traditional cloth headband (tengkolok).\n\nsummary:\n[keyframe completion + reference generation] The 15-second 16:9 live-action video follows <Subject 1> and <Subject 2> across three distinct camera angles anchored by <Picture 1>, <Picture 2>, and <Picture 3> as they sneak through an open wooden window into an ancient Malay study while <Subject 3> hurries to the toilet with a stomachache, ending at the antique desk where <Subject 1> points out historical primary sources.\n\nretention_analysis:\n<Picture 1> ([Shot 1] first frame): fully_preserved - serves as the exact opening frame and composition of [Shot 1].\n<Picture 2> ([Shot 2] keyframe): fully_preserved - anchors the side-angle room layout, window climb, and doorway exit in [Shot 2].\n<Picture 3> ([Shot 3] keyframe): fully_preserved - anchors the 3/4 over-the-desk composition and tabletop documents in [Shot 3].\n<Subject 1> (appears in [Shot 1], [Shot 2], [Shot 3]): fully_preserved - his photorealistic face, navy blazer, red bow tie, glasses, and strict height advantage of one full head taller than <Subject 2> are fully retained.\n<Subject 2> (appears in [Shot 1], [Shot 2], [Shot 3]): fully_preserved - his ultra-chubby short proportions, curly afro hair, red round glasses, red polo shirt, and denim shorts are fully retained.\n<Subject 3> (appears in [Shot 1], [Shot 2]): fully_preserved - his plump build, earth-toned vest, sarong, and tengkolok headband are retained.\n\ndetailed_description:\nThe target video is in a cinematic, photorealistic live-action comedy-adventure style with warm golden tungsten oil-lamp lighting inside a traditional Malaysian wooden study contrasted against cool blue twilight outside.\n[Shot 1] The shot begins from <Picture 1> in a medium interior-to-exterior reverse shot looking toward the open carved wooden window. Outside the window against a swirling cyan-gold time portal, <Subject 1> (S1), the photorealistic boy detective standing on the left one full head taller, holds his right index finger to his lips in a sneaky \"shh\" gesture, while <Subject 2>, the ultra-chubby short boy with curly afro hair and red glasses on the right reaching only <Subject 1>'s shoulder, peeks eagerly over the wooden windowsill with his mouth closed. Inside on the right foreground, <Subject 3> grimaces and clutches his stomach with both hands, keeping his mouth closed. The camera pushes in with small amplitude at slow speed toward the window as <Subject 1> (S1) whispers briskly in a crisp, energetic Malaysian Chinese boy voice at 1.5x pace: <d>[Mandarin] 嘘！我们穿越回古代他家，找第一手资料 Sumber Primer，全部 belum diolah 的！</d> He finishes speaking and closes his lips as <Subject 2> nods silently.\n[Shot 2] At 00:05.000, the camera cuts to the side-angle medium shot inside the wooden room anchored by <Picture 2>. The camera holds a static shot. In the right background doorway, <Subject 3> (S2) clutches his belly in urgent stomach pain and hurries out toward the toilet, exclaiming in a deep, theatrical middle-aged Malay male voice: <d>[Malay] Aduh, sakit perut!</d> A comedic stomach growl sounds as he exits through the doorway. Simultaneously on the left foreground, while keeping their mouths completely closed, <Subject 1> (standing one full head taller) steps over the carved wooden windowsill and holds <Subject 2>'s hand, helping the short chubby boy hop one leg over the sill into the room.\n[Shot 3] At 00:10.000, the camera cuts to the 3/4 medium-close two-shot at the antique wooden writing desk anchored by <Picture 3>, lit by a brass oil lamp on the left. Standing behind the desk on the left one full head taller, <Subject 1> (S1) smiles and points with his right index finger sequentially at the tied official folder (\"Fail Rasmi Jabatan\"), the wax-sealed letter (\"Surat Peribadi\"), and the rolled parchment scrolls (\"Manuskrip\") on the tabletop, while <Subject 2> stands on the right with his hands on the desk, watching in wide-eyed amazement with his mouth closed in a happy smile. <Subject 1> (S1) speaks briskly in the same crisp boy-detective voice at 1.5x pace: <d>[Mandarin] 趁他去厕所！桌上有官方档案 Fail Rasmi Jabatan、信件 Surat Peribadi、还有手稿 Manuskrip！</d> Three bright chime cues sound as his finger taps near each document.\n\noverall_soundscape:\nA magical swirling time-portal hum buzzes softly outside the window in the opening shot, followed by a comedic stomach gurgle, hurried footsteps on wooden floorboards, and light shoe scuffs against the wooden windowsill in the second shot. In the final shot, crisp parchment paper rustles alongside three bright chime cues.\n\nnon_diegetic_music:\nPlayful, sneaky detective pizzicato strings at a brisk tempo continue lightly throughout the video.\n[Shot 4] Smooth camera transition to Shot 4, keeping @角色1 consistent.\n[Shot 5] Smooth camera transition to Shot 5, keeping @角色1 consistent.",
+                "params": [
+                        "MiniMax H3",
+                        "480P (864×480)",
+                        "15秒 (362帧)",
+                        "8步 DMAD 防糊",
+                        "16:9",
+                        "L40S 48GB"
+                ],
+                "assets": [
+                        {
+                                "label": "Pic 1",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node1_4c25b58811.jpg"
+                        },
+                        {
+                                "label": "Pic 2",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node2_83ade1dd70.jpg"
+                        },
+                        {
+                                "label": "Pic 3",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node103_9c882dc9ae.jpg"
+                        },
+                        {
+                                "label": "Pic 4",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node104_1f42609175.png"
+                        },
+                        {
+                                "label": "Pic 5",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node105_de1bf69b92.png"
+                        }
+                ]
+        },
+        {
+                "id": "gen_h3_001",
+                "filename": "MiniMax_H3_00001_.mp4",
+                "title": "Video - MiniMax H3 极速有声短片 (#1)",
+                "templateId": "minimax_h3",
+                "ratio": "1:1",
+                "time": "1m 52s",
+                "createdAt": "10 Nov 2026 08:24:19",
+                "costText": "$0.07 USD (约 RM 0.30)",
+                "src": "./recovered_outputs/MiniMax_H3_00001_.mp4",
+                "cloudUrl": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=output/video/MiniMax_H3_00001_.mp4",
+                "isVideo": true,
+                "prompt": "@角色1: (young Asian female model, short sleek black hair, wearing minimalist white suit, consistent facial features). WAN 3.0 — SCENE 03A (16 Seconds, 1.7x Faster Paced Delivery, Multi-Shot Mode with 3 Distinct Camera Angles, 16:9 Horizontal Widescreen, Audio Enabled)\n\nSCENE TRANSITION & CONTINUITY LOCK\n- Incoming Continuity (from Scene 02): Because the stone coffin in Scene 02 could not be pushed open, at 0.0s a glowing cyan-gold time portal swirls open outside an ancient Malaysian wooden study window as 少年侦探 and 小课 time-travel back to the ancient owner's house.\n- Outgoing Continuity (to Scene 03B): Ends at 15.0s at the antique wooden desk right after 少年侦探 points out Fail Rasmi Jabatan, Surat Peribadi, and Manuskrip, leading directly into 小课 picking up the open Diari in Scene 03B.\n\nREFERENCE IMAGE INSTRUCTIONS (3 DISTINCT CAMERA ANGLES)\n- @Image1 is the keyframe for Shot 1 (0.0s–5.0s, ANGLE 1 — INTERIOR-TO-EXTERIOR REVERSE MEDIUM SHOT AT THE OPEN WINDOW, 35mm lens): Camera is inside the warm oil-lit Malay wooden study looking toward the open carved wooden window; outside the window with a bright glowing cyan-gold swirling time portal right behind them, @Image5 (少年侦探, standing on the left, ONE FULL HEAD TALLER, holding one finger to his lips in a sneaky \"shh\" pose) and @Image4 (小课, ultra-short chubby round-cheeked boy on the right reaching only 少年侦探's shoulder) step from the portal and peek over the windowsill; inside on the right foreground, the plump Malay scholar holds his stomach.\n- @Image2 is the keyframe for Shot 2 (5.0s–10.0s, ANGLE 2 — SIDE-ANGLE MEDIUM SHOT OF WINDOW CLIMB & TOILET EXIT, 35mm lens): HARD CAMERA CUT to a side-angle medium shot inside the room; on the right background the plump Malay scholar hurries out the wooden side door clutching his belly, while on the left foreground @Image5 (少年侦探, one full head taller) steps over the open windowsill helping @Image4 (小课, short chubby boy) hop into the room.\n- @Image3 is the keyframe for Shot 3 (10.0s–15.0s, ANGLE 3 — 3/4 OVER-THE-DESK MEDIUM-CLOSE TWO-SHOT, 50mm lens): HARD CAMERA CUT to a 3/4 medium-close two-shot at the antique wooden writing desk; @Image5 (少年侦探, one full head taller on the left) points sequentially at the historical documents on the desk while @Image4 (小课, short chubby boy on the right) watches in amazement.\n- @Image4 is the pure original character reference for 小课 (strict round-cheeked identity, ultra-chubby short proportions, and outfit lock).\n- @Image5 is the pure original character reference for 少年侦探 (strict photorealistic detective identity, outfit, and height lock).\n\nCHARACTER LOCK (STRICT IDENTITY & HEIGHT RATIO)\n- 小课 (from @Image4): Malaysian Chinese boy with ULTRA-CHUBBY, VERY SHORT, cherubic round-cheeked proportions (~2.5 to 3 heads tall, round double-chin cheeks, short legs), huge round fluffy dark-brown curly afro hair, oversized bright red round glasses, bright red polo shirt tucked into wide cuffed blue denim shorts with a brown belt, white sneakers, NO backpack. Do NOT make him tall or slim.\n- 少年侦探 (from @Image5): Photorealistic live-action boy detective (100% real human face, NO anime/2D cartoon rendering), straight dark hair with a small curved cowlick spike on top-right, oversized round thin black glasses, royal-navy single-button blazer with ONE gold button in front and three small gold buttons on the cuffs, white collared shirt, bright red bow tie, silver wristwatch on left wrist, grey pleated knee-length shorts, white ribbed crew socks, red-and-white high-top sneakers.\n- STRICT HEIGHT RATIO LOCK: 少年侦探 (@Image5) MUST ALWAYS stand ONE FULL HEAD TALLER than 小课 (@Image4) in every single shot and camera angle. The top of 小课's curly hair only reaches 少年侦探's shoulder/collar level.\n- 古代人 (Ancient House Owner): Plump middle-aged traditional Malay scholar wearing an earth-toned tunic vest, sarong, and traditional cloth headband (tengkolok).\n\nVOICE AND LANGUAGE LOCK (ONE SPEAKER PER SHOT — ZERO VOICE SWAPPING)\n- Global Delivery Pace: 1.5x energetic comedic live-action pacing.\n- Strict One-Speaker-Per-Shot Rule: Each shot has ONLY ONE speaker. All other characters in the shot keep their mouths 100% closed.\n- 少年侦探 (from @Image5) Voice Lock: Crisp, smart, confident, energetic Malaysian Chinese boy detective voice; clear boy-alto timbre seamlessly mixing Malaysian Mandarin with standard Malay Sejarah keywords (\"Sumber Primer\", \"belum diolah\", \"Fail Rasmi Jabatan\", \"Surat Peribadi\", \"Manuskrip\").\n- 古代人 Voice Lock: Deep, theatrical, comedic middle-aged Malay man voice speaking expressive colloquial Malay (\"Aduh, sakit perut! Pergi tandas kejap!\").\n\nCOLOR AND FILTER\n- Warm golden tungsten oil-lamp lighting inside the traditional wooden house contrasted against cool blue twilight and the glowing cyan-gold time portal outside the open window.\n\nSHOT STRUCTURE (3 EXPLICIT MULTI-SHOT CAMERA CUTS — 1 SHORT LINE PER SHOT)\n\n[0.0s–5.0s] Shot 1 — CAMERA ANGLE 1: Interior-to-Window Reverse Medium Shot (35mm Lens, Anchored by @Image1)\n- Camera Setup & Movement: Camera is inside the oil-lit wooden study looking toward the open wooden window; subtle push-in.\n- Action: Outside the open window with the glowing cyan-gold time portal swirling behind them, 少年侦探 (left, one full head taller) steps up to the sill holding a finger near his lips in a sneaky \"shh\" gesture while short chubby 小课 (right, reaching his shoulder) peeks over the windowsill.\n- Dialogue — 少年侦探 (0.3s–4.5s, whispering briskly at the window, 1.5x pace, while 小课 and the scholar keep their mouths closed):\n  \"嘘！我们穿越回古代他家，找第一手资料 Sumber Primer——全部 belum diolah的！\"\n\n[5.0s–10.0s] Shot 2 — HARD CAMERA CUT #1 TO CAMERA ANGLE 2: Side-Angle Medium Shot of Toilet Exit & Window Climb (35mm Lens, Anchored by @Image2)\n- Camera Setup & Movement: INSTANT HARD CAMERA CUT to a side-angle medium shot inside the room.\n- Action: On the right, the ancient scholar clutches his stomach in sudden pain and hurries out the wooden side door toward the toilet. As soon as he exits, 少年侦探 (one full head taller) hops over the wooden windowsill on the left and helps short chubby 小课 climb into the room.\n- Dialogue — 古代人 (5.2s–8.6s, clutching his belly in urgent stomach pain and hurrying out the side door while 少年侦探 and 小课 keep their mouths closed):\n  \"Aduh, sakit perut! \"\n\n[10.0s–15.0s] Shot 3 — HARD CAMERA CUT #2 TO CAMERA ANGLE 3: 3/4 Over-the-Desk Medium-Close Two-Shot (50mm Lens, Anchored by @Image3)\n- Camera Setup & Movement: INSTANT HARD CAMERA CUT to a 3/4 medium-close two-shot at the antique wooden writing desk.\n- Action: Standing behind the desk, 少年侦探 (on the left, one full head taller) points one by one at three original items on the tabletop: 1) tied official folder Fail Rasmi Jabatan, 2) wax-sealed letter Surat Peribadi, and 3) rolled scrolls Manuskrip, while short chubby 小课 (on the right) watches in wide-eyed amazement.\n- Dialogue — 少年侦探 (10.2s–14.4s, pointing sequentially at the folder, letter, and scrolls on the desk, 1.5x brisk pace, while 小课 watches silently):\n  \"趁他去厕所！桌上有官方档案 Fail Rasmi Jabatan、信件 Surat Peribadi、还有手稿 Manuskrip！\"\n\nAUDIO\n- 0.0s–5.0s: Swirling magical time-portal hum outside the window, sneaky detective pizzicato strings.\n- 5.0s–10.0s: Crisp camera-cut whoosh, comedic stomach-growl (\"gurgle-rumble!\"), hurried wooden footsteps, door close, and light window-climb foley.\n- 10.0s–15.0s: Crisp camera-cut whoosh, parchment paper rustling, and three bright detective chime cues (\"ding-ding-ding!\").\n- Spoken dialogue strictly follows VOICE AND LANGUAGE LOCK with zero voice swapping.\n\nPERFORMANCE NOTES\n- Enforce two unmistakable hard camera cuts: at 5.0s (Interior-to-Window Reverse Shot -> Side-Angle Toilet Exit & Window Climb) and at 10.0s (Side-Angle Window Climb -> 3/4 Over-the-Desk Close-Up).\n- Maintain strict height difference in all 3 angles: 少年侦探 is always one full head taller than 小课.\n\nNEGATIVE PROMPT\nsingle continuous static camera, no camera cuts, same camera angle, same height characters, tall 小课, slim 小课, 2D anime face, cartoon cel-shading, voice swapping, wrong character lip-sync, overlapping dialogue, subtitles, captions, watermarks, extra fingers, deformed hands.\n[Shot 3] Smooth camera transition to Shot 3, keeping @角色1 consistent.\n[Shot 4] Smooth camera transition to Shot 4, keeping @角色1 consistent.\n[Shot 5] Smooth camera transition to Shot 5, keeping @角色1 consistent.",
+                "params": [
+                        "MiniMax H3",
+                        "640P (640×640)",
+                        "5秒 (124帧)",
+                        "8步 DMAD 防糊",
+                        "1:1",
+                        "L40S 48GB"
+                ],
+                "assets": [
+                        {
+                                "label": "Pic 1",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node1_d34921ee17.jpg"
+                        },
+                        {
+                                "label": "Pic 2",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node2_11be90d9df.jpg"
+                        },
+                        {
+                                "label": "Pic 3",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node103_74dd1e1fe0.jpg"
+                        },
+                        {
+                                "label": "Pic 4",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node104_b88d4d0d78.png"
+                        },
+                        {
+                                "label": "Pic 5",
+                                "src": "https://eekeong--comfy-credit-api.us-east.modal.run/cloud_media?path=input/node105_b5da468527.png"
+                        }
+                ]
         }
-      ]
+]
     };
 
     function renderMainCategories() {
@@ -3216,26 +3487,42 @@ detailed_description:
         const data = await resp.json();
         if (!data || !Array.isArray(data.items)) return;
 
-        let addedAny = false;
-        const knownFiles = new Set();
+        let changedAny = false;
+        const knownByFile = new Map();
         state.history.forEach(h => {
-          if (h.filename) knownFiles.add(h.filename);
+          if (h.filename) knownByFile.set(h.filename, h);
           const m = String(h.src || h.cloudUrl || '').match(/(MiniMax_H3_\d+_?\.mp4|HMI_Video_[a-z0-9]+\.mp4|ComfyUI_[^\s&?]+)/i);
-          if (m) knownFiles.add(m[1]);
+          if (m) knownByFile.set(m[1], h);
         });
 
         data.items.reverse().forEach(item => {
-          if (!item.filename || knownFiles.has(item.filename)) return;
-          knownFiles.add(item.filename);
-          const streamUrl = MODAL_CLOUD_MEDIA_BASE + encodeURIComponent(item.rel_path);
+          if (!item.filename) return;
           const inputAssets = (item.input_rels && item.input_rels.length > 0)
             ? item.input_rels.map((rel, idx) => ({
-                label: `素材 ${idx + 1}`,
+                label: rel.includes('char_ref') ? `Char ${idx + 1}` : `Pic ${idx + 1}`,
                 src: MODAL_CLOUD_MEDIA_BASE + encodeURIComponent(rel)
               }))
             : DEFAULT_USER_ASSETS;
 
-          state.history.unshift({
+          if (knownByFile.has(item.filename)) {
+            const existing = knownByFile.get(item.filename);
+            if (item.input_rels && item.input_rels.length > 0) {
+              existing.assets = inputAssets;
+              changedAny = true;
+            }
+            if (item.prompt && !item.prompt.startsWith('云端保险箱持久化作品')) {
+              existing.prompt = item.prompt;
+              changedAny = true;
+            }
+            if (item.params && item.params.length > 0) {
+              existing.params = item.params;
+              changedAny = true;
+            }
+            return;
+          }
+
+          const streamUrl = MODAL_CLOUD_MEDIA_BASE + encodeURIComponent(item.rel_path);
+          const newEntry = {
             id: item.id || ('cloud_' + item.filename),
             filename: item.filename,
             title: item.title || `Video - MiniMax H3 (${item.filename})`,
@@ -3248,13 +3535,15 @@ detailed_description:
             cloudUrl: streamUrl,
             isVideo: item.isVideo !== false,
             prompt: item.prompt || REAL_DETECTIVE_PROMPT,
-            params: ['MiniMax H3', '768P 超清', '云端持久化'],
+            params: item.params || ['MiniMax H3', '768P 超清', '云端持久化'],
             assets: inputAssets
-          });
-          addedAny = true;
+          };
+          state.history.unshift(newEntry);
+          knownByFile.set(item.filename, newEntry);
+          changedAny = true;
         });
 
-        if (addedAny) {
+        if (changedAny) {
           saveGenHistoryToStorage();
           renderGallery();
         }

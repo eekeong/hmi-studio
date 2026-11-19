@@ -428,7 +428,20 @@
           <div id="dynamic-advanced-controls" class="hidden flex-col gap-4 pt-3"></div>
         </div>
 
-        <!-- Generate / Stop CTA -->
+        <!-- Multi-GPU Auto-Clone Count Selector (自动分身·多开显卡) -->
+        <div class="rounded-xl border border-slate-200/90 bg-slate-50/70 p-3 flex flex-col gap-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-800">⚡ 自动分身（多开显卡同跑）</span>
+            <span id="active-gpu-clones-badge" class="mono-num text-[11px] font-semibold text-[#FC0C97]">当前运行 0 张显卡</span>
+          </div>
+          <div class="grid grid-cols-3 gap-2">
+            <button id="gpu-clone-btn-1" onclick="setGpuCloneCount(1)" class="pill-btn active py-1.5 rounded-lg text-xs font-semibold cursor-pointer">1 支 (单卡)</button>
+            <button id="gpu-clone-btn-2" onclick="setGpuCloneCount(2)" class="pill-btn py-1.5 rounded-lg text-xs font-semibold cursor-pointer">2 支同跑 (2卡)</button>
+            <button id="gpu-clone-btn-3" onclick="setGpuCloneCount(3)" class="pill-btn py-1.5 rounded-lg text-xs font-semibold cursor-pointer">3 支同跑 (3卡)</button>
+          </div>
+        </div>
+
+        <!-- Generate CTA (Supports firing new GPU clones even while others are running!) -->
         <button id="generate-btn" onclick="handleGenerateOrStop()" class="btn-primary w-full py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 cursor-pointer mt-1">
           <svg id="generate-btn-icon" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
@@ -464,6 +477,20 @@
               下载
             </button>
           </div>
+        </div>
+
+        <!-- Live Parallel GPU Clones Queue Bar (自动分身显卡实时进度队列) -->
+        <div id="multi-gpu-tasks-bar" class="hidden rounded-xl border border-[#FC0C97]/40 bg-[#12141C] p-3.5 flex-col gap-2.5">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span id="multi-gpu-header-text" class="text-xs font-bold text-white">云端分身显卡并行渲染中</span>
+            </div>
+            <button onclick="cancelAllGpuCloneTasks()" class="px-2.5 py-1 rounded-md bg-rose-600/90 hover:bg-rose-600 text-white text-[11px] font-semibold cursor-pointer">
+              ⏹ 全部停止
+            </button>
+          </div>
+          <div id="multi-gpu-tasks-list" class="flex flex-col gap-2"></div>
         </div>
 
         <!-- Hidden expectation bar to preserve JS references without cluttering UI -->
@@ -550,7 +577,10 @@
             <span class="font-bold text-sm text-slate-900">剧本与画风</span>
           </div>
           <div class="flex flex-wrap items-center gap-2">
-            <button onclick="loadPipelinePreset('kl_watch')" class="px-3 py-1.5 rounded-lg bg-[#FDF2F8] hover:bg-[#FC0C97] text-[#FC0C97] hover:text-white border border-[#FC0C97]/30 text-xs font-semibold cursor-pointer transition">
+            <button onclick="loadPipelinePreset('sejarah_kedaulatan')" class="px-3 py-1.5 rounded-lg bg-[#FDF2F8] hover:bg-[#FC0C97] text-[#FC0C97] hover:text-white border border-[#FC0C97]/30 text-xs font-bold cursor-pointer transition">
+              👑 Form 5 历史：奇葩国王面试
+            </button>
+            <button onclick="loadPipelinePreset('kl_watch')" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-800 text-slate-700 hover:text-white text-xs font-semibold cursor-pointer transition">
               ⌚ 吉隆坡夜市怀表
             </button>
             <button onclick="loadPipelinePreset('detective')" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-800 text-slate-700 hover:text-white text-xs font-semibold cursor-pointer transition">
@@ -592,18 +622,29 @@
           </div>
         </div>
 
-        <!-- 1-Sentence Idea Generator + Script Textarea -->
+        <!-- Real AI LLM Brain Config + 1-Sentence Idea Generator + Script Textarea -->
         <div class="flex flex-col gap-3">
+          <div class="rounded-xl border border-emerald-200 bg-emerald-50/70 p-3 flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2 text-xs">
+              <span id="pipe-llm-status-badge" class="px-2 py-0.5 rounded bg-emerald-600 text-white font-bold">🤖 已内置云端免 Key 真实 AI 导演大脑（RM 0 免费）</span>
+              <span class="text-slate-600">直接点下方按钮即可由真 AI 写剧本和拆解分镜（也可按需填入自己的 Gemini / OpenAI Key）：</span>
+            </div>
+            <div class="flex items-center gap-1.5 flex-1 min-w-[240px] max-w-xs">
+              <input id="pipe-llm-api-key" type="password" oninput="onLlmKeyInput(this.value)" placeholder="可选：自带 Gemini / OpenAI Key" class="saas-input flex-1 rounded-lg border border-slate-300 px-2.5 py-1.5 text-xs text-slate-800 bg-white" />
+            </div>
+          </div>
+
           <div class="flex flex-wrap sm:flex-nowrap items-center gap-2">
-            <input id="pipe-one-line-idea" type="text" value="我想拍一个吉隆坡少年在夜市捡到神秘怀表的动漫短片" placeholder="只有一句话点子？在这里输入（例如：吉隆坡少年在夜市捡到神秘怀表）..." class="saas-input flex-1 rounded-xl border border-slate-200 px-3.5 py-2.5 text-xs text-slate-800 bg-white" />
-            <button onclick="expandOneLineIdeaToScript()" class="py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-[#FC0C97] text-white text-xs font-bold cursor-pointer transition whitespace-nowrap">
-              ✨ 一句话自动写剧本
+            <input id="pipe-one-line-idea" type="text" value="我想拍一个吉隆坡少年在夜市捡到神秘怀表的动漫短片" placeholder="只有一句话点子？在这里输入（例如：大马小学生在食堂发现咖喱角会说话）..." class="saas-input flex-1 rounded-xl border border-slate-200 px-3.5 py-2.5 text-xs text-slate-800 bg-white" />
+            <button id="btn-pipe-expand-idea" onclick="expandOneLineIdeaToScript()" class="py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-[#FC0C97] text-white text-xs font-bold cursor-pointer transition whitespace-nowrap">
+              🤖 一句话真 AI 写剧本+分镜
             </button>
           </div>
-          <textarea id="pipe-raw-script" rows="5" class="saas-input w-full rounded-xl border border-slate-200 p-3.5 text-xs text-slate-800 leading-relaxed font-mono" placeholder="输入故事脚本或分镜描述..."></textarea>
-          <div class="flex justify-end">
-            <button onclick="parseScriptIntoPipelineCards()" class="py-2.5 px-5 rounded-xl bg-[#FC0C97] hover:bg-[#e00985] text-white text-xs font-bold cursor-pointer transition shadow-sm">
-              拆解剧本清单
+          <textarea id="pipe-raw-script" rows="7" class="saas-input w-full rounded-xl border border-slate-200 p-3.5 text-xs text-slate-800 leading-relaxed font-mono" placeholder="贴入任何故事大纲、课本笔记或剧本（不需要固定格式，直接点右下角让真 AI 导演拆解）..."></textarea>
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div id="pipe-parse-feedback" class="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-lg hidden"></div>
+            <button id="btn-pipe-parse-script" onclick="parseScriptIntoPipelineCards(true)" class="ml-auto py-2.5 px-5 rounded-xl bg-[#FC0C97] hover:bg-[#e00985] text-white text-xs font-bold cursor-pointer transition shadow-sm">
+              🤖 用真 AI 导演拆解剧本清单
             </button>
           </div>
         </div>
@@ -3713,58 +3754,127 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
 
     let currentAbortController = null;
     let demoTimers = [];
+    let gpuCloneTaskSeq = 0;
+    const activeGpuCloneTasks = new Map();
+    state.gpuCloneCount = 1;
+
+    function setGpuCloneCount(n) {
+      state.gpuCloneCount = n;
+      [1, 2, 3].forEach(k => {
+        const btn = document.getElementById(`gpu-clone-btn-${k}`);
+        if (btn) {
+          btn.className = `pill-btn ${k === n ? 'active' : ''} py-1.5 rounded-lg text-xs font-semibold cursor-pointer`;
+        }
+      });
+      syncMultiGpuQueueUI();
+    }
+
+    function syncMultiGpuQueueUI() {
+      const count = activeGpuCloneTasks.size;
+      state.isGenerating = count > 0;
+      const badge = document.getElementById('active-gpu-clones-badge');
+      const bar = document.getElementById('multi-gpu-tasks-bar');
+      const list = document.getElementById('multi-gpu-tasks-list');
+      const headerTxt = document.getElementById('multi-gpu-header-text');
+      const btnText = document.getElementById('generate-btn-text');
+
+      if (badge) {
+        badge.textContent = count > 0 ? `⚡ 正在并行跑 ${count} 张显卡` : '当前运行 0 张显卡';
+      }
+      if (btnText) {
+        const n = state.gpuCloneCount || 1;
+        btnText.textContent = count > 0
+          ? (n > 1 ? `⚡ 再开 ${n} 张分身显卡同跑` : '⚡ 再开 1 张分身显卡同时生成')
+          : (n > 1 ? `开始生成 (${n} 张显卡同跑)` : '开始生成');
+      }
+
+      if (!bar || !list) return;
+      if (count === 0) {
+        bar.classList.add('hidden');
+        bar.classList.remove('flex');
+        list.innerHTML = '';
+        return;
+      }
+
+      bar.classList.remove('hidden');
+      bar.classList.add('flex');
+      if (headerTxt) {
+        headerTxt.textContent = `⚡ 云端自动分身：${count} 张 48GB 显卡并行渲染中（互不排队）`;
+      }
+
+      const itemsHtml = [];
+      activeGpuCloneTasks.forEach((t) => {
+        itemsHtml.push(`
+          <div class="rounded-lg bg-white/5 border border-white/10 p-2.5 flex flex-col gap-1.5">
+            <div class="flex items-center justify-between gap-2 text-xs">
+              <div class="flex items-center gap-2 min-w-0">
+                <span class="px-2 py-0.5 rounded bg-[#FC0C97] text-white text-[10px] font-bold shrink-0">显卡分身 #${t.seq}</span>
+                <span class="font-semibold text-white truncate">${t.title}</span>
+              </div>
+              <div class="flex items-center gap-2 shrink-0">
+                <span class="mono-num text-[11px] text-emerald-300">${t.timerStr}</span>
+                <span class="mono-num text-xs font-bold text-[#FC0C97]">${t.pct}%</span>
+                <button onclick="cancelSingleGpuCloneTask('${t.id}')" class="px-2 py-0.5 rounded bg-rose-600/80 hover:bg-rose-600 text-white text-[10px] font-semibold cursor-pointer">
+                  ⏹ 停止
+                </button>
+              </div>
+            </div>
+            <div class="w-full h-1.5 rounded-full bg-white/10 overflow-hidden">
+              <div class="h-full bg-[#FC0C97] transition-all duration-300" style="width: ${t.pct}%"></div>
+            </div>
+            <div class="text-[11px] text-slate-400 truncate">${t.statusMsg}</div>
+          </div>
+        `);
+      });
+      list.innerHTML = itemsHtml.join('');
+    }
 
     function setGeneratingUIState(isGenerating) {
-      state.isGenerating = isGenerating;
-      const btn = document.getElementById('generate-btn');
-      const btnText = document.getElementById('generate-btn-text');
-      const overlay = document.getElementById('loading-overlay');
-
-      if (isGenerating) {
-        overlay.classList.remove('hidden');
-        btn.className = 'w-full py-3 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 cursor-pointer mt-1 bg-rose-600 hover:bg-rose-700 text-white';
-        btnText.textContent = '停止生成';
-      } else {
-        overlay.classList.add('hidden');
-        btn.className = 'btn-primary w-full py-3 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 cursor-pointer mt-1';
-        btnText.textContent = '立即生成';
-      }
+      syncMultiGpuQueueUI();
     }
 
     function handleGenerateOrStop() {
-      if (state.isGenerating) {
-        cancelGenerate();
-      } else {
-        triggerGenerate();
+      triggerGenerate();
+    }
+
+    function cancelSingleGpuCloneTask(taskId) {
+      const task = activeGpuCloneTasks.get(taskId);
+      if (!task) return;
+      if (task.abortController) {
+        try { task.abortController.abort(); } catch (e) {}
       }
+      if (task.clockInterval) clearInterval(task.clockInterval);
+      activeGpuCloneTasks.delete(taskId);
+      syncMultiGpuQueueUI();
+    }
+
+    function cancelAllGpuCloneTasks() {
+      activeGpuCloneTasks.forEach((task) => {
+        if (task.abortController) {
+          try { task.abortController.abort(); } catch (e) {}
+        }
+        if (task.clockInterval) clearInterval(task.clockInterval);
+      });
+      activeGpuCloneTasks.clear();
+      demoTimers.forEach(t => clearTimeout(t));
+      demoTimers = [];
+      syncMultiGpuQueueUI();
     }
 
     function cancelGenerate() {
-      if (currentAbortController) {
-        try { currentAbortController.abort(); } catch (e) {}
-        currentAbortController = null;
-      }
-      demoTimers.forEach(t => clearTimeout(t));
-      demoTimers = [];
-      setGeneratingUIState(false);
-
-      // 通知云端 ComfyUI 立即中断当前显卡任务
-      if (state.engineMode === 'cloud') {
-        try {
-          const apiUrl = document.getElementById('cfg-api-url').value.trim();
-          const apiKey = document.getElementById('cfg-api-key').value.trim();
-          const interruptUrl = apiUrl.replace(/\/generate\/?$/, '/interrupt');
-          fetch(interruptUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ api_key: apiKey })
-          }).catch(() => {});
-        } catch (e) {}
-      }
+      cancelAllGpuCloneTasks();
     }
 
     async function triggerGenerate() {
-      if (state.isGenerating) return;
+      const cloneCount = state.gpuCloneCount || 1;
+      const tasks = [];
+      for (let i = 0; i < cloneCount; i++) {
+        tasks.push(spawnSingleGpuCloneTask(i + 1, cloneCount));
+      }
+      await Promise.allSettled(tasks);
+    }
+
+    async function spawnSingleGpuCloneTask(takeIdx, totalTakes) {
       const promptCtrl = state.controls.find(c => c.type === 'prompt' && !c.isNegative);
       const ratioCtrl = state.controls.find(c => c.type === 'ratio');
       const imgCtrls = state.controls.filter(c => c.type === 'image' && c.dataUri);
@@ -3774,7 +3884,6 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
       const rawPromptText = promptCtrl ? promptCtrl.value : '创意商业大片';
       const isStructuredH3Prompt = /subject_definitions:|integrated_multimodal_description:|<Picture\s*\d+>/i.test(rawPromptText);
 
-      // 仅当用户在左侧真正上传了角色图/声音，或在提示词里写了 @角色X 时才合并；若已是官方结构化 H3 提示词，绝不乱加前缀污染！
       const lockedChars = characterVault.filter(c => c.locked);
       const audiosByNode = {};
       let charPrefix = '';
@@ -3800,63 +3909,24 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
       const promptText = charPrefix ? `${charPrefix}${rawPromptText}` : rawPromptText;
       const activeRatio = ratioCtrl ? ratioCtrl.value : '16:9';
       const updatedWorkflow = buildUpdatedWorkflowJson();
+      // Give each parallel GPU clone a distinct random seed so parallel takes produce varied results
+      Object.values(updatedWorkflow).forEach(node => {
+        if (node && node.inputs) {
+          if (typeof node.inputs.seed === 'number') {
+            node.inputs.seed = Math.floor(Math.random() * 900000000) + 10000000;
+          }
+          if (typeof node.inputs.noise_seed === 'number') {
+            node.inputs.noise_seed = Math.floor(Math.random() * 900000000) + 10000000;
+          }
+        }
+      });
+
       const customHealth = inspectCustomWorkflowHealth(updatedWorkflow);
       delete updatedWorkflow._ui_format_notice;
       const effectiveWfType = (customHealth && customHealth.isUiConverted && customHealth.hasMiniMaxH3)
         ? 'minimax_h3'
         : state.template;
 
-      const progressFill = document.getElementById('progress-fill');
-      const percentEl = document.getElementById('loading-percent');
-      const timerEl = document.getElementById('loading-timer');
-      const statusText = document.getElementById('loading-status');
-
-      let displayedPct = 4;
-      let latestServerMsg = '';
-
-      function updateProgressUI(pct, msg) {
-        const clamped = Math.max(displayedPct, Math.min(100, Math.round(pct)));
-        displayedPct = clamped;
-        progressFill.style.width = clamped + '%';
-        if (percentEl) percentEl.textContent = clamped + '%';
-        if (msg && statusText) statusText.textContent = msg;
-      }
-
-      setGeneratingUIState(true);
-      progressFill.style.width = '4%';
-      if (percentEl) percentEl.textContent = '4%';
-      if (statusText) statusText.textContent = '正在连接云端显卡与 ComfyUI 引擎';
-      if (timerEl) timerEl.textContent = '00:00';
-      const t0 = performance.now();
-      const clockInterval = setInterval(() => {
-        const secs = Math.floor((performance.now() - t0) / 1000);
-        const mm = String(Math.floor(secs / 60)).padStart(2, '0');
-        const ss = String(secs % 60).padStart(2, '0');
-        if (timerEl) timerEl.textContent = `${mm}:${ss}`;
-
-        // 智能平滑进度推进：即使网络代理缓冲，进度条也会随真实阶段每秒推进，绝不卡在 4%！
-        if (state.engineMode === 'cloud' && displayedPct < 94) {
-          let estPct = displayedPct;
-          let fallbackMsg = latestServerMsg;
-          if (secs <= 15) {
-            estPct = Math.min(15, 4 + secs);
-            if (!fallbackMsg) fallbackMsg = `正在启动云端显卡与 ComfyUI 引擎 (${secs}s)`;
-          } else if (secs <= 60) {
-            estPct = Math.min(42, 15 + Math.floor((secs - 15) * 0.6));
-            if (!fallbackMsg || displayedPct < 20) fallbackMsg = `🧠 正在把 40GB 视频与视觉大脑装入显存 (${secs}s)...`;
-          } else {
-            estPct = Math.min(93, 42 + Math.floor((secs - 60) * 0.22));
-            if (!fallbackMsg || displayedPct < 55) fallbackMsg = `正在逐帧渲染视频与合成声音 (${mm}:${ss})`;
-          }
-          if (estPct > displayedPct) {
-            updateProgressUI(estPct, fallbackMsg);
-          } else if (fallbackMsg && statusText) {
-            statusText.textContent = fallbackMsg;
-          }
-        }
-      }, 1000);
-
-      // 收集本次生成所使用的素材与参数，供 Generate History 完整展示
       const usedAssets = [];
       imgCtrls.forEach((c, idx) => {
         if (c.dataUri) usedAssets.push({ label: `Shot ${idx + 1}`, src: c.dataUri });
@@ -3872,12 +3942,63 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
         tplTitle.slice(0, 14),
         resCtrl ? String(resCtrl.value) : '768P',
         durCtrl ? `${durCtrl.value}秒` : '5秒',
-        modeCtrl ? (modeCtrl.value === 'dmad_8step' ? '🥋 8步 DMAD' : modeCtrl.value) : '8步 DMAD',
+        modeCtrl ? (modeCtrl.value === 'dmad_8step' ? '8步 DMAD' : modeCtrl.value) : '8步 DMAD',
         activeRatio
       ];
 
+      gpuCloneTaskSeq += 1;
+      const taskId = 'gpu_task_' + Date.now() + '_' + gpuCloneTaskSeq;
+      const abortController = new AbortController();
+      const t0 = performance.now();
+
+      const taskObj = {
+        id: taskId,
+        seq: gpuCloneTaskSeq,
+        title: totalTakes > 1 ? `${tplTitle} (分身 ${takeIdx}/${totalTakes})` : tplTitle,
+        pct: 4,
+        timerStr: '00:00',
+        statusMsg: '正在唤醒独立 48GB 分身显卡...',
+        latestServerMsg: '',
+        abortController,
+        clockInterval: null
+      };
+      activeGpuCloneTasks.set(taskId, taskObj);
+      syncMultiGpuQueueUI();
+
+      function updateTaskProgress(pct, msg) {
+        if (!activeGpuCloneTasks.has(taskId)) return;
+        taskObj.pct = Math.max(taskObj.pct, Math.min(100, Math.round(pct)));
+        if (msg) taskObj.statusMsg = msg;
+        syncMultiGpuQueueUI();
+      }
+
+      taskObj.clockInterval = setInterval(() => {
+        if (!activeGpuCloneTasks.has(taskId)) return;
+        const secs = Math.floor((performance.now() - t0) / 1000);
+        const mm = String(Math.floor(secs / 60)).padStart(2, '0');
+        const ss = String(secs % 60).padStart(2, '0');
+        taskObj.timerStr = `${mm}:${ss}`;
+
+        if (state.engineMode === 'cloud' && taskObj.pct < 94) {
+          let estPct = taskObj.pct;
+          let fallbackMsg = taskObj.latestServerMsg;
+          if (secs <= 15) {
+            estPct = Math.min(15, 4 + secs);
+            if (!fallbackMsg) fallbackMsg = `正在启动独立分身显卡与 ComfyUI 引擎 (${secs}s)`;
+          } else if (secs <= 60) {
+            estPct = Math.min(42, 15 + Math.floor((secs - 15) * 0.6));
+            if (!fallbackMsg || taskObj.pct < 20) fallbackMsg = `正在把 40GB 视频与视觉模型装入显存 (${secs}s)...`;
+          } else {
+            estPct = Math.min(93, 42 + Math.floor((secs - 60) * 0.22));
+            if (!fallbackMsg || taskObj.pct < 55) fallbackMsg = `分身显卡 #${taskObj.seq} 正在逐帧渲染视频 (${mm}:${ss})`;
+          }
+          taskObj.pct = Math.max(taskObj.pct, estPct);
+          if (fallbackMsg) taskObj.statusMsg = fallbackMsg;
+        }
+        syncMultiGpuQueueUI();
+      }, 1000);
+
       if (state.engineMode === 'cloud') {
-        currentAbortController = new AbortController();
         try {
           const apiUrl = document.getElementById('cfg-api-url').value.trim();
           const apiKey = document.getElementById('cfg-api-key').value.trim();
@@ -3886,7 +4007,7 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
           const resp = await fetch(streamUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            signal: currentAbortController.signal,
+            signal: abortController.signal,
             body: JSON.stringify({
               prompt: promptText,
               image_url: imgCtrls.length > 0 ? imgCtrls[0].dataUri : primaryCharImg,
@@ -3925,25 +4046,19 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
               const line = rawLine.trim();
               if (!line) continue;
               let evt = null;
-              try {
-                evt = JSON.parse(line);
-              } catch (e) {
-                continue;
-              }
+              try { evt = JSON.parse(line); } catch (e) { continue; }
               if (evt.type === 'progress') {
-                if (evt.message) latestServerMsg = evt.message;
-                updateProgressUI(evt.percent || 10, evt.message);
+                if (evt.message) taskObj.latestServerMsg = evt.message;
+                updateTaskProgress(evt.percent || 10, evt.message);
               } else if (evt.type === 'error') {
                 throw new Error(evt.message || 'ComfyUI 执行出错');
               } else if (evt.type === 'result') {
-                displayedPct = 100;
-                updateProgressUI(100, '生成完成');
+                updateTaskProgress(100, '生成完成');
                 finalData = evt.data;
               }
             }
           }
 
-          // 处理缓冲区最后一行（若有）
           if (!finalData && buffer.trim()) {
             try {
               const evt = JSON.parse(buffer.trim());
@@ -3966,8 +4081,8 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
             const cloudUrl = out.download_url ? `${baseHost}${out.download_url}&api_key=${encodeURIComponent(apiKey)}` : null;
 
             state.history.unshift({
-              id: 'gen_' + Date.now(),
-              title: `${isVid ? 'Video' : 'Image'} - ${tplTitle}`,
+              id: 'gen_' + Date.now() + '_' + taskObj.seq,
+              title: `${isVid ? 'Video' : 'Image'} - ${tplTitle} (#${taskObj.seq})`,
               templateId: state.template,
               ratio: activeRatio,
               time: elapsed,
@@ -3982,50 +4097,44 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
             });
             saveGenHistoryToStorage();
             selectHistoryItem(0);
+            fetchModalLiveCredits(false);
           }
         } catch (err) {
-          if (err.name === 'AbortError') {
-            console.log('已手动停止生成');
-          } else {
+          if (err.name !== 'AbortError') {
             const rawMsg = String(err && err.message ? err.message : err);
-            const friendlyMsg = /network error|failed to fetch|load failed/i.test(rawMsg)
-              ? '云端连接已断开（请点 OK 后刷新页面即可查看或重新生成）。'
-              : rawMsg;
-            alert('云端提醒：' + friendlyMsg);
+            alert(`显卡分身 #${taskObj.seq} 提醒：` + rawMsg);
           }
         } finally {
-          clearInterval(clockInterval);
-          currentAbortController = null;
-          setGeneratingUIState(false);
+          clearInterval(taskObj.clockInterval);
+          activeGpuCloneTasks.delete(taskId);
+          syncMultiGpuQueueUI();
         }
         return;
       }
 
-      statusText.textContent = '正在生成作品...';
-      demoTimers.push(setTimeout(() => { updateProgressUI(80, '正在生成作品...'); }, 200));
-      demoTimers.push(setTimeout(() => {
-        clearInterval(clockInterval);
-        updateProgressUI(100, '完成');
-        const colors = (state.templates[state.template] || state.templates.minimax_h3).palette;
-        const newSrc = createArtworkDataUri(rawPromptText.slice(0, 16), colors[0], colors[1], activeRatio);
-        const elapsed = ((performance.now() - t0) / 1000).toFixed(1) + 's';
-        state.history.unshift({
-          id: 'demo_' + Date.now(),
-          title: `Preview - ${tplTitle}`,
-          templateId: state.template,
-          ratio: activeRatio,
-          time: elapsed,
-          createdAt: new Date().toLocaleTimeString(),
-          costText: '$0.00 (闪电预览)',
-          src: newSrc,
-          isVideo: false,
-          prompt: rawPromptText,
-          params: usedParams,
-          assets: usedAssets
-        });
-        selectHistoryItem(0);
-        setGeneratingUIState(false);
-      }, 450));
+      // Demo Preview Mode (parallel instant preview)
+      await new Promise(r => setTimeout(r, 450));
+      clearInterval(taskObj.clockInterval);
+      const colors = (state.templates[state.template] || state.templates.minimax_h3).palette;
+      const newSrc = createArtworkDataUri(`${rawPromptText.slice(0, 12)} #${taskObj.seq}`, colors[0], colors[1], activeRatio);
+      const elapsed = ((performance.now() - t0) / 1000).toFixed(1) + 's';
+      state.history.unshift({
+        id: 'demo_' + Date.now() + '_' + taskObj.seq,
+        title: `Preview - ${tplTitle} (#${taskObj.seq})`,
+        templateId: state.template,
+        ratio: activeRatio,
+        time: elapsed,
+        createdAt: new Date().toLocaleTimeString(),
+        costText: '$0.00 (闪电预览)',
+        src: newSrc,
+        isVideo: false,
+        prompt: rawPromptText,
+        params: usedParams,
+        assets: usedAssets
+      });
+      activeGpuCloneTasks.delete(taskId);
+      syncMultiGpuQueueUI();
+      selectHistoryItem(0);
     }
 
     function downloadCurrentImage() {
@@ -4315,6 +4424,180 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
             confirmed: false
           }
         ]
+      },
+      sejarah_kedaulatan: {
+        style: 'cinective_3d',
+        ratio: '16:9',
+        engine: 'minimax_h3',
+        soundscape: 'Comedic royal trumpet fanfare, lively game-show interview hall ambience, expressive Malaysian Mandarin dialogue mixed with Bahasa Melayu Sejarah terms.',
+        rawScript: `FORM 5 BAB 1 JENIS KEDAULATAN, CIRI NEGARA BERDAULAT & KEPENTINGAN KEDAULATAN
+
+### 【0:00–0:15】第一幕：奇葩国王来面试
+【画面】一位戴着巨大皇冠的国王，推着一个玩具城堡来到面试大厅。
+*国王：* 我要申请成为主权国家！Negara Berdaulat！
+*mahathir 面试官：* 你有什么资格？！
+*特别帅明星国王：* 我有皇冠！有城堡！还有三个老婆！
+*小粉胖：* 喂！你是来申请主权，不是来炫耀老婆啦！
+
+### 【0:15–0:43】第二幕：传现法国际
+*NAJIB 面试官：* 第一关！讲出4种 Jenis Kedaulatan！权力有什么种类？
+*明星国王：* 完蛋！我只会传现法国际！
+*小粉胖：* 对啦！就是传现法国际！
+*传——Kedaulatan Tradisional！* 传统权力 - 国王从以前到现在拥有最高权力，人民忠于国王！
+*现——Kedaulatan Moden！* 现代权力 - 跟人民权力与宪法政府相关，就是人民可以做政府咯！
+*法——Kedaulatan Undang-undang！* 政府跟人民都要守法！
+*国——Kedaulatan Antarabangsa！* 国际承认，联合国PBB也承认国家主权！
+*明星国王：* 连我也要守法律？！
+*小粉胖：* 不然你以为皇冠是免死金牌咩？！
+
+### 【0:43–1:08】第三幕：管民边法
+*anwar 面试官：* 第二关！主权国家要有什么ciri-ciri？！
+*国王：* 有钱！有老婆！有大城堡！
+*小粉胖：* 错！是管民边法!跟我说一次
+*国王：* 管民边法
+*小粉胖：* 那么什么意思，解释一下
+*国王：* 我不会！
+*小粉胖：* aiyo，你假假努力的！
+*管制——Pemerintahan！* 国家管制让政治稳定！元首和首相
+*人民——Rakyat！* 要有你的居民，人民！不然你要统治空气咩？！
+*边界——Sempadan！* garis pemisah！不然隔壁家厕所随便上了！
+*法律——Perundangan！* 国家要有法律，保障人民、维护公正！
+*国王：* 哇！原来不是有皇冠就可以了！
+
+### 【1:08–1:43】第四幕：国家主权有什么好处？
+*tunku abdul rahman 面试官：* 最后一关！国家有 Kedaulatan，有什么重要性？！
+*国王：* 可以不用听老婆的话？！
+*小粉胖：* 你去跟你老婆讲啦！不要做国王，要做国王！现在记住4个！
+*第一，有效管理联邦与州！* Keberkesanan Pentadbiran！国家可以自己管理，Kerajaan Persekutuan 和 Kerajaan Negeri 分工合作！
+*第二，经济繁荣生活水平！* Kemakmuran Ekonomi！发展农业、工业和贸易，提高人民生活水平！
+*第三，社会和谐知识贡献！* Kesejahteraan Sosial！让人民受教育、有知识、有技能，一起贡献国家，促进团结！
+*第四，优秀外交合作形象！* Kecemerlangan Hubungan Luar Negara！跟外国建立外交关系、签协议、一起合作，提高国家形象！
+*国王：* 哇！原来主权这么有用！比我的皇冠还有用！
+
+### 【1:43–1:57】第五幕：爆笑结尾
+*najib面试官：* 恭喜你！通过面试！
+*国王：* Yes！我的国家终于有主权啦！
+*小粉胖：* 等等！真的就这样给他过？这样容易，在看我们的学生都可以有权力了咯！！！
+*najib面试官：* 没办法，我需要钱回家，国王有钱!
+**小粉胖：马来西亚可真的是一个神奇的国家** 记住！
+*传现法国际！管民边法！*
+*有效管理联邦与州！经济繁荣生活水平！社会和谐知识贡献！优秀外交合作形象！*
+你学会了吗？！`,
+        characters: [
+          {
+            id: 'pchar_s1',
+            name: '明星国王',
+            prompt: 'Pixar 3D character design sheet, handsome charismatic young king with an oversized sparkling golden royal crown, red velvet royal cape with white fur trim, holding a miniature colorful toy castle on wheels, expressive comedic face, three views',
+            img: '',
+            confirmed: false
+          },
+          {
+            id: 'pchar_s2',
+            name: '小粉胖',
+            prompt: 'Pixar 3D character design sheet, adorable ultra-chubby short round-cheeked pink mascot boy ("小粉胖") wearing oversized round glasses and a bright pink hoodie, expressive sassy teacher pose, three views',
+            img: '',
+            confirmed: false
+          },
+          {
+            id: 'pchar_s3',
+            name: 'Mahathir 面试官',
+            prompt: 'Pixar 3D stylized caricature portrait of elder Malaysian statesman interviewer wearing wireless glasses and bush-jacket suit seated behind an official judge panel desk with microphone',
+            img: '',
+            confirmed: false
+          },
+          {
+            id: 'pchar_s4',
+            name: 'Najib 面试官',
+            prompt: 'Pixar 3D stylized caricature portrait of Malaysian VIP interviewer in navy suit, red tie, and black songkok with square glasses seated at the interview panel desk',
+            img: '',
+            confirmed: false
+          },
+          {
+            id: 'pchar_s5',
+            name: 'Anwar 面试官',
+            prompt: 'Pixar 3D stylized caricature portrait of energetic Malaysian leader interviewer in traditional Baju Melayu and songkok gesturing with a microphone at the judge desk',
+            img: '',
+            confirmed: false
+          },
+          {
+            id: 'pchar_s6',
+            name: 'Tunku Abdul Rahman 面试官',
+            prompt: 'Pixar 3D stylized historical portrait of Bapa Kemerdekaan Tunku Abdul Rahman interviewer wearing black songkok, round glasses, and classic suit at the grand interview desk',
+            img: '',
+            confirmed: false
+          }
+        ],
+        scenes: [
+          {
+            id: 'pscene_s1',
+            name: '国家主权面试大厅 (Negara Berdaulat Hall)',
+            prompt: 'Grand comedic Pixar 3D Malaysian royal constitutional interview hall, polished marble floor, long elevated mahogany judge panel desk with golden microphones, "TEMUDUGA NEGARA BERDAULAT" banner, warm spotlighting',
+            img: '',
+            confirmed: false
+          }
+        ],
+        shots: [
+          {
+            id: 'pshot_s1',
+            time: '0:00–0:15',
+            camera: '缓慢推镜 (Dolly In)',
+            speaker: '<Subject 1> (明星国王)',
+            prompt: '第一幕【奇葩国王来面试】：In the grand interview hall, <Subject 1> wearing an oversized golden crown pushes a toy castle trolley toward the judge desk while <Subject 3> raises an eyebrow and <Subject 2> facepalms beside him',
+            dialogue: '我要申请成为主权国家！Negara Berdaulat！我有皇冠！有城堡！还有三个老婆！',
+            img: '',
+            confirmed: false
+          },
+          {
+            id: 'pshot_s2',
+            time: '0:15–0:30',
+            camera: '向右摇镜 (Pan Right)',
+            speaker: '<Subject 4> (Najib 面试官)',
+            prompt: '第二幕【传现法国际·上】：Behind the judge desk, <Subject 4> leans toward the microphone questioning <Subject 1>, while <Subject 2> jumps up holding a glowing hologram board showing "传·现·法·国 (4 Jenis Kedaulatan)"',
+            dialogue: '第一关！讲出4种 Jenis Kedaulatan！对啦！就是传现法国际：Kedaulatan Tradisional、Kedaulatan Moden、Kedaulatan Undang-undang、Kedaulatan Antarabangsa！',
+            img: '',
+            confirmed: false
+          },
+          {
+            id: 'pshot_s3',
+            time: '0:30–0:43',
+            camera: '戏剧性变焦推进 (Zoom In)',
+            speaker: '<Subject 2> (小粉胖)',
+            prompt: '第二幕【传现法国际·下】：Close-up two-shot as <Subject 1> points in shock at his own giant crown while <Subject 2> crosses his chubby arms and scolds him',
+            dialogue: '连我也要守法律？！不然你以为皇冠是免死金牌咩？！',
+            img: '',
+            confirmed: false
+          },
+          {
+            id: 'pshot_s4',
+            time: '0:43–1:08',
+            camera: '环绕运镜 (Orbit)',
+            speaker: '<Subject 2> (小粉胖)',
+            prompt: '第三幕【管民边法】：<Subject 5> gestures from the judge desk as <Subject 2> points at four floating golden icons around <Subject 1>: Pemerintahan (管制), Rakyat (人民), Sempadan (边界), and Perundangan (法律)',
+            dialogue: '第二关！主权国家要有什么 ciri-ciri？是管民边法！管制 Pemerintahan、人民 Rakyat、边界 Sempadan、法律 Perundangan！',
+            img: '',
+            confirmed: false
+          },
+          {
+            id: 'pshot_s5',
+            time: '1:08–1:43',
+            camera: '缓慢推镜 (Dolly In)',
+            speaker: '<Subject 2> (小粉胖)',
+            prompt: '第四幕【国家主权重要性】：<Subject 6> asks the final question from the judge panel while <Subject 2> presents 4 glowing golden badges to <Subject 1>: Keberkesanan Pentadbiran, Kemakmuran Ekonomi, Kesejahteraan Sosial, Kecemerlangan Hubungan Luar Negara',
+            dialogue: '国家有 Kedaulatan 有什么重要性？记住4个：有效管理联邦与州 Keberkesanan Pentadbiran、经济繁荣 Kemakmuran Ekonomi、社会和谐 Kesejahteraan Sosial、优秀外交 Kecemerlangan Hubungan Luar Negara！',
+            img: '',
+            confirmed: false
+          },
+          {
+            id: 'pshot_s6',
+            time: '1:43–1:57',
+            camera: '缓慢拉远 (Dolly Out)',
+            speaker: '<Subject 2> (小粉胖)',
+            prompt: '第五幕【爆笑结尾】：<Subject 4> stamps a giant green "LULUS / PASSED" seal as <Subject 1> cheers holding his toy castle, while <Subject 2> turns directly to the camera holding a summary card',
+            dialogue: '恭喜你通过面试！记住：传现法国际！管民边法！有效管理联邦与州！经济繁荣生活水平！社会和谐知识贡献！优秀外交合作形象！你学会了吗？！',
+            img: '',
+            confirmed: false
+          }
+        ]
       }
     };
 
@@ -4371,36 +4654,184 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
       compilePipelineMasterPrompt();
     }
 
-    function expandOneLineIdeaToScript() {
+    async function expandOneLineIdeaToScript() {
       const ideaInput = document.getElementById('pipe-one-line-idea');
       const idea = (ideaInput?.value || '').trim();
       if (!idea) {
-        alert('请先输入一句话点子，例如：吉隆坡少年在夜市捡到神秘怀表');
+        alert('请先输入一句话点子，例如：大马小学生在食堂发现咖喱角会说话');
         return;
       }
-      if (/吉隆坡|夜市|怀表/.test(idea)) {
-        loadPipelinePreset('kl_watch');
-        return;
-      }
-      // Smart template expansion for any custom 1-sentence idea
+      const btn = document.getElementById('btn-pipe-expand-idea');
+      const fbEl = document.getElementById('pipe-parse-feedback');
       const scriptEl = document.getElementById('pipe-raw-script');
-      const generatedScript = [
-        `【角色1】男主角：年轻帅气的动漫主角，服装细节鲜明，眼神坚定（主题：${idea}）`,
-        `【角色2】神秘对手：气场强大的关键配角，神情深邃，光影对比强烈`,
-        `【场景】核心故事场景：充满电影感与氛围光影的主场景（围绕“${idea}”展开）`,
-        `【镜头1】(0-4秒 | 缓慢推镜 Dolly In) 男主角出现在场景中央，触发“${idea}”的关键异象，惊讶开口说：“这股力量……难道传说是真的？”`,
-        `【镜头2】(4-7秒 | 向右摇镜 Pan Right) 神秘对手从光影深处现身，目光锁定男主角，低声回应：“从你触碰它的那一刻起，命运就已经改写了。”`,
-        `【镜头3】(7-10秒 | 戏剧性变焦推进 Zoom In) 耀眼能量光芒在两人之间绽放，男主角握紧双拳迎向光芒喊道：“不管前面是什么，我都不会退缩！”`
-      ].join('\n');
-      if (scriptEl) scriptEl.value = generatedScript;
-      parseScriptIntoPipelineCards();
+      const customKey = (document.getElementById('pipe-llm-api-key')?.value || '').trim();
+
+      try {
+        if (btn) { btn.disabled = true; btn.textContent = '🤖 真 AI 正在写剧本与分镜...'; }
+        if (fbEl) {
+          fbEl.textContent = '⏳ 正在呼叫云端真 AI 编剧为你创作完整剧本、人物三视图设定与分镜镜头...';
+          fbEl.classList.remove('hidden');
+        }
+        const resp = await fetch(`${CREDIT_API_BASE}/ai_expand_idea`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            idea,
+            style: pipelineState.style || 'cinective_3d',
+            api_key: customKey
+          })
+        });
+        const resJson = await resp.json();
+        if (!resJson.ok || !resJson.data) {
+          throw new Error(resJson.error || '云端 AI 编剧返回格式异常');
+        }
+        const aiData = resJson.data;
+        if (scriptEl && aiData.script_text) {
+          scriptEl.value = aiData.script_text;
+        }
+        if (Array.isArray(aiData.characters) && aiData.characters.length > 0) {
+          pipelineState.characters = aiData.characters.map((c, i) => ({
+            id: 'pchar_' + Date.now() + '_' + i,
+            name: c.name || `角色 ${i + 1}`,
+            prompt: c.prompt || '',
+            img: '',
+            confirmed: false
+          }));
+        }
+        if (Array.isArray(aiData.scenes) && aiData.scenes.length > 0) {
+          pipelineState.scenes = aiData.scenes.map((s, i) => ({
+            id: 'pscene_' + Date.now() + '_' + i,
+            name: s.name || `主场景 ${i + 1}`,
+            prompt: s.prompt || '',
+            img: '',
+            confirmed: false
+          }));
+        }
+        if (Array.isArray(aiData.shots) && aiData.shots.length > 0) {
+          pipelineState.shots = aiData.shots.map((sh, i) => ({
+            id: 'pshot_' + Date.now() + '_' + i,
+            time: sh.time || `${i * 5}-${(i + 1) * 5}秒`,
+            camera: sh.camera || '缓慢推镜 (Dolly In)',
+            speaker: sh.speaker || '<Subject 1>',
+            prompt: sh.prompt || '',
+            dialogue: sh.dialogue || '',
+            img: '',
+            confirmed: false
+          }));
+        }
+        renderAllPipelineCards();
+        if (fbEl) {
+          fbEl.textContent = `🤖 真 AI 创作完成！已为你写好剧本并拆出 ${pipelineState.characters.length} 个角色、${pipelineState.scenes.length} 个场景、${pipelineState.shots.length} 个分镜！`;
+          fbEl.classList.remove('hidden');
+        }
+      } catch (err) {
+        alert(`真 AI 写剧本失败：${err.message || err}`);
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = '🤖 一句话真 AI 写剧本+分镜'; }
+      }
     }
 
-    function parseScriptIntoPipelineCards() {
+    function onLlmKeyInput(val) {
+      const k = (val || '').trim();
+      try { localStorage.setItem('hmi_pipe_llm_key', k); } catch (e) {}
+      const badge = document.getElementById('pipe-llm-status-badge');
+      const btn = document.getElementById('btn-pipe-parse-script');
+      if (k) {
+        const provider = k.startsWith('AIza') ? 'Gemini AI' : 'OpenAI / DeepSeek AI';
+        if (badge) {
+          badge.textContent = `🤖 已切换为你自带的 ${provider} 大脑`;
+          badge.className = 'px-2 py-0.5 rounded bg-emerald-600 text-white font-bold';
+        }
+        if (btn) btn.textContent = `🤖 用 ${provider} 拆解剧本清单`;
+      } else {
+        if (badge) {
+          badge.textContent = '🤖 已内置云端免 Key 真实 AI 导演大脑（RM 0 免费）';
+          badge.className = 'px-2 py-0.5 rounded bg-emerald-600 text-white font-bold';
+        }
+        if (btn) btn.textContent = '🤖 用真 AI 导演拆解剧本清单';
+      }
+    }
+
+    async function callRealLlmForScriptBreakdown(rawText, apiKey) {
+      const resp = await fetch(`${CREDIT_API_BASE}/ai_breakdown`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          script: rawText,
+          style: pipelineState.style || 'cinective_3d',
+          api_key: apiKey || ''
+        })
+      });
+      if (!resp.ok) throw new Error(`云端 AI 拆解接口 HTTP ${resp.status}`);
+      const resJson = await resp.json();
+      if (!resJson.ok || !resJson.data) {
+        throw new Error(resJson.error || '云端 AI 未返回有效 JSON');
+      }
+      return resJson.data;
+    }
+
+    async function parseScriptIntoPipelineCards(shouldScroll = false) {
       const rawText = (document.getElementById('pipe-raw-script')?.value || '').trim();
       if (!rawText) {
-        alert('请先在左边输入框贴入你的故事脚本或分镜描述！');
+        alert('请先在输入框贴入你的故事脚本或分镜描述！');
         return;
+      }
+
+      const llmKey = (document.getElementById('pipe-llm-api-key')?.value || '').trim();
+      const fbEl = document.getElementById('pipe-parse-feedback');
+      const btn = document.getElementById('btn-pipe-parse-script');
+
+      if (shouldScroll) {
+        try {
+          if (btn) { btn.disabled = true; btn.textContent = '🤖 正在呼叫云端真 AI 导演拆解剧本...'; }
+          if (fbEl) {
+            fbEl.textContent = '⏳ 正在让云端真 AI 大脑阅读整篇剧本、编写角色三视图英文 Prompt 与分镜...（约需 8~15 秒）';
+            fbEl.classList.remove('hidden');
+          }
+          const aiData = await callRealLlmForScriptBreakdown(rawText, llmKey);
+          if (Array.isArray(aiData.characters) && aiData.characters.length > 0) {
+            pipelineState.characters = aiData.characters.map((c, i) => ({
+              id: 'pchar_' + Date.now() + '_' + i,
+              name: c.name || `角色 ${i + 1}`,
+              prompt: c.prompt || '',
+              img: '',
+              confirmed: false
+            }));
+          }
+          if (Array.isArray(aiData.scenes) && aiData.scenes.length > 0) {
+            pipelineState.scenes = aiData.scenes.map((s, i) => ({
+              id: 'pscene_' + Date.now() + '_' + i,
+              name: s.name || `主场景 ${i + 1}`,
+              prompt: s.prompt || '',
+              img: '',
+              confirmed: false
+            }));
+          }
+          if (Array.isArray(aiData.shots) && aiData.shots.length > 0) {
+            pipelineState.shots = aiData.shots.map((sh, i) => ({
+              id: 'pshot_' + Date.now() + '_' + i,
+              time: sh.time || `${i * 5}-${(i + 1) * 5}秒`,
+              camera: sh.camera || '缓慢推镜 (Dolly In)',
+              speaker: sh.speaker || '<Subject 1>',
+              prompt: sh.prompt || '',
+              dialogue: sh.dialogue || '',
+              img: '',
+              confirmed: false
+            }));
+          }
+          renderAllPipelineCards();
+          if (fbEl) {
+            fbEl.textContent = `🤖 云端真 AI 拆解完成！已为你编写 ${pipelineState.characters.length} 个角色英文设定、${pipelineState.scenes.length} 个场景、${pipelineState.shots.length} 个分镜！`;
+            fbEl.classList.remove('hidden');
+          }
+          const charGrid = document.getElementById('pipe-characters-grid');
+          if (charGrid) charGrid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        } catch (err) {
+          alert(`云端真 AI 拆解暂时繁忙（已退回本地格式切分）：${err.message || err}`);
+        } finally {
+          if (btn) { btn.disabled = false; onLlmKeyInput(llmKey); }
+        }
       }
 
       const lines = rawText.split(/\n+/).map(l => l.trim()).filter(Boolean);
@@ -4408,32 +4839,33 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
       const newScenes = [];
       const newShots = [];
 
+      // 1. 先检查是否是标准【角色1】/【场景】/【镜头1】格式
       lines.forEach((line) => {
         if (/^【?角色\d*】?|^Character\s*\d*/i.test(line)) {
           const cleaned = line.replace(/^【?角色\d*】?[:：]?|^Character\s*\d*[:：]?/i, '').trim();
           const parts = cleaned.split(/[:：]/);
           const name = parts.length > 1 ? parts[0].trim() : `角色 ${newChars.length + 1}`;
           const desc = parts.length > 1 ? parts.slice(1).join('：').trim() : cleaned;
-          const existing = pipelineState.characters[newChars.length];
+          const existing = pipelineState.characters.find(c => c.name === name);
           newChars.push({
             id: 'pchar_' + Date.now() + '_' + newChars.length,
             name,
             prompt: desc,
-            img: (existing && existing.name === name) ? existing.img : '',
-            confirmed: (existing && existing.name === name && existing.img) ? existing.confirmed : false
+            img: existing ? existing.img : '',
+            confirmed: (existing && existing.img) ? existing.confirmed : false
           });
         } else if (/^【?场景\d*】?|^Scene\s*\d*/i.test(line)) {
           const cleaned = line.replace(/^【?场景\d*】?[:：]?|^Scene\s*\d*[:：]?/i, '').trim();
           const parts = cleaned.split(/[:：]/);
           const name = parts.length > 1 ? parts[0].trim() : `主场景 ${newScenes.length + 1}`;
           const desc = parts.length > 1 ? parts.slice(1).join('：').trim() : cleaned;
-          const existing = pipelineState.scenes[newScenes.length];
+          const existing = pipelineState.scenes.find(s => s.name === name);
           newScenes.push({
             id: 'pscene_' + Date.now() + '_' + newScenes.length,
             name,
             prompt: desc,
-            img: (existing && existing.name === name) ? existing.img : '',
-            confirmed: (existing && existing.name === name && existing.img) ? existing.confirmed : false
+            img: existing ? existing.img : '',
+            confirmed: (existing && existing.img) ? existing.confirmed : false
           });
         } else if (/^【?(镜头|分镜)\d*】?|^Shot\s*\d*/i.test(line)) {
           const cleaned = line.replace(/^【?(镜头|分镜)\d*】?[:：]?|^Shot\s*\d*[:：]?/i, '').trim();
@@ -4464,35 +4896,213 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
         }
       });
 
-      // Fallback if the user pasted freeform paragraphs without tags
+      // 2. 智能识别 Markdown 剧本格式（支持 ### 【0:00-0:15】第一幕、【画面】、*角色：* 台词、**角色：台词** 等）
       if (newChars.length === 0 && newScenes.length === 0 && newShots.length === 0) {
-        newChars.push({
-          id: 'pchar_' + Date.now() + '_1',
-          name: '主角 1',
-          prompt: 'Main protagonist from script: ' + lines[0].slice(0, 80),
-          img: '',
-          confirmed: false
+        function normalizeSpeakerName(rawName) {
+          const clean = rawName.replace(/^[*#\-\s]+|[*#\-\s]+$/g, '').trim();
+          const low = clean.toLowerCase();
+          if (clean.includes('国王')) return '明星国王';
+          if (clean.includes('小粉胖')) return '小粉胖';
+          if (low.includes('mahathir')) return 'Mahathir 面试官';
+          if (low.includes('najib')) return 'Najib 面试官';
+          if (low.includes('anwar')) return 'Anwar 面试官';
+          if (low.includes('tunku')) return 'Tunku Abdul Rahman 面试官';
+          return clean;
+        }
+
+        function buildCharacterPrompt(charName, scriptContext) {
+          const low = charName.toLowerCase();
+          if (charName === '明星国王' || charName.includes('国王')) {
+            return 'Pixar 3D character design sheet, handsome charismatic young king wearing an oversized sparkling golden royal crown and red velvet royal cape, pushing a miniature colorful toy castle, expressive comedic acting, three views';
+          }
+          if (charName === '小粉胖') {
+            return 'Pixar 3D character design sheet, adorable ultra-chubby short round-cheeked pink mascot boy ("小粉胖") wearing oversized round glasses and a bright pink hoodie, energetic sassy teacher pose, three views';
+          }
+          if (low.includes('mahathir')) {
+            return 'Pixar 3D stylized caricature portrait of elder Malaysian statesman interviewer wearing rimless glasses and bush-jacket suit seated behind an official interview panel desk with microphone';
+          }
+          if (low.includes('najib')) {
+            return 'Pixar 3D stylized caricature portrait of Malaysian VIP interviewer in navy suit, red tie, black songkok, and glasses seated behind an interview panel desk';
+          }
+          if (low.includes('anwar')) {
+            return 'Pixar 3D stylized caricature portrait of energetic Malaysian leader interviewer in Baju Melayu and songkok gesturing with a microphone at the interview panel desk';
+          }
+          if (low.includes('tunku')) {
+            return 'Pixar 3D stylized historical portrait of Tunku Abdul Rahman interviewer wearing black songkok, round glasses, and classic suit at the grand interview panel desk';
+          }
+          return `3D character design sheet of ${charName}, expressive facial features, distinctive outfit matching "${scriptContext.slice(0, 50)}", three views`;
+        }
+
+        const charMap = new Map();
+        const acts = [];
+        let currentAct = null;
+        let scriptTitle = lines[0]?.replace(/^[#*\s]+/, '') || '短剧剧本';
+
+        lines.forEach((line) => {
+          // 识别各种幕/场标题：### 【0:00–0:15】第一幕 / Scene 1 / Babak 1 / [0:00-0:15]
+          const actMatch = line.match(/^(?:#+\s*)?(?:[【\[]([^】\]]+)[】\]])?\s*((?:第[一二三四五六七八九十\d]+[幕场集章节镜头]|Scene\s*\d+|Babak\s*\d+|Act\s*\d+).*)$/i)
+            || line.match(/^(?:#+\s*)?[【\[](\d+:\d+\s*[-–~至]\s*\d+:\d+)[】\]]\s*(.*)$/);
+          if (actMatch) {
+            currentAct = {
+              time: (actMatch[1] || `${acts.length * 10}s–${(acts.length + 1) * 10}s`).trim(),
+              title: (actMatch[2] || `镜头 ${acts.length + 1}`).replace(/^[：:\s]+/, '').trim(),
+              visuals: [],
+              dialogues: [],
+              points: []
+            };
+            acts.push(currentAct);
+            return;
+          }
+
+          // 识别【画面】/ (画面：...) / [场景] 描述
+          const visualMatch = line.match(/^[【\[（(](?:画面|场景|镜头|环境|动作|Visual|Scene)[】\]）)][:：]?\s*(.+)$/i);
+          if (visualMatch) {
+            const vText = visualMatch[1].replace(/[）)\]]$/, '').trim();
+            if (newScenes.length === 0) {
+              newScenes.push({
+                id: 'pscene_' + Date.now() + '_1',
+                name: vText.includes('面试大厅') ? '主权国家面试大厅' : vText.slice(0, 16),
+                prompt: `Cinematic 3D environment: ${vText}, warm dramatic stage lighting, detailed props`,
+                img: '',
+                confirmed: false
+              });
+            }
+            if (!currentAct) {
+              currentAct = { time: '0:00–0:15', title: '第一幕', visuals: [], dialogues: [], points: [] };
+              acts.push(currentAct);
+            }
+            currentAct.visuals.push(vText);
+            return;
+          }
+
+          // 识别角色对白：
+          // 格式 A：*国王：* 台词 / **小粉胖：台词** / 国王：台词
+          // 格式 B：国王说：“台词” / 小粉胖喊道：“台词”
+          const cleanLine = line.replace(/^\*+|\*+$/g, '').trim();
+          const speakerMatch = line.match(/^(?:\*{1,2})?([^：:*—\-]{1,22}?)\s*[：:]\s*(?:\*{1,2})?\s*(.+)$/)
+            || cleanLine.match(/^([^，,。：“"「]{1,12}?)(?:开口说|大喊|喊道|回答|问道|吐槽|笑着说|说)[:：]?[“"「]([^”"」]+)[”"」]/);
+          if (speakerMatch) {
+            const rawCandidate = speakerMatch[1].replace(/^\*+|\*+$/g, '').trim();
+            const spokenText = speakerMatch[2].replace(/^\*+|\*+$/g, '').trim();
+            const isKnowledgePoint = /^(第[一二三四五六七八九十\d]+|传|现|法|国|管制|人民|边界|法律|记住|总结|注意|画面|场景|镜头|时间)/.test(rawCandidate);
+            if (!isKnowledgePoint && spokenText) {
+              const normName = normalizeSpeakerName(rawCandidate);
+              if (!charMap.has(normName)) {
+                charMap.set(normName, {
+                  id: 'pchar_' + Date.now() + '_' + (charMap.size + 1),
+                  name: normName,
+                  prompt: buildCharacterPrompt(normName, scriptTitle),
+                  img: '',
+                  confirmed: false
+                });
+              }
+              if (!currentAct) {
+                currentAct = { time: '0:00–0:15', title: '第一幕', visuals: [], dialogues: [], points: [] };
+                acts.push(currentAct);
+              }
+              currentAct.dialogues.push({ speaker: normName, text: spokenText });
+              return;
+            }
+          }
+
+          // 其余知识点口诀或旁白归入当前幕
+          if (currentAct && cleanLine) {
+            currentAct.points.push(cleanLine.replace(/\*/g, ''));
+          }
         });
-        newScenes.push({
-          id: 'pscene_' + Date.now() + '_1',
-          name: '核心故事场景',
-          prompt: 'Main story environment: ' + lines[0].slice(0, 100),
-          img: '',
-          confirmed: false
+
+        charMap.forEach((ch) => {
+          const existing = pipelineState.characters.find(c => c.name === ch.name);
+          if (existing && existing.img) {
+            ch.img = existing.img;
+            ch.confirmed = existing.confirmed;
+          }
+          newChars.push(ch);
         });
-        lines.slice(0, 6).forEach((l, idx) => {
-          const quoteMatch = l.match(/[“"「]([^”"」]+)[”"」]/);
-          newShots.push({
-            id: 'pshot_' + Date.now() + '_' + idx,
-            time: `${idx * 3}-${(idx + 1) * 3}秒`,
-            camera: idx % 2 === 0 ? '缓慢推镜 (Dolly In)' : '向右摇镜 (Pan Right)',
-            speaker: '<Subject 1>',
-            prompt: l.replace(/[“"「][^”"」]+[”"」]/g, '').trim() || l,
-            dialogue: quoteMatch ? quoteMatch[1] : '',
+
+        if (newChars.length === 0) {
+          newChars.push({
+            id: 'pchar_' + Date.now() + '_1',
+            name: '主角 1',
+            prompt: 'Main protagonist from script: ' + scriptTitle.slice(0, 80),
             img: '',
             confirmed: false
           });
-        });
+        }
+
+        if (newScenes.length === 0) {
+          newScenes.push({
+            id: 'pscene_' + Date.now() + '_1',
+            name: scriptTitle.slice(0, 18) || '核心故事场景',
+            prompt: `Grand 3D animated stage environment for "${scriptTitle.slice(0, 80)}", warm cinematic lighting`,
+            img: '',
+            confirmed: false
+          });
+        }
+
+        const charIndexMap = new Map();
+        newChars.forEach((c, idx) => charIndexMap.set(c.name, idx + 1));
+
+        const camCycle = [
+          '缓慢推镜 (Dolly In)',
+          '向右摇镜 (Pan Right)',
+          '戏剧性变焦推进 (Zoom In)',
+          '环绕运镜 (Orbit)',
+          '固定机位特写 (Static Shot)',
+          '缓慢拉远 (Dolly Out)'
+        ];
+
+        if (acts.length > 0) {
+          acts.forEach((act, aIdx) => {
+            // 如果一幕里对白很多（超过 4 句），自动拆成 上/下 两个分镜镜头，保证每个镜头台词清晰不拥挤
+            const dlgs = act.dialogues;
+            const chunks = dlgs.length > 4
+              ? [dlgs.slice(0, Math.ceil(dlgs.length / 2)), dlgs.slice(Math.ceil(dlgs.length / 2))]
+              : [dlgs];
+
+            chunks.forEach((chunk, cIdx) => {
+              const speakersInChunk = [...new Set(chunk.map(d => d.speaker))];
+              const primarySpeaker = speakersInChunk[0] || newChars[0].name;
+              const primarySubIdx = charIndexMap.get(primarySpeaker) || 1;
+              const castTags = speakersInChunk.map(sp => `<Subject ${charIndexMap.get(sp) || 1}> (${sp})`).join(' and ');
+              const visualContext = (cIdx === 0 && act.visuals.length > 0)
+                ? act.visuals.join('；')
+                : `${act.title}${chunks.length > 1 ? `（镜头 ${cIdx + 1}）` : ''}：${castTags || `<Subject ${primarySubIdx}>`} 正在生动演绎对话互动`;
+              const pointsText = (cIdx === chunks.length - 1 && act.points.length > 0)
+                ? ' ' + act.points.slice(0, 4).join(' ')
+                : '';
+              const combinedDialogue = (
+                chunk.map(d => `${d.speaker}：“${d.text}”`).join(' ') + pointsText
+              ).trim();
+
+              const shotIdx = newShots.length;
+              newShots.push({
+                id: 'pshot_' + Date.now() + '_' + shotIdx,
+                time: chunks.length > 1 ? `${act.time} (${cIdx + 1})` : act.time,
+                camera: camCycle[shotIdx % camCycle.length],
+                speaker: `<Subject ${primarySubIdx}> (${primarySpeaker})`,
+                prompt: `【${act.title}】${visualContext}. Featured characters: ${castTags || `<Subject ${primarySubIdx}>`}.`,
+                dialogue: combinedDialogue || act.points.join(' '),
+                img: '',
+                confirmed: false
+              });
+            });
+          });
+        } else {
+          lines.slice(0, 6).forEach((l, idx) => {
+            const quoteMatch = l.match(/[“"「]([^”"」]+)[”"」]/);
+            newShots.push({
+              id: 'pshot_' + Date.now() + '_' + idx,
+              time: `${idx * 3}-${(idx + 1) * 3}秒`,
+              camera: camCycle[idx % camCycle.length],
+              speaker: '<Subject 1>',
+              prompt: l.replace(/[“"「][^”"」]+[”"」]/g, '').trim() || l,
+              dialogue: quoteMatch ? quoteMatch[1] : l,
+              img: '',
+              confirmed: false
+            });
+          });
+        }
       }
 
       if (newChars.length > 0) pipelineState.characters = newChars;
@@ -4500,6 +5110,16 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
       if (newShots.length > 0) pipelineState.shots = newShots;
 
       renderAllPipelineCards();
+
+      const fbEl2 = document.getElementById('pipe-parse-feedback');
+      if (fbEl2) {
+        fbEl2.textContent = `📋 基础格式切分完成（未接文字 AI，仅按冒号/幕号提取了 ${pipelineState.characters.length} 个角色、${pipelineState.scenes.length} 个场景、${pipelineState.shots.length} 个分镜；建议检查下方英文 Prompt 或填入上方 AI Key）`;
+        fbEl2.classList.remove('hidden');
+      }
+      if (shouldScroll) {
+        const charGrid = document.getElementById('pipe-characters-grid');
+        if (charGrid) charGrid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     }
 
     function renderAllPipelineCards() {
@@ -4820,23 +5440,17 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
         }
 
         const apiUrl = (document.getElementById('cfg-api-url')?.value || 'https://eekeong--comfy-headless-api.us-east.modal.run/generate').trim();
-        const apiKey = (document.getElementById('cfg-api-key')?.value || '').trim();
-        const headers = { 'Content-Type': 'application/json' };
-        if (apiKey) headers['Authorization'] = `Bearer ${apiKey}`;
+        const streamUrl = apiUrl.replace(/\/generate\/?$/, '/generate_stream');
+        const apiKey = (document.getElementById('cfg-api-key')?.value || 'sk-comfy-secret-key').trim();
 
-        const workflowPayload = {
-          _meta: {
-            template_id: 'flux_pro',
-            category: 'image',
-            extracted_res: '768P (标准推荐)'
+        const workflowOverride = {
+          "5": {
+            class_type: 'EmptyLatentImage',
+            inputs: { width: targetW, height: targetH, batch_size: 1 }
           },
-          "1": {
+          "6": {
             class_type: 'CLIPTextEncode',
             inputs: { text: fullPrompt }
-          },
-          "2": {
-            class_type: 'EmptySD3LatentImage',
-            inputs: { width: targetW, height: targetH, batch_size: 1 }
           },
           "3": {
             class_type: 'KSampler',
@@ -4844,20 +5458,59 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
           }
         };
 
-        const resp = await fetch(apiUrl, {
+        const resp = await fetch(streamUrl, {
           method: 'POST',
-          headers,
-          body: JSON.stringify({ workflow: workflowPayload })
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            prompt: fullPrompt,
+            workflow_type: 'flux_pro',
+            workflow_override: workflowOverride,
+            api_key: apiKey,
+            return_base64: true
+          })
         });
         if (!resp.ok) {
-          throw new Error(`云端出图返回 HTTP ${resp.status}`);
+          const errTxt = await resp.text();
+          throw new Error(errTxt || `云端出图返回 HTTP ${resp.status}`);
         }
-        const data = await resp.json();
-        const b64 = data.image_base64 || data.media_base64;
-        if (!b64) {
+
+        const reader = resp.body.getReader();
+        const decoder = new TextDecoder('utf-8');
+        let buffer = '';
+        let finalData = null;
+
+        while (true) {
+          const { value, done } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n');
+          buffer = lines.pop() || '';
+          for (const rawLine of lines) {
+            const line = rawLine.trim();
+            if (!line) continue;
+            let evt = null;
+            try { evt = JSON.parse(line.replace(/^data:\s*/, '')); } catch (e) { continue; }
+            if (evt.type === 'error') {
+              throw new Error(evt.message || evt.error || '云端生图出错');
+            } else if (evt.type === 'result') {
+              finalData = evt.data || evt;
+            }
+          }
+        }
+        if (!finalData && buffer.trim()) {
+          try {
+            const evt = JSON.parse(buffer.trim().replace(/^data:\s*/, ''));
+            if (evt.type === 'result') finalData = evt.data || evt;
+          } catch (e) {}
+        }
+        if (!finalData) {
           throw new Error('云端未返回图片数据');
         }
-        const mime = data.mime_type || 'image/png';
+        const b64 = finalData.base64 || finalData.image_base64 || finalData.media_base64;
+        if (!b64) {
+          throw new Error('云端返回结果中缺少图片 Base64');
+        }
+        const mime = finalData.mime_type || 'image/png';
         item.img = b64.startsWith('data:') ? b64 : `data:${mime};base64,${b64}`;
         item.confirmed = true;
       } catch (err) {
@@ -4899,17 +5552,40 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
         statusBar.classList.add('flex');
       }
 
-      for (let i = 0; i < queue.length; i++) {
-        const task = queue[i];
-        const pct = Math.round(((i) / queue.length) * 100);
-        if (statusText) statusText.textContent = `正在生成 (${i + 1}/${queue.length})：${task.label}（1376×768 原生高清）...`;
-        if (progressBadge) progressBadge.textContent = `${pct}%`;
-        await generateSinglePipelineImage(task.col, task.idx);
+      const totalTasks = queue.length;
+      const parallelGpus = Math.min(3, totalTasks);
+      let completedCount = 0;
+      let cursor = 0;
+
+      if (statusText) {
+        statusText.textContent = `⚡ 已开启 ${parallelGpus} 张云端分身显卡并行生成 ${totalTasks} 张高清图 (已完成 0/${totalTasks})...`;
+      }
+      if (progressBadge) progressBadge.textContent = '5%';
+
+      async function runGpuWorker() {
+        while (cursor < totalTasks) {
+          const myIdx = cursor++;
+          const task = queue[myIdx];
+          await generateSinglePipelineImage(task.col, task.idx);
+          completedCount++;
+          const pct = Math.round((completedCount / totalTasks) * 100);
+          if (statusText && completedCount < totalTasks) {
+            statusText.textContent = `⚡ ${parallelGpus} 张分身显卡并行出图中 (已完成 ${completedCount}/${totalTasks})...`;
+          }
+          if (progressBadge) progressBadge.textContent = `${pct}%`;
+        }
       }
 
-      if (statusText) statusText.textContent = `已完成 ${queue.length} 张图片生成，云端 15 秒后自动休眠`;
+      const workers = [];
+      for (let w = 0; w < parallelGpus; w++) {
+        workers.push(runGpuWorker());
+      }
+      await Promise.allSettled(workers);
+
+      if (statusText) statusText.textContent = `已完成 ${totalTasks} 张图片并行生成，分身显卡 15 秒后自动休眠`;
       if (progressBadge) progressBadge.textContent = '100%';
       pipelineState.isGeneratingImages = false;
+      fetchModalLiveCredits(false);
     }
 
     function compilePipelineMasterPrompt() {
@@ -4999,44 +5675,53 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
         }
 
         const firstCam = pipelineState.shots[0]?.camera || '缓慢推镜 (Dolly In)';
+        const durSec = parseInt(String(durVal).replace(/\D/g, ''), 10) || 10;
+        const cleanRes = resVal.includes('768') || resVal.includes('1080') ? '768P' : '480P';
+
+        const imagesByNode = {};
+        rawShotSrcs.forEach((src, sIdx) => {
+          imagesByNode[String(sIdx + 1)] = src;
+        });
+        rawCharSrcs.forEach((src, cIdx) => {
+          imagesByNode[`char_ref_${cIdx + 1}`] = src;
+        });
 
         const workflowPayload = {
-          _meta: {
-            template_id: engineId,
-            category: 'video',
-            extracted_res: resVal,
-            extracted_duration: durVal,
-            extracted_camera: firstCam,
-            extracted_motion_mode: engineId === 'anisora_2d' ? 'anisora_sakuga' : 'standard',
-            storyboard_frames: b64Frames
-          },
-          "1": {
-            class_type: 'CLIPTextEncode',
-            inputs: { text: masterPrompt }
+          "3": {
+            class_type: 'MinimaxHailuoVideoNode',
+            inputs: {
+              prompt_text: masterPrompt,
+              duration: durSec,
+              resolution: cleanRes,
+              motion_mode: engineId === 'anisora_2d' ? 'anisora_sakuga' : 'dmad_8step',
+              aspect_ratio: pipelineState.ratio || '16:9',
+              camera_motion: firstCam
+            }
           }
         };
-        if (b64Frames[0]) {
-          workflowPayload["2"] = {
-            class_type: 'LoadImage',
-            inputs: { image: b64Frames[0] }
-          };
-        }
 
         const baseApiUrl = (document.getElementById('cfg-api-url')?.value || 'https://eekeong--comfy-headless-api.us-east.modal.run/generate').trim();
         const streamUrl = baseApiUrl.replace(/\/generate\/?$/, '/generate_stream');
-        const apiKey = (document.getElementById('cfg-api-key')?.value || '').trim();
-        const headers = { 'Content-Type': 'application/json' };
-        if (apiKey) headers['Authorization'] = `Bearer ${apiKey}`;
+        const apiKey = (document.getElementById('cfg-api-key')?.value || 'sk-comfy-secret-key').trim();
 
         const t0 = performance.now();
         const resp = await fetch(streamUrl, {
           method: 'POST',
-          headers,
-          body: JSON.stringify({ workflow: workflowPayload })
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            prompt: masterPrompt,
+            image_url: b64Frames[0] || null,
+            images_by_node: imagesByNode,
+            workflow_type: engineId,
+            workflow_override: workflowPayload,
+            api_key: apiKey,
+            return_base64: true
+          })
         });
 
         if (!resp.ok) {
-          throw new Error(`云端视频接口返回 HTTP ${resp.status}`);
+          const errTxt = await resp.text();
+          throw new Error(errTxt || `云端视频接口返回 HTTP ${resp.status}`);
         }
 
         const reader = resp.body.getReader();
@@ -5048,31 +5733,37 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
           const { value, done } = await reader.read();
           if (done) break;
           buffer += decoder.decode(value, { stream: true });
-          const parts = buffer.split('\n\n');
-          buffer = parts.pop() || '';
-          for (const chunk of parts) {
-            const line = chunk.trim();
-            if (!line.startsWith('data:')) continue;
+          const lines = buffer.split('\n');
+          buffer = lines.pop() || '';
+          for (const rawLine of lines) {
+            const line = rawLine.trim();
+            if (!line) continue;
             const jsonStr = line.replace(/^data:\s*/, '');
             let evt = null;
             try { evt = JSON.parse(jsonStr); } catch (e) { continue; }
             if (evt.type === 'progress') {
               if (barEl) barEl.style.width = `${Math.max(10, evt.percent || 15)}%`;
-              if (titleEl) titleEl.textContent = evt.status || '云端显卡正在渲染分镜视频...';
+              if (titleEl) titleEl.textContent = evt.message || evt.status || '云端显卡正在渲染分镜视频...';
               if (subEl) subEl.textContent = `当前进度: ${evt.percent || 0}% · 引擎: ${engineId === 'anisora_2d' ? 'AniSora V3.2' : 'MiniMax H3'}`;
             } else if (evt.type === 'result') {
-              finalResult = evt;
+              finalResult = evt.data || evt;
             } else if (evt.type === 'error') {
-              throw new Error(evt.error || '云端渲染出错');
+              throw new Error(evt.message || evt.error || '云端渲染出错');
             }
           }
+        }
+        if (!finalResult && buffer.trim()) {
+          try {
+            const evt = JSON.parse(buffer.trim().replace(/^data:\s*/, ''));
+            if (evt.type === 'result') finalResult = evt.data || evt;
+          } catch (e) {}
         }
 
         if (!finalResult) {
           throw new Error('云端连接中断，未收到最终视频数据包');
         }
 
-        const mediaB64 = finalResult.media_base64 || finalResult.image_base64;
+        const mediaB64 = finalResult.base64 || finalResult.media_base64 || finalResult.image_base64;
         const mime = finalResult.mime_type || 'video/mp4';
         const videoSrc = mediaB64.startsWith('data:') ? mediaB64 : `data:${mime};base64,${mediaB64}`;
 
@@ -5133,7 +5824,15 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
       renderSubTemplatesBar();
       renderDynamicControls();
       selectHistoryItem(0);
-      loadPipelinePreset('kl_watch');
+      loadPipelinePreset('sejarah_kedaulatan');
+      try {
+        const savedLlmKey = localStorage.getItem('hmi_pipe_llm_key') || '';
+        const llmInput = document.getElementById('pipe-llm-api-key');
+        if (llmInput && savedLlmKey) {
+          llmInput.value = savedLlmKey;
+          onLlmKeyInput(savedLlmKey);
+        }
+      } catch (e) {}
       fetchModalLiveCredits(false);
     });
   </script>

@@ -5680,37 +5680,15 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
         statusBar.classList.add('flex');
       }
 
-      const totalTasks = queue.length;
-      const parallelGpus = Math.min(3, totalTasks);
-      let completedCount = 0;
-      let cursor = 0;
-
-      if (statusText) {
-        statusText.textContent = `⚡ 已开启 ${parallelGpus} 张云端分身显卡并行生成 ${totalTasks} 张高清图 (已完成 0/${totalTasks})...`;
-      }
-      if (progressBadge) progressBadge.textContent = '5%';
-
-      async function runGpuWorker() {
-        while (cursor < totalTasks) {
-          const myIdx = cursor++;
-          const task = queue[myIdx];
-          await generateSinglePipelineImage(task.col, task.idx);
-          completedCount++;
-          const pct = Math.round((completedCount / totalTasks) * 100);
-          if (statusText && completedCount < totalTasks) {
-            statusText.textContent = `⚡ ${parallelGpus} 张分身显卡并行出图中 (已完成 ${completedCount}/${totalTasks})...`;
-          }
-          if (progressBadge) progressBadge.textContent = `${pct}%`;
-        }
+      for (let i = 0; i < queue.length; i++) {
+        const task = queue[i];
+        const pct = Math.round((i / queue.length) * 100);
+        if (statusText) statusText.textContent = `正在单卡极速生成 (${i + 1}/${queue.length})：${task.label}（复用同一张已预热显卡，不额外开卡）...`;
+        if (progressBadge) progressBadge.textContent = `${pct}%`;
+        await generateSinglePipelineImage(task.col, task.idx);
       }
 
-      const workers = [];
-      for (let w = 0; w < parallelGpus; w++) {
-        workers.push(runGpuWorker());
-      }
-      await Promise.allSettled(workers);
-
-      if (statusText) statusText.textContent = `已完成 ${totalTasks} 张图片并行生成，分身显卡 15 秒后自动休眠`;
+      if (statusText) statusText.textContent = `已完成 ${queue.length} 张图片生成，云端 15 秒后自动休眠`;
       if (progressBadge) progressBadge.textContent = '100%';
       pipelineState.isGeneratingImages = false;
       fetchModalLiveCredits(false);

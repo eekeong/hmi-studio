@@ -1102,6 +1102,16 @@
         cloudBaseUrl: 'https://eekeong--comfy-credit-api.us-east.modal.run',
         apiKey: 'sk-comfy-secret-key',
         isDefault: true
+      },
+      {
+        id: 'marketing-34917',
+        name: 'marketing-34917 (第二分店)',
+        workspace: 'marketing-34917',
+        apiUrl: 'https://marketing-34917--comfy-headless-api.us-east.modal.run/generate',
+        creditUrl: 'https://marketing-34917--comfy-credit-api.us-east.modal.run/credits',
+        cloudBaseUrl: 'https://marketing-34917--comfy-credit-api.us-east.modal.run',
+        apiKey: 'sk-comfy-secret-key',
+        isDefault: false
       }
     ];
 
@@ -1125,7 +1135,14 @@
         const raw = localStorage.getItem(MODAL_ACCOUNTS_STORAGE_KEY);
         if (raw) {
           const parsed = JSON.parse(raw);
-          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            INITIAL_MODAL_ACCOUNTS.forEach(initAcct => {
+              if (!parsed.some(a => a.workspace === initAcct.workspace)) {
+                parsed.push(initAcct);
+              }
+            });
+            return parsed;
+          }
         }
       } catch (e) {}
       return INITIAL_MODAL_ACCOUNTS;

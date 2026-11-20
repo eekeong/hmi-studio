@@ -325,9 +325,19 @@
         </nav>
       </div>
 
-      <!-- Right: Live Modal Credit + Dark/Light Switch + Import JSON + Engine Mode + Settings -->
+      <!-- Right: Modal Multi-Account Switcher + Live Modal Credit + Dark/Light Switch + Import JSON + Engine Mode + Settings -->
       <div class="flex items-center gap-2 shrink-0">
-        <button id="modal-credit-badge" onclick="fetchModalLiveCredits(true)" title="点击实时刷新 Modal 云端剩余额度 (本月总额 $30.00 USD)" class="px-2.5 py-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 hover:border-emerald-400 text-emerald-400 text-xs font-semibold flex items-center gap-1.5 cursor-pointer whitespace-nowrap">
+        <!-- Modal Multi-Account Switcher Pill -->
+        <button id="modal-account-pill-btn" onclick="openModalAccountManagerModal()" title="点击管理与随意切换 Modal 云端户口" class="px-2.5 py-1.5 rounded-lg border border-purple-500/30 bg-purple-500/10 hover:border-purple-400 text-purple-300 text-xs font-semibold flex items-center gap-1.5 cursor-pointer whitespace-nowrap">
+          <span class="w-2 h-2 rounded-full bg-purple-400"></span>
+          <span class="text-[11px] text-slate-400">户口:</span>
+          <span id="modal-active-account-name" class="font-bold text-white">eekeong</span>
+          <svg class="w-3 h-3 text-purple-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </button>
+
+        <button id="modal-credit-badge" onclick="fetchModalLiveCredits(true)" title="点击实时刷新当前 Modal 户口剩余额度 (本月总额 $30.00 USD)" class="px-2.5 py-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 hover:border-emerald-400 text-emerald-400 text-xs font-semibold flex items-center gap-1.5 cursor-pointer whitespace-nowrap">
           <span id="modal-credit-dot" class="w-2 h-2 rounded-full bg-emerald-400"></span>
           <span id="modal-credit-text" class="mono-num">同步 Modal 余额中...</span>
         </button>
@@ -897,6 +907,105 @@
     </div>
   </div>
 
+  <!-- Modal Multi-Account Manager Modal -->
+  <div id="modal-account-manager-modal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-[#12141C] text-slate-200 rounded-2xl border border-white/10 max-w-lg w-full p-6 shadow-2xl flex flex-col gap-5 max-h-[90vh] overflow-y-auto">
+      
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between border-b border-white/10 pb-4">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-[#FC0C97] to-purple-600 flex items-center justify-center text-white text-sm shadow-md">
+            👤
+          </div>
+          <div>
+            <h3 class="font-bold text-sm text-white flex items-center gap-2">
+              <span>Modal 户口管理与随意切换</span>
+              <span class="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 text-[10px] font-bold">多卡自由开</span>
+            </h3>
+            <p class="text-[11px] text-slate-400 mt-0.5">每个 Modal 账户享有独立的云端显卡与每月 $30 USD 赠额，随意秒切！</p>
+          </div>
+        </div>
+        <button onclick="closeModalAccountManagerModal()" class="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white flex items-center justify-center cursor-pointer text-xs transition-colors">✕</button>
+      </div>
+
+      <!-- Current Saved Accounts List -->
+      <div class="flex flex-col gap-2.5">
+        <div class="flex items-center justify-between text-xs">
+          <span class="font-bold text-slate-200 flex items-center gap-1.5">
+            <span>已保存的 Modal 户口</span>
+            <span id="saved-modal-accounts-count" class="mono-num px-1.5 py-0.2 rounded bg-white/10 text-pink-300 text-[10px]">1</span>
+          </span>
+          <span class="text-[10px] text-slate-500">点击「⚡ 切换」即可一秒换号</span>
+        </div>
+        <div id="modal-accounts-list-container" class="flex flex-col gap-2">
+          <!-- Dynamically populated by renderModalAccountsList() -->
+        </div>
+      </div>
+
+      <!-- Add New Account Section -->
+      <div class="rounded-xl border border-white/10 bg-white/5 p-4 flex flex-col gap-3">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-white flex items-center gap-1.5">
+            <span class="text-[#FC0C97]">➕</span>
+            <span>添加新 Modal 户口</span>
+          </span>
+          <span class="text-[10px] text-slate-400">零复杂配置 · 填名字自动接通</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="text-[11px] font-semibold text-slate-300 block mb-1">户口备注名 (自定好认即可)</label>
+            <input id="new-acct-name" type="text" placeholder="例：备用号 2 (新卡)" class="saas-input w-full rounded-lg bg-[#0A0B0F] border border-white/10 px-3 py-2 text-xs text-white placeholder-slate-500 focus:border-[#FC0C97]" />
+          </div>
+          <div>
+            <label class="text-[11px] font-semibold text-slate-300 block mb-1">Modal Workspace 名字</label>
+            <input id="new-acct-workspace" type="text" placeholder="例：eekeong-team" class="saas-input w-full rounded-lg bg-[#0A0B0F] border border-white/10 px-3 py-2 text-xs text-white placeholder-slate-500 focus:border-[#FC0C97]" />
+          </div>
+        </div>
+
+        <div class="text-[11px] text-slate-300 leading-relaxed bg-[#0A0B0F]/70 p-2.5 rounded-lg border border-white/5 flex items-start gap-2">
+          <span class="text-amber-400 text-xs">💡</span>
+          <div>
+            <strong>只要填 Workspace 名字</strong>（就是你在 modal.com 页面右上角看到的名字），系统就会自动生成该账号专属的生成接口与额度查询网址，不用手动贴代码！
+          </div>
+        </div>
+
+        <!-- Advanced Custom URL Expander -->
+        <details class="text-xs text-slate-400">
+          <summary class="cursor-pointer hover:text-slate-200 select-none py-1">⚙️ 高级自定义地址 (如使用不同区域或自建域名)</summary>
+          <div class="pt-2 flex flex-col gap-2">
+            <div>
+              <label class="text-[10px] text-slate-400 block mb-0.5">自定义完整 Generate API URL (选填):</label>
+              <input id="new-acct-custom-api" type="text" placeholder="留空则自动按 Workspace 推导" class="saas-input w-full rounded-lg bg-[#0A0B0F] border border-white/10 px-2.5 py-1.5 text-[11px] text-white placeholder-slate-600" />
+            </div>
+            <div>
+              <label class="text-[10px] text-slate-400 block mb-0.5">自定义 Credit / Cloud Media URL (选填):</label>
+              <input id="new-acct-custom-credit" type="text" placeholder="留空则自动按 Workspace 推导" class="saas-input w-full rounded-lg bg-[#0A0B0F] border border-white/10 px-2.5 py-1.5 text-[11px] text-white placeholder-slate-600" />
+            </div>
+          </div>
+        </details>
+
+        <button onclick="handleAddNewModalAccount()" class="btn-primary w-full py-2.5 rounded-xl font-bold text-xs text-white flex items-center justify-center gap-1.5 cursor-pointer mt-1">
+          <span>保存并立即切换到此户口</span>
+        </button>
+      </div>
+
+      <!-- Quick Beginner Guide -->
+      <div class="rounded-xl border border-purple-500/20 bg-purple-500/5 p-3.5 flex flex-col gap-2 text-xs text-slate-300">
+        <span class="font-bold text-purple-300 flex items-center gap-1.5">
+          <span>📖</span>
+          <span>手把手：3 步在电脑上打通新 Modal 户口（小白指南）：</span>
+        </span>
+        <ol class="list-decimal list-inside space-y-1.5 text-[11px] text-slate-300 leading-relaxed pl-1">
+          <li>去 <a href="https://modal.com" target="_blank" class="text-[#FC0C97] font-semibold underline hover:text-pink-400">modal.com</a> 登录你的新账号，在页面右上角看你的 <strong>Workspace 名字</strong>。</li>
+          <li>在电脑终端执行一行：<code class="px-1.5 py-0.5 rounded bg-black/50 text-pink-300 mono-num border border-white/10">modal token new</code>，在弹出的浏览器网页点击【Confirm】授权。</li>
+          <li>在终端执行：<code class="px-1.5 py-0.5 rounded bg-black/50 text-pink-300 mono-num border border-white/10">modal deploy modal_comfy.py</code>，部署完后直接把上面的 Workspace 名字填进来即可！</li>
+        </ol>
+      </div>
+
+    </div>
+  </div>
+
   <script>
     // =========================================================================
     // 0. Password-Only Access Gate (SHA-256 Verified + API Key Unlock)
@@ -977,7 +1086,232 @@
       } catch (e) {}
     }
 
-    const MODAL_CREDIT_API_URL = 'https://eekeong--comfy-credit-api.us-east.modal.run/credits';
+    // =========================================================================
+    // Modal Multi-Account Manager (多账号自由切换核心系统)
+    // =========================================================================
+    const MODAL_ACCOUNTS_STORAGE_KEY = 'hmi_studio_modal_accounts_v2';
+    const MODAL_ACTIVE_ACCOUNT_KEY = 'hmi_studio_active_account_id_v2';
+
+    const INITIAL_MODAL_ACCOUNTS = [
+      {
+        id: 'eekeong',
+        name: 'eekeong (主号)',
+        workspace: 'eekeong',
+        apiUrl: 'https://eekeong--comfy-headless-api.us-east.modal.run/generate',
+        creditUrl: 'https://eekeong--comfy-credit-api.us-east.modal.run/credits',
+        cloudBaseUrl: 'https://eekeong--comfy-credit-api.us-east.modal.run',
+        apiKey: 'sk-comfy-secret-key',
+        isDefault: true
+      }
+    ];
+
+    function showToast(msg, duration = 3000) {
+      let toast = document.getElementById('studio-toast-banner');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'studio-toast-banner';
+        toast.className = 'fixed bottom-6 right-6 z-[10000] px-4 py-3 rounded-xl bg-[#12141C] border border-[#FC0C97] text-white text-xs font-semibold shadow-2xl transition-all duration-300 transform translate-y-4 opacity-0 pointer-events-none flex items-center gap-2';
+        document.body.appendChild(toast);
+      }
+      toast.innerHTML = `<span class="text-[#FC0C97] text-sm">✨</span><span>${msg}</span>`;
+      toast.classList.remove('translate-y-4', 'opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        toast.classList.add('translate-y-4', 'opacity-0', 'pointer-events-none');
+      }, duration);
+    }
+
+    function getModalAccounts() {
+      try {
+        const raw = localStorage.getItem(MODAL_ACCOUNTS_STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        }
+      } catch (e) {}
+      return INITIAL_MODAL_ACCOUNTS;
+    }
+
+    function saveModalAccounts(list) {
+      try {
+        localStorage.setItem(MODAL_ACCOUNTS_STORAGE_KEY, JSON.stringify(list));
+      } catch (e) {}
+    }
+
+    function getActiveModalAccount() {
+      const list = getModalAccounts();
+      const activeId = localStorage.getItem(MODAL_ACTIVE_ACCOUNT_KEY);
+      const found = list.find(a => a.id === activeId);
+      return found || list[0] || INITIAL_MODAL_ACCOUNTS[0];
+    }
+
+    function getModalCreditApiUrl() {
+      return getActiveModalAccount().creditUrl || 'https://eekeong--comfy-credit-api.us-east.modal.run/credits';
+    }
+
+    function getModalCloudHistoryUrl() {
+      const base = getActiveModalAccount().cloudBaseUrl || 'https://eekeong--comfy-credit-api.us-east.modal.run';
+      return `${base}/cloud_history`;
+    }
+
+    function getModalCloudMediaBaseUrl() {
+      const base = getActiveModalAccount().cloudBaseUrl || 'https://eekeong--comfy-credit-api.us-east.modal.run';
+      return `${base}/cloud_media?path=`;
+    }
+
+    function getModalTtsApiUrl() {
+      const base = getActiveModalAccount().cloudBaseUrl || 'https://eekeong--comfy-credit-api.us-east.modal.run';
+      return `${base}/tts`;
+    }
+
+    function syncActiveAccountToUI() {
+      const active = getActiveModalAccount();
+      const pillName = document.getElementById('modal-active-account-name');
+      if (pillName) pillName.textContent = active.name || active.workspace;
+
+      const cfgUrlInput = document.getElementById('cfg-api-url');
+      if (cfgUrlInput && active.apiUrl) cfgUrlInput.value = active.apiUrl;
+
+      const cfgKeyInput = document.getElementById('cfg-api-key');
+      if (cfgKeyInput && active.apiKey && !cfgKeyInput.value) {
+        cfgKeyInput.value = active.apiKey;
+      }
+    }
+
+    function switchActiveModalAccount(accountId) {
+      const list = getModalAccounts();
+      const target = list.find(a => a.id === accountId);
+      if (!target) return;
+      localStorage.setItem(MODAL_ACTIVE_ACCOUNT_KEY, accountId);
+      syncActiveAccountToUI();
+      renderModalAccountsList();
+      fetchModalLiveCredits(true);
+      if (typeof syncCloudHistoryFromModal === 'function') {
+        syncCloudHistoryFromModal();
+      }
+      showToast(`已成功切换至 Modal 户口: <strong>${target.name}</strong>`);
+      closeModalAccountManagerModal();
+    }
+
+    function deleteModalAccount(accountId) {
+      if (accountId === 'eekeong') {
+        alert('默认主号不能删除！');
+        return;
+      }
+      if (!confirm('确定要删除此 Modal 户口吗？')) return;
+      let list = getModalAccounts();
+      list = list.filter(a => a.id !== accountId);
+      saveModalAccounts(list);
+      if (localStorage.getItem(MODAL_ACTIVE_ACCOUNT_KEY) === accountId) {
+        localStorage.setItem(MODAL_ACTIVE_ACCOUNT_KEY, 'eekeong');
+      }
+      syncActiveAccountToUI();
+      renderModalAccountsList();
+      fetchModalLiveCredits(true);
+      showToast('已删除户口');
+    }
+
+    function handleAddNewModalAccount() {
+      const nameInput = document.getElementById('new-acct-name');
+      const wsInput = document.getElementById('new-acct-workspace');
+      const customApiInput = document.getElementById('new-acct-custom-api');
+      const customCreditInput = document.getElementById('new-acct-custom-credit');
+
+      const name = (nameInput?.value || '').trim();
+      const ws = (wsInput?.value || '').trim().toLowerCase().replace(/[^a-z0-9_-]/g, '');
+
+      if (!ws) {
+        alert('请填入 Modal Workspace 名字（例如你在 modal.com 右上角看到的用户名或团队名）！');
+        return;
+      }
+
+      const displayName = name || `${ws} (新户口)`;
+      const accountId = 'acct_' + ws + '_' + Date.now().toString(36);
+
+      const customApi = (customApiInput?.value || '').trim();
+      const customCredit = (customCreditInput?.value || '').trim();
+
+      const newAccount = {
+        id: accountId,
+        name: displayName,
+        workspace: ws,
+        apiUrl: customApi || `https://${ws}--comfy-headless-api.us-east.modal.run/generate`,
+        creditUrl: customCredit ? `${customCredit.replace(/\/+$/, '')}/credits` : `https://${ws}--comfy-credit-api.us-east.modal.run/credits`,
+        cloudBaseUrl: customCredit || `https://${ws}--comfy-credit-api.us-east.modal.run`,
+        apiKey: 'sk-comfy-secret-key',
+        isDefault: false
+      };
+
+      const list = getModalAccounts();
+      const existingIdx = list.findIndex(a => a.workspace === ws);
+      if (existingIdx >= 0) {
+        list[existingIdx] = { ...list[existingIdx], ...newAccount, id: list[existingIdx].id };
+      } else {
+        list.push(newAccount);
+      }
+      saveModalAccounts(list);
+
+      if (nameInput) nameInput.value = '';
+      if (wsInput) wsInput.value = '';
+      if (customApiInput) customApiInput.value = '';
+      if (customCreditInput) customCreditInput.value = '';
+
+      switchActiveModalAccount(existingIdx >= 0 ? list[existingIdx].id : accountId);
+    }
+
+    function renderModalAccountsList() {
+      const list = getModalAccounts();
+      const active = getActiveModalAccount();
+      const container = document.getElementById('modal-accounts-list-container');
+      const countEl = document.getElementById('saved-modal-accounts-count');
+      if (countEl) countEl.textContent = list.length;
+      if (!container) return;
+
+      container.innerHTML = list.map(acct => {
+        const isActive = acct.id === active.id;
+        return `
+          <div class="rounded-xl p-3 border ${isActive ? 'border-[#FC0C97] bg-[#FC0C97]/10' : 'border-white/10 bg-white/5'} flex items-center justify-between gap-3 transition-colors">
+            <div class="flex flex-col min-w-0">
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-xs text-white truncate">${acct.name}</span>
+                ${isActive ? '<span class="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 text-[10px] font-bold">使用中</span>' : ''}
+              </div>
+              <div class="text-[10px] text-slate-400 mono-num mt-0.5 truncate">
+                workspace: <span class="text-slate-300 font-semibold">${acct.workspace}</span>
+              </div>
+              <div class="text-[10px] text-slate-500 mono-num truncate">
+                ${acct.apiUrl}
+              </div>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              ${isActive
+                ? `<span class="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 text-xs font-semibold">✓ 正在跑此卡</span>`
+                : `<button onclick="switchActiveModalAccount('${acct.id}')" class="px-3 py-1 rounded-lg bg-[#FC0C97] hover:bg-pink-600 text-white text-xs font-bold cursor-pointer transition-colors shadow-sm">⚡ 切换</button>`
+              }
+              ${!acct.isDefault
+                ? `<button onclick="deleteModalAccount('${acct.id}')" class="text-slate-400 hover:text-rose-400 p-1.5 rounded-lg hover:bg-white/5 text-xs cursor-pointer transition-colors" title="删除此户口">🗑</button>`
+                : ''
+              }
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openModalAccountManagerModal() {
+      renderModalAccountsList();
+      const modal = document.getElementById('modal-account-manager-modal');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeModalAccountManagerModal() {
+      const modal = document.getElementById('modal-account-manager-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function initModalAccountManager() {
+      syncActiveAccountToUI();
+      renderModalAccountsList();
+    }
 
     async function fetchModalLiveCredits(showRefreshFeedback = false) {
       const textEl = document.getElementById('modal-credit-text');
@@ -988,7 +1322,8 @@
         textEl.textContent = '刷新额度中...';
       }
       try {
-        const resp = await fetch(`${MODAL_CREDIT_API_URL}?t=${Date.now()}`, { method: 'GET', cache: 'no-store' });
+        const creditUrl = getModalCreditApiUrl();
+        const resp = await fetch(`${creditUrl}?t=${Date.now()}`, { method: 'GET', cache: 'no-store' });
         if (!resp.ok) throw new Error('HTTP ' + resp.status);
         const data = await resp.json();
         if (data && data.ok) {
@@ -997,11 +1332,12 @@
           const usedUsd = Number(data.used_usd).toFixed(2);
           const todayUsd = Number(data.today_used_usd || 0).toFixed(2);
           const quotaUsd = Number(data.monthly_quota_usd || 30).toFixed(2);
+          const acct = getActiveModalAccount();
           if (textEl) {
-            textEl.textContent = `余额 $${remUsd} · 已用 $${usedUsd}`;
+            textEl.textContent = `${acct.workspace}: 余额 $${remUsd} · 已用 $${usedUsd}`;
           }
           if (badgeEl) {
-            badgeEl.title = `Modal 实时账单 (${data.billing_month})：本月已用 $${usedUsd} (今日 $${todayUsd}) / 总额 $${quotaUsd} · 剩余 $${remUsd} (约 RM ${remMyr}) · 点击刷新`;
+            badgeEl.title = `Modal 户口 [${acct.name}] 实时账单 (${data.billing_month})：本月已用 $${usedUsd} (今日 $${todayUsd}) / 总额 $${quotaUsd} · 剩余 $${remUsd} (约 RM ${remMyr}) · 点击刷新`;
           }
           if (dotEl) {
             dotEl.className = Number(data.remaining_usd) > 5
@@ -1009,7 +1345,7 @@
               : 'w-2 h-2 rounded-full bg-amber-400';
           }
           if (histCostEl) {
-            histCostEl.textContent = `本月已用 $${usedUsd} (今日 $${todayUsd}) · 剩余 $${remUsd} (约 RM ${remMyr})`;
+            histCostEl.textContent = `[${acct.workspace}] 本月已用 $${usedUsd} (今日 $${todayUsd}) · 剩余 $${remUsd} (约 RM ${remMyr})`;
           }
         }
       } catch (err) {
@@ -3482,7 +3818,9 @@ detailed_description:
 
     async function syncCloudHistoryFromModal() {
       try {
-        const resp = await fetch(MODAL_CLOUD_HISTORY_URL, { method: 'GET', cache: 'no-store' });
+        const historyUrl = getModalCloudHistoryUrl();
+        const mediaBaseUrl = getModalCloudMediaBaseUrl();
+        const resp = await fetch(historyUrl, { method: 'GET', cache: 'no-store' });
         if (!resp.ok) return;
         const data = await resp.json();
         if (!data || !Array.isArray(data.items)) return;
@@ -3500,7 +3838,7 @@ detailed_description:
           const inputAssets = (item.input_rels && item.input_rels.length > 0)
             ? item.input_rels.map((rel, idx) => ({
                 label: rel.includes('char_ref') ? `Char ${idx + 1}` : `Pic ${idx + 1}`,
-                src: MODAL_CLOUD_MEDIA_BASE + encodeURIComponent(rel)
+                src: mediaBaseUrl + encodeURIComponent(rel)
               }))
             : DEFAULT_USER_ASSETS;
 
@@ -3521,7 +3859,7 @@ detailed_description:
             return;
           }
 
-          const streamUrl = MODAL_CLOUD_MEDIA_BASE + encodeURIComponent(item.rel_path);
+          const streamUrl = mediaBaseUrl + encodeURIComponent(item.rel_path);
           const newEntry = {
             id: item.id || ('cloud_' + item.filename),
             filename: item.filename,
@@ -3995,8 +4333,6 @@ detailed_description:
       } catch (e) {}
     }
 
-    const MODAL_TTS_API_URL = 'https://eekeong--comfy-credit-api.us-east.modal.run/tts';
-
     async function generateMalaysianVoiceForChar(id) {
       const ch = characterVault.find(c => c.id === id);
       if (!ch) return;
@@ -4015,7 +4351,8 @@ detailed_description:
         btnEl.disabled = true;
       }
       try {
-        const resp = await fetch(MODAL_TTS_API_URL, {
+        const ttsUrl = getModalTtsApiUrl();
+        const resp = await fetch(ttsUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ voice, text: textToSpeak })
@@ -4051,7 +4388,8 @@ detailed_description:
       const isMalay = /[a-zA-Z]{3,}/.test(text) && !/[\u4e00-\u9fa5]/.test(text);
       const voice = isMalay ? 'ms-MY-OsmanNeural' : 'zh-SG-WayneNeural';
       try {
-        const resp = await fetch(MODAL_TTS_API_URL, {
+        const ttsUrl = getModalTtsApiUrl();
+        const resp = await fetch(ttsUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ voice, text })
@@ -6222,6 +6560,7 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
           onLlmKeyInput(savedLlmKey);
         }
       } catch (e) {}
+      initModalAccountManager();
       fetchModalLiveCredits(false);
       syncCloudHistoryFromModal();
     });

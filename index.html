@@ -4236,6 +4236,20 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
       triggerGenerate();
     }
 
+    function sendBackendInterruptSignal() {
+      try {
+        const apiUrl = (document.getElementById('cfg-api-url')?.value || 'https://eekeong--comfy-headless-api.us-east.modal.run/generate').trim();
+        const interruptUrl = apiUrl.replace(/\/generate(_stream)?\/?$/, '/interrupt');
+        const apiKey = (document.getElementById('cfg-api-key')?.value || 'sk-comfy-secret-key').trim();
+        fetch(interruptUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ api_key: apiKey }),
+          keepalive: true
+        }).catch(() => {});
+      } catch (e) {}
+    }
+
     function cancelSingleGpuCloneTask(taskId) {
       const task = activeGpuCloneTasks.get(taskId);
       if (!task) return;
@@ -4244,6 +4258,7 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
       }
       if (task.clockInterval) clearInterval(task.clockInterval);
       activeGpuCloneTasks.delete(taskId);
+      sendBackendInterruptSignal();
       syncMultiGpuQueueUI();
     }
 
@@ -4257,6 +4272,7 @@ Clean indoor room ambience, subtle clothing movement, natural voice acoustics wi
       activeGpuCloneTasks.clear();
       demoTimers.forEach(t => clearTimeout(t));
       demoTimers = [];
+      sendBackendInterruptSignal();
       syncMultiGpuQueueUI();
     }
 
